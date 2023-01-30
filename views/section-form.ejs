@@ -1,0 +1,617 @@
+<!-- FORM -->
+
+
+<section class="colored-section" id="form">
+
+  <% if (step === 0) { %>
+  <div class="container-fluid">
+
+    <h3 class="big-heading-white">Prueba a obtener tu primera planilla</h3>
+
+    <form action="/generarplanilla" method="post">
+      <input type="hidden" name="step" value="<%= step %>">
+      <button class="btn btn-outline-light btn-lg download-button" type="submit">Empezar</button>
+    </form>
+
+  </div>
+
+  <% } else if (step > 0) { %>
+
+
+  <% if (step === 1) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 10%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class=" container-text feature-title-box">Indica el mes y el año de la planilla:</h3>
+
+      <form action="/generarplanilla" method="post">
+        <div class="form-group">
+          <input type="hidden" name="step" value="<%= step %>">
+
+          <select class="form-control" name="mes" required>
+            <option disabled="" selected="" value="">Mes</option>
+            <% for (var i = 0; i < 12 ; i++) { %>
+            <option value="<%= meses[i] %>"><%= meses[i] %></option>
+            <% } %>
+
+          </select>
+
+          <select class="form-control" name="anyo" required>
+            <option disabled="" selected="" value="">Año</option>
+            <% for (var i = 0; i < anyosLength ; i++) { %>
+            <option value="<%= anyos[i] %>"><%= anyos[i] %></option>
+            <% } %>
+
+          </select>
+        </div>
+
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+
+      </form>
+    </div>
+
+
+  </div>
+  <% } else if (step === 2) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 20%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+
+      <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres:</h3>
+
+      <form action="/generarplanilla" method="post">
+        <div class="form-group" id="divi">
+          <input type="hidden" name="step" value=<%= step %>>
+
+          <input type="number" min="3" id="n_resis" onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos" required>
+
+          <br />
+          <br />
+
+          <!-- Se pregunta por el nombre de los residentes -->
+
+          <script>
+            function pregunta_nombres() {
+
+              while (document.contains(document.getElementById("nombre"))) {
+                document.getElementById("nombre").remove();
+              }
+
+              var n_resis = document.getElementById("n_resis");
+              var n_resis_value = n_resis.value;
+              var divi = document.getElementById("divi");
+
+              // Crea las celdas
+              for (var i = 0; i < n_resis_value; i++) {
+                var input = document.createElement("input");
+                input.setAttribute("type", "text");
+                input.id = "nombre";
+                input.setAttribute("name", "Nombre_" + i);
+                input.setAttribute("class", "form-control");
+                input.setAttribute("placeholder", "Nombre");
+                input.required = true;
+                divi.appendChild(input);
+              }
+
+            }
+          </script>
+          <noscript>¡Ha habido un error! Prueba a abrir la web desde Google Chrome.</noscript>
+
+        </div>
+        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+
+      </form>
+    </div>
+  </div>
+  <% } else if (step === 3) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 80%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Indica cuántos médicos están de guardia cada día:</h3>
+
+
+      <form action="/generarplanilla" method="post">
+        <div class="form-group">
+          <input type="hidden" name="step" value="<%= step %>">
+
+
+          <select class="form-control" type="number" onchange="elegirGrupo()" name="medicosDeGuardia" required>
+            <option disabled="" selected="" value="">Médicos por guardia</option>
+            <% for (var i = 0; i < 10 ; i++) { %>
+            <option type="number" value="<%= i + 1 %>"><%= i + 1 %></option>
+            <% } %>
+          </select>
+
+
+          <br />
+          <br />
+
+          <!-- Se pregunta por el nombre de los residentes -->
+
+          <script>
+            function elegirGrupo() {}
+
+            function elegirGrupos() {
+
+              while (document.contains(document.getElementById("nombre"))) {
+                document.getElementById("nombre").remove();
+              }
+
+              var n_resis = document.getElementById("n_resis");
+              var n_resis_value = n_resis.value;
+              var divi = document.getElementById("divi");
+
+              // Crea las celdas
+              for (var i = 0; i < n_resis_value; i++) {
+                var input = document.createElement("input");
+                input.setAttribute("type", "text");
+                input.id = "nombre";
+                input.setAttribute("name", "Nombre_" + i);
+                input.setAttribute("class", "form-control");
+                input.setAttribute("placeholder", "Nombre");
+                input.required = true;
+                divi.appendChild(input);
+              }
+
+            }
+          </script>
+        </div>
+        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+
+      </form>
+    </div>
+  </div>
+  <% } else if (step === 4) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 30%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Indica los días festivos del mes:</h3>
+      <form action="/generarplanilla" method="post">
+        <div class="form-group">
+          <input type="hidden" name="step" value=<%= step %>>
+          <input type="hidden" name="v_guardias_max_tot" >
+          <input type="hidden" name="v_guardias_min_tot" >
+          <input type="hidden" name="v_guardias_max_fes" >
+          <input type="hidden" name="v_guardias_min_fes" >
+
+          <!-- Pendiente de meter tabla -->
+          <table class="table table_k">
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col">
+                  <%= i %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
+
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col">
+                  <%= weekArray[i-1] %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th scope="row">Festivos:</th>
+                <% for (var j = 0; j < dias_mes ; j++) { %>
+                <% var vsd = ['V','S','D'] %>
+
+                <% if (vsd.includes(weekArray[j]) ) { %>
+                <td>
+                  <input type="checkbox" value="1" id="Festivo_<%= j + 1 %>" name="Festivo_<%= j + 1 %>" onclick="recalculate(this);" checked>
+                </td>
+                <% } else {%>
+                <td>
+                  <input type="checkbox" value="1" id="Festivo_<%= j + 1 %>" name="Festivo_<%= j + 1 %>" onclick="recalculate(this);">
+                </td>
+                <% } %>
+
+                <% } %>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div style='margin-top: 30px'>  </div>
+        <h3 class="container-text feature-title-box">¿Cómo deseas que se repartan las guardias?</h3>
+
+        <div class="settings">
+          <label>Equitativamente</label>
+          <label class="toggle">
+
+            <input type="checkbox" id="toggle_1" onclick="toggle(this);" value ="ON">
+            <span class="slider"></span>
+            <!--<span class="labels" data-on="Custom" data-off="Equitativamente"></span>-->
+
+          </label>
+          <label>Personalizado</label>
+        </div>
+
+
+
+        <div class="guardias-box-clear-orange col-lg-8 container-fluid" id ="cajita_naranja">
+
+          <div id ="texto_2"></div>
+          <div id ="texto_3"></div>
+          <div id ="texto_4"></div>
+
+
+        </div>
+
+        <script >
+          var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
+          //var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+          var n_resis = <%= n_resis %>;
+          var medicosDeGuardia = <%= medicosDeGuardia %>;
+          var v_guardias_max_tot = []
+          var v_guardias_min_tot = []
+          var v_guardias_max_fes = []
+          var v_guardias_min_fes = []
+
+          if (document.getElementById("toggle_1").value == "OFF") {
+            var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length -1;
+          } else if (document.getElementById("toggle_1").value == "ON") {
+            var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+          }
+
+          var tg = medicosDeGuardia * dias_mes_element/n_resis;
+          var tgf = medicosDeGuardia * dias_mes_festivos/n_resis;
+
+          var dg_max = Math.ceil(tg);
+          var dg_min = Math.floor(tg);
+          var fg_max = Math.ceil(tgf);
+          var fg_min = Math.floor(tgf);
+
+          if (dg_min != dg_max){
+              document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o "+ dg_max + " guardias en total.</b>";
+          }
+          else{
+            document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " guardias en total.</b>";
+          }
+
+          if (fg_max != fg_min){
+            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o "+ fg_max + " serán en los días festivos</b> que has indicado.";
+          } else {
+            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " serán en los días festivos</b> que has indicado.";
+          }
+
+
+
+            v_guardias_max_tot = Array(n_resis).fill(dg_max)
+            v_guardias_min_tot = Array(n_resis).fill(dg_min)
+            v_guardias_max_fes = Array(n_resis).fill(fg_max)
+            v_guardias_min_fes = Array(n_resis).fill(fg_min)
+
+
+            document.getElementById("v_guardias_max_tot").value = v_guardias_max_tot;
+            document.getElementById("v_guardias_min_tot").value = v_guardias_min_tot;
+            document.getElementById("v_guardias_max_fes").value = v_guardias_max_fes;
+            document.getElementById("v_guardias_min_fes").value = v_guardias_min_fes;
+
+
+          function recalculate(checkbox) {
+            //Esto se ejecuta cada vez que hagas click en un checkbox de Festivos
+            var v_guardias_max_tot = []
+            var v_guardias_min_tot = []
+            var v_guardias_max_fes = []
+            var v_guardias_min_fes = []
+
+            var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
+            //var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            var n_resis = <%= n_resis %>;
+            var medicosDeGuardia = <%= medicosDeGuardia %>;
+
+            if (document.getElementById("toggle_1").value == "OFF") {
+              var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length -1;
+            } else if (document.getElementById("toggle_1").value == "ON") {
+              var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            }
+
+            var tg = medicosDeGuardia * dias_mes_element/n_resis;
+            var tgf = medicosDeGuardia * dias_mes_festivos/n_resis;
+
+            var dg_max = Math.ceil(tg);
+            var dg_min = Math.floor(tg);
+            var fg_max = Math.ceil(tgf);
+            var fg_min = Math.floor(tgf);
+
+            if (dg_min != dg_max){
+                document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o "+ dg_max + " guardias en total.</b>";
+            }
+            else{
+              document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " guardias en total.</b>";
+            }
+
+            if (fg_max != fg_min){
+                document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o "+ fg_max + " serán en los días festivos</b> que has indicado.";
+            } else {
+              document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " serán en los días festivos</b> que has indicado.";
+            }
+
+
+              v_guardias_max_tot = Array(n_resis).fill(dg_max)
+              v_guardias_min_tot = Array(n_resis).fill(dg_min)
+              v_guardias_max_fes = Array(n_resis).fill(fg_max)
+              v_guardias_min_fes = Array(n_resis).fill(fg_min)
+
+
+              req.body.v_guardias_max_tot = v_guardias_max_tot;
+
+              // document.getElementById("v_guardias_min_tot").value = v_guardias_min_tot;
+              // document.getElementById("v_guardias_max_fes").value = v_guardias_max_fes;
+              // document.getElementById("v_guardias_min_fes").value = v_guardias_min_fes;
+          }
+
+
+          function toggle(checkbox) {
+            //Esto se ejecuta cuando le damos al toggle button
+            if (document.getElementById("toggle_1").value == "OFF") {
+              document.getElementById("toggle_1").value = "ON";
+              document.getElementById("cajita_naranja").style.display = "block";
+            } else if (document.getElementById("toggle_1").value == "ON") {
+              document.getElementById("toggle_1").value = "OFF";
+              document.getElementById("cajita_naranja").style.display = "none";
+            }
+          }
+        </script>
+
+
+        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+      </form>
+    </div>
+  </div>
+  <% } else if (step === 5) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 40%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado:</h3>
+      <h5>Estas guardias se forzarán al día y médico correspondiente</h5>
+      <form action="/generarplanilla" method="POST">
+        <div class="form-group">
+          <input type="hidden" name="step" value=<%= step %>>
+
+
+          <!-- Pendiente de meter tabla -->
+          <table class="table table_k">
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col">
+                  <%= i %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
+
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col">
+                  <%= weekArray[i-1] %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% for (var i = 0; i < n_resis ; i++) {%>
+              <tr>
+                <th scope="row"><%= nombre[i] %> </th>
+                <% for (var j = 0; j < dias_mes ; j++) { %>
+                <td>
+                  <input type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>">
+                </td>
+                <% } %>
+              </tr>
+              <% } %>
+
+            </tbody>
+          </table>
+
+        </div>
+        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+      </form>
+    </div>
+  </div>
+  <% } else if (step === 6) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 60%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Indica los días de vacaciones / libranza:</h3>
+      <h5>En estos días no asignaremos guardias</h5>
+      <form action="/generarplanilla" method="POST">
+        <div class="form-group">
+          <input type="hidden" name="step" value=<%= step %>>
+
+          <!-- Pendiente de meter tabla -->
+          <table class="table">
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col">
+                  <%= i %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
+
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col">
+                  <%= weekArray[i-1] %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% for (var i = 0; i < n_resis ; i++) {%>
+              <tr>
+                <th scope="row"><%= nombre[i] %> </th>
+                <% for (var j = 0; j < dias_mes ; j++) { %>
+                <td>
+                  <input type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
+                </td>
+                <% } %>
+              </tr>
+              <% } %>
+
+            </tbody>
+          </table>
+
+        </div>
+        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+      </form>
+    </div>
+  </div>
+
+
+  <% } else if (step === 7) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 90%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Déjanos saber si quieres añadir alguna condición y la tendremos en cuenta:</h3>
+
+
+      <form action="/generarplanilla" method="POST">
+        <div class="form-group">
+          <input type="hidden" name="step" value="<%= step %>">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Ejemplo: Que los R1 hagan guardias con los R4,...</label>
+          <textarea class="form-control" name="comentario" rows="3"></textarea>
+        </div>
+
+        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Siguiente</button>
+      </form>
+    </div>
+  </div>
+
+  <% } else if (step === 8) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box"> Indícanos un correo:<br> </h3>
+
+      <form action="/generarplanilla" method="POST">
+        <div class="form-group">
+          <input type="hidden" name="step" value="<%= step %>">
+
+
+
+          <input type="text" placeholder="Escribe tu email" name="correo" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+          <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.</small>
+
+        </div>
+        <button class="btn btn-ptg defaultsink" type="submit">Finalizar</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
+        <button class="btn btn-ptg" type="submit">Finalizar</button>
+      </form>
+
+    </div>
+
+
+  </div>
+
+
+
+  <% } else if (step === 9) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+
+      <h3 class="container-text feature-title-box">¡Muchas gracias por completar el formulario!</h3>
+      <h3 class="container-text feature-title-box">Estamos generando tu planilla. Danos unos segundos...</h3>
+
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <form action="/mostrarSolucion" method="GET" id="formulario_final" name="formulario_final">
+
+        <button class="btn btn-ptg defaultsink" type="">Mostrar resultado</button>
+      </form>
+      <script type="text/javascript">
+        console.log("Estamos antes del onload")
+        var auto_refresh = setTimeout(function() {
+          submitform();
+        }, 1500);
+
+        function submitform() {
+          document.getElementById("formulario_final").submit();
+        }
+      </script>
+    </div>
+  </div>
+
+  <% } %>
+  <% } %>
+</section>

@@ -1,0 +1,170 @@
+<!-- FORM -->
+
+
+<section class="colored-section" id="form">
+
+
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="<%= topStep %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <% if (ind_sol > 0) { %>
+      <h3>
+        <%= mes %> <%= anyo %>
+      </h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+            <% if (i > 0) { %>
+            <th scope="col">
+              <%= i %>
+            </th>
+            <% } else {%>
+            <th scope="col"></th>
+            <% }} %>
+          </tr>
+        </thead>
+
+        <thead>
+          <tr>
+            <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+            <% if (i > 0) { %>
+            <th scope="col">
+              <%= weekArray[i-1] %>
+            </th>
+            <% } else {%>
+            <th scope="col"></th>
+            <% }} %>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% var k = 0%>
+          <% for (var i = 0; i < n_resis ; i++) {%>
+          <tr>
+            <th scope="row"><%= nombre[i] %> </th>
+            <% for (var j = 0; j < dias_mes ; j++) { %>
+
+            <td>
+
+              <% if (solucion[k] === 0) { %>
+              -
+              <% } else {%>
+
+              <i class="fa-solid fa-house-medical icon-red"></i>
+
+              <% } %>
+
+            </td>
+            <% var k = k + 1%>
+            <% } %>
+          </tr>
+          <% } %>
+
+        </tbody>
+      </table>
+
+      <h4> El código para buscar la solución es: </h4>
+      <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+      <% } %>
+
+      <% switch (cod_error) {
+        case 0: %>
+      <div >
+        Esperamos verte de nuevo por aquí
+      </div>
+      <% break
+
+       case 10: %>
+       <div>
+         <h4> El código para buscar la solución es: </h4>
+         <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+
+         Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
+         alternativa.
+
+         Gracias por confiar en PonTusGuardias.com
+       </div>
+
+
+      <% break ;
+
+       case 20: %>
+       <div>
+         Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución alternativa.
+
+         Gracias por confiar en PonTusGuardias.com
+         </div>
+
+      <% break ;
+
+       case 30: %>
+       <div>
+         <h4> El código para buscar la solución es: </h4>
+         <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+
+         Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
+         alternativa.
+
+         Gracias por confiar en PonTusGuardias.com
+         </div>
+
+      <% break ;
+
+       default: %>
+      :)
+      <% break ;
+
+
+       } %>
+
+       <% var arr = [10, 20]%>
+       <% if (!arr.includes(cod_error)) { %>
+         <button class="btn btn-ptg-naranja" onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')" ><i class="fa-solid fa-copy"></i> Copiar enlace</button>
+         <a class="btn btn-ptg-naranja" href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>" data-action="share/whatsapp/share" target="_blank" >
+           <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
+         <a class ="btn btn-ptg-naranja" href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
+           <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
+
+         <% } %>
+
+
+
+
+      <form action="/" method="POST">
+        <div class="form-group">
+          <input type="hidden" name="step" value="0">
+
+        </div>
+
+        <button class="btn btn-ptg" type="submit">Volver a empezar</button>
+
+      </form>
+
+    </div>
+  </div>
+
+</section>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(document).scrollTop($("#form").offset().top);
+  });
+
+  function copiarEnlacePortapapeles(idsolucion) {
+    // Get the text field
+    var idSolu = idsolucion;
+    //var copyText = "https://PonTusGuardias.com//buscarSolucion?idSol="+ idSolBuscada;
+//    var copyText = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
+    var copyText = "http://localhost:3000/buscarSolucion?idSol="+idSolu;
+    copyText = copyText.split(" ").join("");
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText);
+
+    // Alert the copied text
+    alert("¡Enlace copiado! Ahora compártelo");
+  }
+</script>

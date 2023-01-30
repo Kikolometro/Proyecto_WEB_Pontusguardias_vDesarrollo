@@ -1,0 +1,40 @@
+<!-- FORM -->
+
+
+<section class="colored-section" id="buscador">
+
+
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+
+      <h3 class="container-text feature-title-box">¿Buscas una planilla ya creada?</h3>
+      <h5 class="container-text feature-title-box">Búscala aquí:</h5>
+
+      <form id="your_form" onsubmit="yourFunction()" method="POST">
+        <input type="text" name="idSol" id="idSol" placeholder="Código secreto" maxlength="8" size="50" spellcheck=false required>
+
+        <div>
+          <button class="btn btn-ptg-naranja" type="submit">Mostrar resultado</button>
+        </div>
+      </form>
+
+
+
+
+    </div>
+  </div>
+
+
+</section>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(document).scrollTop($("#form").offset().top);
+  });
+
+  function yourFunction(){
+    var action_src = "/buscarSolucion?idSol=" + document.getElementsByName("idSol")[0].value;
+    var your_form = document.getElementById('your_form');
+    your_form.action = action_src ;
+}
+
+</script>
