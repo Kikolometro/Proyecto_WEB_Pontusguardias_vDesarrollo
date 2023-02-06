@@ -14,7 +14,7 @@
       <h3>
         <%= mes %> <%= anyo %>
       </h3>
-      <table class="table">
+      <table class="table tabla">
         <thead>
           <tr>
             <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
@@ -54,7 +54,7 @@
               -
               <% } else {%>
 
-              <i class="fa-solid fa-house-medical icon-red"></i>
+              <i class="fa-solid fa-house-medical icon-red checkboxSize"></i>
 
               <% } %>
 
@@ -73,7 +73,7 @@
 
       <% switch (cod_error) {
         case 0: %>
-      <div >
+      <div class="mini-filtro">
         Esperamos verte de nuevo por aquí
       </div>
       <% break
@@ -82,18 +82,20 @@
        <div>
          <h4> El código para buscar la solución es: </h4>
          <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-
-         Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
+        <div class="mini-filtro">
+          Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
          alternativa.
 
          Gracias por confiar en PonTusGuardias.com
+          </div>
+         
        </div>
 
 
       <% break ;
 
        case 20: %>
-       <div>
+       <div class="mini-filtro">
          Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución alternativa.
 
          Gracias por confiar en PonTusGuardias.com
@@ -105,17 +107,21 @@
        <div>
          <h4> El código para buscar la solución es: </h4>
          <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-
+         <div class="mini-filtro">
          Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
          alternativa.
 
          Gracias por confiar en PonTusGuardias.com
          </div>
+         </div>
 
       <% break ;
 
        default: %>
-      :)
+       <div class="mini-filtro">
+        :)
+        </div>
+      
       <% break ;
 
 

@@ -10,7 +10,7 @@
 
     <form action="/generarplanilla" method="post">
       <input type="hidden" name="step" value="<%= step %>">
-      <button class="btn btn-outline-light btn-lg download-button" type="submit">Empezar</button>
+      <button class="btn btn-outline-light btn-lg download-button filtro" type="submit">Empezar</button>
     </form>
 
   </div>
@@ -31,7 +31,7 @@
         <div class="form-group">
           <input type="hidden" name="step" value="<%= step %>">
 
-          <select class="form-control" name="mes" required>
+          <select class="form-control filtro" size="1" name="mes" required>
             <option disabled="" selected="" value="">Mes</option>
             <% for (var i = 0; i < 12 ; i++) { %>
             <option value="<%= meses[i] %>"><%= meses[i] %></option>
@@ -39,7 +39,7 @@
 
           </select>
 
-          <select class="form-control" name="anyo" required>
+          <select class="form-control filtro"  size="1" name="anyo" required>
             <option disabled="" selected="" value="">Año</option>
             <% for (var i = 0; i < anyosLength ; i++) { %>
             <option value="<%= anyos[i] %>"><%= anyos[i] %></option>
@@ -69,7 +69,7 @@
         <div class="form-group" id="divi">
           <input type="hidden" name="step" value=<%= step %>>
 
-          <input type="number" min="3" id="n_resis" onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos" required>
+          <input class ="filtro" size="1" type="number" min="3" id="n_resis" onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos" required>
 
           <br />
           <br />
@@ -93,7 +93,7 @@
                 input.setAttribute("type", "text");
                 input.id = "nombre";
                 input.setAttribute("name", "Nombre_" + i);
-                input.setAttribute("class", "form-control");
+                input.setAttribute("class", "form-control filtro");
                 input.setAttribute("placeholder", "Nombre");
                 input.required = true;
                 divi.appendChild(input);
@@ -126,7 +126,7 @@
           <input type="hidden" name="step" value="<%= step %>">
 
 
-          <select class="form-control" type="number" onchange="elegirGrupo()" name="medicosDeGuardia" required>
+          <select class="form-control filtro" size="1" type="number" onchange="elegirGrupo()" name="medicosDeGuardia" required>
             <option disabled="" selected="" value="">Médicos por guardia</option>
             <% for (var i = 0; i < 10 ; i++) { %>
             <option type="number" value="<%= i + 1 %>"><%= i + 1 %></option>
@@ -191,7 +191,7 @@
           <input type="hidden" name="v_guardias_min_fes" >
 
           <!-- Pendiente de meter tabla -->
-          <table class="table table_k">
+          <table class="table table_k tabla">
             <thead>
               <tr>
                 <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
@@ -226,11 +226,11 @@
 
                 <% if (vsd.includes(weekArray[j]) ) { %>
                 <td>
-                  <input type="checkbox" value="1" id="Festivo_<%= j + 1 %>" name="Festivo_<%= j + 1 %>" onclick="recalculate(this);" checked>
+                  <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>" name="Festivo_<%= j + 1 %>" onclick="recalculate(this);" checked>
                 </td>
                 <% } else {%>
                 <td>
-                  <input type="checkbox" value="1" id="Festivo_<%= j + 1 %>" name="Festivo_<%= j + 1 %>" onclick="recalculate(this);">
+                  <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>" name="Festivo_<%= j + 1 %>" onclick="recalculate(this);">                
                 </td>
                 <% } %>
 
@@ -438,7 +438,7 @@
                 <th scope="row"><%= nombre[i] %> </th>
                 <% for (var j = 0; j < dias_mes ; j++) { %>
                 <td>
-                  <input type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>">
+                  <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>">
                 </td>
                 <% } %>
               </tr>
@@ -501,7 +501,7 @@
                 <th scope="row"><%= nombre[i] %> </th>
                 <% for (var j = 0; j < dias_mes ; j++) { %>
                 <td>
-                  <input type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
+                  <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
                 </td>
                 <% } %>
               </tr>
@@ -535,8 +535,8 @@
         </div>
 
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Ejemplo: Que los R1 hagan guardias con los R4,...</label>
-          <textarea class="form-control" name="comentario" rows="3"></textarea>
+          <label class="filtro" for="exampleFormControlTextarea1">Ejemplo: Que los R1 hagan guardias con los R4,...</label>
+          <textarea class="form-control filtro" name="comentario" rows="3"></textarea>
         </div>
 
         <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
@@ -561,7 +561,7 @@
 
 
 
-          <input type="text" placeholder="Escribe tu email" name="correo" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+          <input class="filtro"type="text" placeholder="Escribe tu email" name="correo" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
           <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.</small>
 
         </div>

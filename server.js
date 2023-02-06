@@ -16,7 +16,6 @@ const emailconfig = require(__dirname + "/emailconfig.js");
 const inputs = require(__dirname + "/inputs.js");
 const api = require(__dirname + "/api-connection.js");
 
-
 // Configuramos la app
 const oneDay = 1000 * 60 * 60 * 24;
 const secret = inputs.secret;
