@@ -554,6 +554,7 @@ app.get("/mostrarSolucion", function(req, res) {
 app.get("/generarplanilla", function(req, res) {
   req.session.completefilepath = filepath + req.session.filename;
   req.session.userID = req.session.id;
+  
 
 
   if (req.session.step == null) {
@@ -636,13 +637,20 @@ app.post("/generarplanilla", function(req, res) {
         req.session.festivosArray.push(1);
       } else req.session.festivosArray.push(0);
     }
+       
+    
 
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
-      req.session.v_guardias_max_tot.push(req.body.v_guardias_max_tot[req.session.i]);
-      req.session.v_guardias_min_tot.push(req.body.v_guardias_min_tot[req.session.i]);
-      req.session.v_guardias_max_fes.push(req.body.v_guardias_max_fes[req.session.i]);
-      req.session.v_guardias_min_fes.push(req.body.v_guardias_min_fes[req.session.i]);
-
+      req.session.num = req.session.i;
+      req.session.id_g_max_tot = "v_guardias_max_tot_" + req.session.num.toString();
+      req.session.id_g_min_tot = "v_guardias_min_tot_" + req.session.num.toString();
+      req.session.id_g_max_fes = "v_guardias_max_fes_" + req.session.num.toString();
+      req.session.id_g_min_fes = "v_guardias_min_fes_" + req.session.num.toString();
+      
+      req.session.v_guardias_max_tot.push(req.body[req.session.id_g_max_tot]);
+      req.session.v_guardias_min_tot.push(req.body[req.session.id_g_min_tot]);
+      req.session.v_guardias_max_fes.push(req.body[req.session.id_g_max_fes]);
+      req.session.v_guardias_min_fes.push(req.body[req.session.id_g_min_fes]);
     }
     console.log("Estos son los vectores")
     console.log(req.session.v_guardias_max_tot);
@@ -729,6 +737,10 @@ app.post("/generarplanilla", function(req, res) {
         medicosDeGuardia: parseInt(req.session.medicosDeGuardia, 10),
         nombres_medicos: req.session.nombre,
         festivos: req.session.festivosArray,
+        v_guardias_max_tot: req.session.v_guardias_max_tot,
+        v_guardias_min_tot: req.session.v_guardias_min_tot,
+        v_guardias_max_fes: req.session.v_guardias_max_fes,
+        v_guardias_min_fes: req.session.v_guardias_min_fes,
         guardias_asignadas: req.session.guardiasMatrix,
         vacaciones_asignadas: req.session.vacacionesMatrix,
         comentario: req.session.comentario,
@@ -747,7 +759,7 @@ app.post("/generarplanilla", function(req, res) {
       });
 
       // Mando la petición al servidor
-      let respuesta_api = api.mandarPeticionApi(parseInt(req.session.n_resis, 10), parseInt(req.session.medicosDeGuardia, 10), req.session.nombre, req.session.festivosArray, req.session.guardiasMatrix.flat(1), req.session.vacacionesMatrix.flat(1)).then(function(solucion) {
+      let respuesta_api = api.mandarPeticionApi(parseInt(req.session.n_resis, 10), parseInt(req.session.medicosDeGuardia, 10), req.session.nombre, req.session.festivosArray,req.session.v_guardias_max_tot,req.session.v_guardias_min_tot,req.session.v_guardias_max_fes,req.session.v_guardias_min_fes, req.session.guardiasMatrix.flat(1), req.session.vacacionesMatrix.flat(1)).then(function(solucion) {
         console.log('la solucion es:')
         console.log(solucion['solucion'])
         return solucion['solucion'];

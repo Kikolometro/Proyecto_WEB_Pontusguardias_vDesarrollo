@@ -2,7 +2,7 @@
 const fetch = require('node-fetch');
 
 
-exports.mandarPeticionApi = async function (n_medicos, m_guardia, nombres_medicos, d_festivos, guardia_asignada, vacaciones_asignada) {
+exports.mandarPeticionApi = async function (n_medicos, m_guardia, nombres_medicos, d_festivos,v_guardias_max_tot,v_guardias_min_tot,v_guardias_max_fes,v_guardias_min_fes, guardia_asignada, vacaciones_asignada) {
   //let todo = {
   //  medicos: 8,
   //  m_guardia: 2,
@@ -16,6 +16,10 @@ exports.mandarPeticionApi = async function (n_medicos, m_guardia, nombres_medico
       m_guardia: m_guardia,
       m_nombres: nombres_medicos,
       d_festivos: d_festivos,
+      v_guardias_max_tot: v_guardias_max_tot,
+      v_guardias_min_tot: v_guardias_min_tot,
+      v_guardias_max_fes: v_guardias_max_fes,
+      v_guardias_min_fes: v_guardias_min_fes,
       guardia_asignada: guardia_asignada,
       vacaciones_asignada: vacaciones_asignada
     };

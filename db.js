@@ -60,6 +60,18 @@ let petitionSchema = new mongoose.Schema({
   festivos: {
     type: Array
   },
+  v_guardias_max_tot: {
+    type: Array
+  },
+  v_guardias_min_tot: {
+    type: Array
+  },
+  v_guardias_max_fes: {
+    type: Array
+  },
+  v_guardias_min_fes: {
+    type: Array
+  },
   guardias_asignadas: {
     type: Array
   },

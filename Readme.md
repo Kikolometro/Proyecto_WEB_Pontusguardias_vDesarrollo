@@ -4,23 +4,30 @@ Aquí hay que ir añadiendo las novedades del proyecto.
 
 ## Siguientes Pasos
 
+Prioridades:
+- Implementar el Optimizador considerando las casuísticas
+- Implementar el selector de número de guardias por persona y la parte correspondiente en la API
+- Implementar las agrupaciones
+    - A y B siempre juntos: A+B = 2
+    - A y B nunca juntos: A+B <= 1
+    - Siempre que A esté que esté B: A->B
+    - Siempre que A no esté que esté B: A+B =1
+
+Otros To-Do's:
 Front:
-- Hacer que la web sea mucho más responsive y chula desde la vista del móvil. La landing en general (fotos, la sección naranja) y el formulario
-- Añadir espacio de What's next? (avisar de las nuevas funcionalidades que estamos incluyendo)
-- Agrupar los médicos
+- Revisar el modo móvil
 
 Back:
 - Doble check de coherencia en el formulario (para que no pidan planillas imposibles)
 - Que puedan solicitar varios meses a la vez
-- Ir añadiendo nuevas restricciones al algoritmo: (Dividir en grupos, seleccionar uno de cada grupo, evitar combinaciones, forzar combinaciones)
-
+- Seguridad y contraseñas
 
 Marketing:
 - Plantear nuevas frases
 - Crear las imágenes
 
 ## Estrategia
-Versión alpha: Gratuita. Tenemos les ofrecemos el resultado al instante, pero sin las nuevas restricciones. Les dejamos el cuadro de texto para que nos dejen sus comentarios y en cuanto tengamos las restricciones, se las hacemos llegar.
+Versión alpha: Gratuita. Les ofrecemos el resultado al instante. Les dejamos el cuadro de texto para que nos dejen sus comentarios y en cuanto tengamos las restricciones, se las hacemos llegar.
 
 Versión Beta: Gratuita. Modelo casi definitivo, corregimos errores, hacemos mucha campaña y cogemos volumen.
 
@@ -38,3 +45,4 @@ Internacionalización, Diversificación de sectores
 
 ## Otras ideas
 - Cobrar solamente cuando hagamos una combinación de meses
+
