@@ -224,12 +224,19 @@
 
 
         <div class="guardias-box-clear-orange col-lg-8 container-fluid" id ="cajita_naranja">
-
-          <div id ="texto_2"></div>
-          <div id ="texto_3"></div>
-          <div id ="texto_4"></div>
           
-
+         
+          
+          <div id ="texto_1" class="ali_izq"></div>
+          <br>
+          <ol>
+            <li id ="texto_2"class="ali_izq"></li>
+            <br>
+            <li id ="texto_3"class="ali_izq"></li>
+          </ol>
+          
+          
+        
         </div>
         <div id="formContainer"></div>
 
@@ -268,16 +275,20 @@
           var fg_min = Math.floor(tgf);
 
           if (dg_min != dg_max){
+              document.getElementById("texto_1").innerHTML = ""
               document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o "+ dg_max + " guardias en total.</b>";
           }
           else{
+            document.getElementById("texto_1").innerHTML = ""
             document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " guardias en total.</b>";
           }
 
           if (fg_max != fg_min){
-            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o "+ fg_max + " serán en los días festivos</b> que has indicado.";
+            document.getElementById("texto_1").innerHTML = ""
+            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o "+ fg_max + " estarán repartidas entre en los días festivos</b> que has indicado.";
           } else {
-            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " serán en los días festivos</b> que has indicado.";
+            document.getElementById("texto_1").innerHTML = ""
+            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " estarán repartidas entre en los días festivos</b> que has indicado.";
           }
 
 
@@ -532,11 +543,23 @@
                 
                 let nombresArray = document.getElementById("nombresArray").value;
                 var nameArr = nombresArray.split(',');
+
+                if (medicosDeGuardia>1){
+                  document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las "+dias_mes_element+" guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá "+medicosDeGuardia+" médicos de guardia cada noche.";
+                } else {
+                  document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las "+dias_mes_element+" guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá "+medicosDeGuardia+" médico de guardia cada noche.";
+                }
                 
+                document.getElementById("texto_2").innerHTML = "Indica <b>exactamente el número de guardias que quieres que haga cada médico </b>en el mes.";
+                document.getElementById("texto_3").innerHTML = "Debajo, <b>indica cuántas de esas guardias estarán repartidas entre en los días festivos ("+dias_mes_festivos+")</b> que has indicado arriba.";
+                
+
+                form.appendChild(document.createElement("br"));
+
                 //Creamos los inputs TOTALES
                 let tit_tot = document.createElement("p");
                 tit_tot.setAttribute("class", "titulin");
-                tit_tot.innerHTML = 'Guardias totales en el mes: ';
+                tit_tot.innerHTML = '1. Guardias totales en el mes: ';
 
                 form.appendChild(tit_tot);
 
@@ -589,7 +612,7 @@
                 form.appendChild(document.createElement("br"));
                 let tit_fes = document.createElement("p");
                 tit_fes.setAttribute("class", "titulin");
-                tit_fes.innerHTML = 'Guardias en los festivos indicados anteriormente: ';
+                tit_fes.innerHTML = '2. Guardias en los festivos indicados: ';
 
                 form.appendChild(tit_fes);
 
@@ -665,16 +688,20 @@
               
 
               if (dg_min != dg_max){
-                  document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o "+ dg_max + " guardias en total.</b>";
+                document.getElementById("texto_1").innerHTML = ""
+                document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o "+ dg_max + " guardias en total.</b>";
               }
               else{
+                document.getElementById("texto_1").innerHTML = ""
                 document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " guardias en total.</b>";
               }
 
               if (fg_max != fg_min){
-                  document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o "+ fg_max + " serán en los días festivos</b> que has indicado.";
+                document.getElementById("texto_1").innerHTML = ""
+                  document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o "+ fg_max + " estarán repartidas entre en los días festivos</b> que has indicado.";
               } else {
-                document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " serán en los días festivos</b> que has indicado.";
+                document.getElementById("texto_1").innerHTML = ""
+                document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " estarán repartidas entre en los días festivos</b> que has indicado.";
               }
 
 
@@ -722,14 +749,14 @@
             //Esto se ejecuta cuando le damos al toggle button
             if (document.getElementById("toggle_1").value == "OFF") {
               document.getElementById("toggle_1").value = "ON";
-              document.getElementById("cajita_naranja").style.display = "block";
+              //document.getElementById("cajita_naranja").style.display = "block";
               
               recalculate(checkbox);
 
 
             } else if (document.getElementById("toggle_1").value == "ON") {
               document.getElementById("toggle_1").value = "OFF";
-              document.getElementById("cajita_naranja").style.display = "none";
+              //document.getElementById("cajita_naranja").style.display = "none";
               recalculate(checkbox);
             }
             
