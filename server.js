@@ -65,103 +65,6 @@ db.conectarBD().catch(err => console.log(err));
 
 // ZONA DE PRUEBAS
 
-// app.get("/pr", function(req, res) {
-//   req.session.userID = req.session.id
-//   req.session.contador = 0
-//   req.session.encontrado = 0
-//   req.session.solucion = []
-//   res.render("landing", {
-//     step: 0
-//   });
-// });
-//
-// app.get("/prueba", function(req, res) {
-//   req.session.cod_error = -1;
-//   req.session.uniqueID = "ea9a457f-cc76-466d-9919-1a6679434414";
-//   req.session.mes = "Marzo";
-//   req.session.anyo = 2023;
-//
-//   req.session.dias_mes = 31;
-//   req.session.weekArray = ['X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V', 'S', 'D', 'L', 'M', 'X', 'J', 'V']
-//   req.session.n_resis = 3;
-//   req.session.nombre = ["medico1", "medico2", "medico3"]
-//
-//   req.session.tiempo_max_espera = req.session.n_resis * 10000;
-//
-//
-//   req.session.contador_total = Math.max(Math.ceil(req.session.tiempo_max_espera / tiempo_espera_por_vuelta)+20,10)
-//   console.log('Tiempo max de espera: ' + req.session.contador_total)
-//
-//
-//   function buscarSolucion() {
-//     console.log("Vamos a buscar la solución")
-//
-//     db.Petition.findOne({
-//       uniqueID: req.session.uniqueID
-//
-//     }, null, {
-//
-//     }, (err, unaSolucion) => {
-//       if (err) {
-//         console.error(err)
-//         console.log("Ha dado error")
-//         req.session.solucion = []
-//         req.session.cod_error = 10 // Error en la query
-//       } else {
-//
-//         if (unaSolucion == null) {
-//           console.log("Todavía no hay solución")
-//           req.session.solucion = []
-//           req.session.cod_error = 20 // No hay solución
-//
-//         } else {
-//           console.log("Tenemos el resultado: ")
-//           console.log(req.session.solucion)
-//           req.session.encontrado = 1
-//           req.session.cod_error = 0 // Hay solución
-//           req.session.solucion = unaSolucion['soluciones']
-//
-//         }
-//
-//       }
-//     });
-//
-//
-//
-//     if (req.session.contador >= req.session.contador_total) {
-//       req.session.tiempoAlcanzado = 1
-//       req.session.cod_error = 30 // Tiempo alcanzado
-//       console.log("Tiempo máximo alcanzado")
-//     } else {
-//       req.session.contador = req.session.contador + 1
-//       console.log("Contador actualizado: " + req.session.contador)
-//     }
-//
-//     if ((req.session.encontrado == 1) | (req.session.tiempoAlcanzado == 1)) {
-//       clearInterval(req.session.refresh);
-//       console.log("Cerramos la paraeta")
-//
-//       res.render("landing-solucion", {
-//         solucion: req.session.solucion,
-//         topStep: topStep,
-//         dias_mes: req.session.dias_mes,
-//         weekArray: req.session.weekArray,
-//         n_resis: req.session.n_resis,
-//         nombre: req.session.nombre,
-//         mes: req.session.mes,
-//         anyo: req.session.anyo,
-//         cod_error: req.session.cod_error
-//       });
-//     }
-//
-//
-//
-//   };
-//
-//   req.session.refresh = setInterval(buscarSolucion, tiempo_espera_por_vuelta)
-//
-//
-// });
 
 //FIN ZONA DE PRUEBAS
 
@@ -576,7 +479,8 @@ app.get("/generarplanilla", function(req, res) {
       dias_mes: req.session.dias_mes,
       n_resis: req.session.n_resis,
       nombre: req.session.nombre,
-      medicosDeGuardia: req.session.medicosDeGuardia
+      medicosDeGuardia: req.session.medicosDeGuardia,
+      aviso: req.session.aviso
     });
   };
 });
@@ -586,6 +490,7 @@ app.post("/generarplanilla", function(req, res) {
 
   if (req.body.botonAnterior == "-1") {
     req.session.step = req.body.step - 2
+    req.session.aviso = "";
   } else req.session.step = req.body.step;
 
 
@@ -603,11 +508,13 @@ app.post("/generarplanilla", function(req, res) {
     req.session.solucion = []
     req.session.medicosDeGuardia = 0
     req.session.idSolBuscada = ""
+    req.session.aviso = ""
   };
 
   if (req.session.step == 2 && req.body.botonAnterior != "-1") {
     req.session.nombre = [];
     req.session.n_resis = req.body.n_resis;
+    req.session.aviso = "";
     req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
 
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
@@ -619,11 +526,13 @@ app.post("/generarplanilla", function(req, res) {
 
   if (req.session.step == 3 && req.body.botonAnterior != "-1") {
     req.session.medicosDeGuardia = req.body.medicosDeGuardia;
+    req.session.aviso = "";
 
   };
 
   if (req.session.step == 4 && req.body.botonAnterior != "-1") {
     req.session.festivosArray = [];
+    req.session.aviso = "";
 
     req.session.v_guardias_max_tot = [];
     req.session.v_guardias_min_tot = [];
@@ -658,10 +567,26 @@ app.post("/generarplanilla", function(req, res) {
     console.log(req.session.v_guardias_max_fes);
     console.log(req.session.v_guardias_min_fes);
 
+    let prueba = req.session.v_guardias_max_tot.some(v => ((parseInt(v) < 0)|(v =="")));
+
+    if (prueba) {
+
+      req.session.step = req.body.step - 1
+      req.session.aviso = "Por favor, revisa que todos tienen guardias (0 o superior)"
+    
+    } 
+    prueba = req.session.v_guardias_max_fes.some(v => ((parseInt(v) < 0)|(v =="")));
+    if (prueba) {
+      
+        req.session.step = req.body.step - 1
+        req.session.aviso = "Por favor, revisa que todos tienen guardias en festivo (0 o superior)"    
+    } 
+
   }
 
   if (req.session.step == 5 && req.body.botonAnterior != "-1") {
     req.session.guardiasMatrix = [];
+    req.session.aviso ="";
 
     for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
       req.session.asignacion = [];
@@ -679,10 +604,102 @@ app.post("/generarplanilla", function(req, res) {
       req.session.guardiasMatrix.push(req.session.asignacion);
     }
 
+    //Código para comprobar que las guardias asignadas verticalmente no superan el número de médicos por guardia
+    function comprobacion_medicosporDia_vs_guardias_asignadas(guardiasMatrix, medicosDeGuardia){
+
+      let subtotal = 0;
+      let dia = 0;
+      
+      //console.log(guardiasMatrix)
+      //console.log(medicosDeGuardia)
+      for (req.session.i = 0; req.session.i < req.session.dias_mes; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
+          subtotal +=guardiasMatrix[req.session.j][req.session.i]
+        }
+
+        if(subtotal > medicosDeGuardia){
+          dia = req.session.i+1;
+          req.session.step = req.body.step - 1
+          
+          if (req.session.medicosDeGuardia > 1){
+            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  "+ req.session.medicosDeGuardia + " médicos de guardia cada día)."
+          } else {
+            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de guardia. Por favor, revísalo. (en un paso anterior has indicado que debe haber "+ req.session.medicosDeGuardia + " médico de guardia cada día)."
+          }
+          return true, dia, subtotal;
+        }
+        
+      }
+      
+      return false, 0, 0;
+    }
+    
+    
+    comprobacion_medicosporDia_vs_guardias_asignadas(req.session.guardiasMatrix, req.session.medicosDeGuardia)
+      
+    
+
+    //Código para comprobar que las guardias asignadas por médico no superan el rango de guardias que debe hacer
+    
+    function comprobacion_GuardiasMax_vs_guardias_asignadas(guardiasMatrix, v_guardias_max_tot,v_guardias_max_fes){
+
+      let subtotal = 0;
+      let dia = 0;
+      
+      for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          subtotal +=guardiasMatrix[req.session.i][req.session.j]
+
+        }
+        if(subtotal > v_guardias_max_tot[req.session.i]){
+          dia = req.session.i+1;
+          nombre = req.session.nombre[req.session.i];
+          req.session.step = req.body.step - 1
+          
+          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" guardias y su máximo eran "+ v_guardias_max_tot[req.session.i]+ ". Por favor, revísalo."   
+          return true, dia, subtotal;
+        }
+        
+      }
+
+      
+
+      // Lo mismo pero revisando los festivos
+      
+      for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if(req.session.festivosArray[req.session.j]=="1"){
+            subtotal +=guardiasMatrix[req.session.i][req.session.j]
+          }
+          
+
+        }
+        if(subtotal > v_guardias_max_fes[req.session.i]){
+          dia = req.session.i+1;
+          nombre = req.session.nombre[req.session.i];
+          req.session.step = req.body.step - 1
+          
+          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" guardias en festivo y su máximo era "+ v_guardias_max_fes[req.session.i]+ ". Por favor, revísalo."   
+          return true, dia, subtotal;
+        }
+        
+      }
+      
+      return false, 0, 0;
+    }
+    
+    
+    comprobacion_GuardiasMax_vs_guardias_asignadas(req.session.guardiasMatrix, req.session.v_guardias_max_tot,req.session.v_guardias_max_fes)
+     
+
   };
 
   if (req.session.step == 6 && req.body.botonAnterior != "-1") {
     req.session.vacacionesMatrix = [];
+    req.session.aviso ="";
 
     for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
       req.session.asignacion = [];
@@ -700,12 +717,151 @@ app.post("/generarplanilla", function(req, res) {
       req.session.vacacionesMatrix.push(req.session.asignacion);
     }
 
+    //Código para comprobar que las guardias asignadas verticalmente no superan el número de médicos por guardia
+    function comprobacion_medicosporDia_vs_vacaciones_asignadas(vacacionesMatrix, medicosDeGuardia){
+
+      let subtotal = 0;
+      let dia = 0;
+      
+      //console.log(guardiasMatrix)
+      //console.log(medicosDeGuardia)
+      for (req.session.i = 0; req.session.i < req.session.dias_mes; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
+          subtotal +=vacacionesMatrix[req.session.j][req.session.i]
+        }
+
+        if(subtotal > (req.session.n_resis - medicosDeGuardia)){
+          dia = req.session.i+1;
+          req.session.step = req.body.step - 1
+          //console.log("Has indicado " + req.session.medicosDeGuardia + " médicos de guardia, y has asignado "+subtotal+" médicos de libranza el día "+dia+". Por favor, revísalo."   )
+          if (req.session.medicosDeGuardia > 1){
+            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  "+ req.session.medicosDeGuardia + " médicos de guardia cada día y no hay médicos suficientes)."
+          } else {
+            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  "+ req.session.medicosDeGuardia + " médico de guardia cada día y no hay médicos suficientes)."
+          }
+          return true, dia, subtotal;
+        }
+        
+      }
+      
+      return false, 0, 0;
+    }
+    
+    
+    comprobacion_medicosporDia_vs_vacaciones_asignadas(req.session.vacacionesMatrix, req.session.medicosDeGuardia)
+    
+
+    //Código para comprobar que las vacaciones asignadas no coinciden con las guardias asignadas
+    function comprobacion_VacacionesMatrix_vs_guardiasMatrix(guardiasMatrix, vacacionesMatrix){
+
+      
+      let dia = 0;
+      
+      for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if( vacacionesMatrix[req.session.i][req.session.j] == "1"){
+            if( vacacionesMatrix[req.session.i][req.session.j] == guardiasMatrix[req.session.i][req.session.j]){
+              dia = req.session.j+1;
+              nombre = req.session.nombre[req.session.i];
+              req.session.step = req.body.step - 1
+              
+              req.session.aviso = "Le has asignado a "+ nombre +": guardia y libranza el mismo día "+ dia +". Por favor, revísalo."   
+              return true, dia, subtotal;
+            }
+          }
+
+        }
+        
+
+       
+      }
+      
+      return false, 0, 0;
+    }
+    
+    
+    comprobacion_VacacionesMatrix_vs_guardiasMatrix(req.session.guardiasMatrix, req.session.vacacionesMatrix)
+       
+    //Código para comprobar que las guardias asignadas por médico no superan el rango de guardias que debe hacer
+    
+    function comprobacion_GuardiasMin_vs_vacaciones_asignadas(vacacionesMatrix, v_guardias_min_tot,v_guardias_min_fes){
+
+      let subtotal = 0;
+      let dia = 0;
+      
+      for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          subtotal +=vacacionesMatrix[req.session.i][req.session.j]
+
+        }
+        if(subtotal > (req.session.dias_mes - v_guardias_min_tot[req.session.i])){
+          dia = req.session.i+1;
+          nombre = req.session.nombre[req.session.i];
+          req.session.step = req.body.step - 1
+          
+          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" días de vacaciones. No podrá hacer las "+v_guardias_min_tot[req.session.i]+" guardias mínimas que le has asignado en el paso anterior. Por favor, revísalo."   
+          return true, dia, subtotal;
+        }
+        
+      }
+
+      
+
+      // Lo mismo pero revisando los festivos
+      function sumArray(array) {
+        let sum = 0;
+      
+        array.forEach(item => {
+          sum += item;
+        });
+      
+        
+        return sum;
+      }
+      
+      
+      req.session.festivosTotal = sumArray(req.session.festivosArray);
+
+      
+
+      for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+        subtotal =0;
+        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if(req.session.festivosArray[req.session.j]=="1"){
+            subtotal +=vacacionesMatrix[req.session.i][req.session.j]
+          }
+          
+        }
+        if(subtotal > (req.session.festivosTotal - v_guardias_min_fes[req.session.i] )){
+          dia = req.session.i+1;
+          nombre = req.session.nombre[req.session.i];
+          req.session.step = req.body.step - 1
+          
+          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" días de vacaciones en festivo. No podrá hacer las "+v_guardias_min_fes[req.session.i]+" guardias mínimas en festivo que le has asignado en el paso anterior. Por favor, revísalo."   
+          return true, dia, subtotal;
+        }
+        
+      }
+      
+      return false, 0, 0;
+    }
+    
+    
+    comprobacion_GuardiasMin_vs_vacaciones_asignadas(req.session.vacacionesMatrix, req.session.v_guardias_min_tot,req.session.v_guardias_min_fes)
+     
+
+
+
   };
 
 
 
   if (req.session.step == 7 && req.body.botonAnterior != "-1") {
     req.session.comentario = req.body.comentario;
+    req.session.aviso = "";
 
   };
 
@@ -713,6 +869,7 @@ app.post("/generarplanilla", function(req, res) {
   if (req.session.step == 8 && req.body.botonAnterior != "-1") {
     //console.log("User Id:")
     //console.log(req.session.userID)
+    req.session.aviso = "";
     if (emailvalidator.validate(req.body.correo)) {
       req.session.correo = req.body.correo;
       req.session.message = req.session.userID + req.session.mes + req.session.anyo + req.session.n_resis + req.session.medicosDeGuardia + req.session.nombre + req.session.festivosArray + req.session.guardiasMatrix + req.session.vacacionesMatrix + req.session.comentario + req.session.correo;

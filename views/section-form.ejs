@@ -134,6 +134,7 @@
           </select>
 
           
+          
         </div>
         <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
         <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
@@ -150,6 +151,7 @@
       </div>
 
       <h3 class="container-text feature-title-box">Indica los días festivos del mes:</h3>
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
       <form action="/generarplanilla" method="post">
         <div class="form-group" id="reparto">
           
@@ -370,8 +372,11 @@
                 creamosinputs();
 
             if(parseInt(document.getElementById("Nombre_tot_" + (n_resis-1)).value) < 0){
-              console.log('Entro')
-              alert('¡Revisa las guardias! Has puesto demasiadas')
+              document.getElementById("Nombre_tot_" + (n_resis-1)).style.color = "red";
+              document.getElementById("Nombre_tot_" + (n_resis-1)).style.borderColor = "red";
+            }else {
+              document.getElementById("Nombre_tot_" + (n_resis-1)).style.color = "black";
+              document.getElementById("Nombre_tot_" + (n_resis-1)).style.borderColor = "black";
             }
           }
 
@@ -413,7 +418,11 @@
                 creamosinputs();
 
                 if(parseInt(document.getElementById("Nombre_fes_" + (n_resis-1)).value) < 0){
-              alert('¡Revisa las guardias en festivo! Has puesto demasiadas')
+                  document.getElementById("Nombre_fes_" + (n_resis-1)).style.color = "red";
+                  document.getElementById("Nombre_fes_" + (n_resis-1)).style.borderColor = "red";
+            } else {
+              document.getElementById("Nombre_fes_" + (n_resis-1)).style.color = "black";
+              document.getElementById("Nombre_fes_" + (n_resis-1)).style.borderColor = "black";
             }
           }
 
@@ -779,6 +788,7 @@
 
       <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado:</h3>
       <h5>Estas guardias se forzarán al día y médico correspondiente</h5>
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
           <input type="hidden" name="step" value=<%= step %>>
@@ -843,6 +853,7 @@
 
       <h3 class="container-text feature-title-box">Indica los días de vacaciones / libranza:</h3>
       <h5>En estos días no asignaremos guardias</h5>
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
           <input type="hidden" name="step" value=<%= step %>>
