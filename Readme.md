@@ -6,7 +6,6 @@ Aquí hay que ir añadiendo las novedades del proyecto.
 
 Prioridades:
 - Implementar el Optimizador considerando las casuísticas
-- Implementar el selector de número de guardias por persona y la parte correspondiente en la API
 - Implementar las agrupaciones
     - A y B siempre juntos: A+B = 2
     - A y B nunca juntos: A+B <= 1
@@ -18,7 +17,6 @@ Front:
 - Revisar el modo móvil
 
 Back:
-- Doble check de coherencia en el formulario (para que no pidan planillas imposibles)
 - Que puedan solicitar varios meses a la vez
 - Seguridad y contraseñas
 
