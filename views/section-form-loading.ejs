@@ -7,7 +7,8 @@
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
       <div class="progress progress_k">
-        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="<%= topStep %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+          style="width: 100%" aria-valuenow="<%= topStep %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
 
@@ -26,8 +27,7 @@
         <button class="btn btn-ptg defaultsink" type="">Mostrar resultado</button>
       </form>
       <script type="text/javascript">
-
-        var auto_refresh = setTimeout(function() {
+        var auto_refresh = setTimeout(function () {
           submitform();
         }, 1000);
 
@@ -41,7 +41,7 @@
 
 </section>
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
     $(document).scrollTop($("#form").offset().top);
   });
 </script>

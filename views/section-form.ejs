@@ -66,14 +66,14 @@
 
 
       <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres:</h3>
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
 
       <form action="/generarplanilla" method="post">
         <div class="form-group" id="divi">
           <input type="hidden" name="step" value=<%= step %>>
 
           <input class="filtro" size="1" type="number" min="3" id="n_resis" onchange="pregunta_nombres()"
-            onload="revisar_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos"
-            required>
+            autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos" required>
 
           <br />
           <br />
@@ -82,9 +82,15 @@
 
           <script>
             function pregunta_nombres() {
+              let nombres = '<%= nombre %>'
+              let nombres_array = nombres.split(",")
 
-              while (document.contains(document.getElementById("nombre"))) {
-                document.getElementById("nombre").remove();
+
+              for (var i = 0; i <= 50; i++) {
+                while (document.contains(document.getElementById("Nombre_" + i))) {
+                  document.getElementById("Nombre_" + i).remove();
+                }
+
               }
 
               var n_resis = document.getElementById("n_resis");
@@ -95,14 +101,22 @@
               for (var i = 0; i < n_resis_value; i++) {
                 var input = document.createElement("input");
                 input.setAttribute("type", "text");
-                input.id = "nombre";
                 input.setAttribute("name", "Nombre_" + i);
+                input.setAttribute("id", "Nombre_" + i);
                 input.setAttribute("class", "form-control filtro");
                 input.setAttribute("placeholder", "Nombre");
                 input.required = true;
                 divi.appendChild(input);
               }
 
+              if (nombres_array.length > 1) {
+                limit = Math.min(nombres_array.length, n_resis_value)
+                for (var i = 0; i < limit; i++) {
+                  let id = "Nombre_" + i
+                  document.getElementById(id).value = nombres_array[i]
+
+                }
+              }
             }
           </script>
           <noscript>¡Ha habido un error! Prueba a abrir la web desde Google Chrome.</noscript>
@@ -848,7 +862,8 @@
                 <th scope="row"><%= nombre[i] %> </th>
                 <% for (var j = 0; j < dias_mes ; j++) { %>
                 <td>
-                  <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>">
+                  <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>"
+                    id="Asignado_<%=nombre[i]%>_<%=j + 1%>">
                 </td>
                 <% } %>
               </tr>
@@ -862,6 +877,48 @@
         <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
         <button class="btn btn-ptg" type="submit">Siguiente</button>
       </form>
+
+      <script>
+        function spliceIntoChunks(arr, chunkSize) {
+          const res = [];
+          while (arr.length > 0) {
+            const chunk = arr.splice(0, chunkSize);
+            res.push(chunk);
+          }
+          return res;
+        }
+        let dias_mes = '<%= dias_mes %>'
+        let guardiasMatrix = '<%= guardiasMatrix %>'
+        let guardiasMatrix_array = guardiasMatrix.split(",")
+        let guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
+
+        console.log(guardiasMatrix_array_2)
+
+        nombres = '<%= nombre %>'
+        nombres_array = nombres.split(",")
+
+
+        if (guardiasMatrix_array_2.length > 1) {
+
+
+          for (var j = 0; j < nombres_array.length; j++) {
+            let limit = Math.min(dias_mes, guardiasMatrix_array_2[j].length)
+
+            for (var i = 0; i < limit; i++) {
+
+              let id = "Asignado_" + nombres_array[j] + "_" + (i + 1)
+
+              if (guardiasMatrix_array_2[j][i] == '1') {
+                console.log(id)
+                document.getElementById(id).checked = true
+              }
+
+
+            }
+          }
+
+        }
+      </script>
     </div>
   </div>
   <% } else if (step === 6) { %>
@@ -913,7 +970,8 @@
                 <th scope="row"><%= nombre[i] %> </th>
                 <% for (var j = 0; j < dias_mes ; j++) { %>
                 <td>
-                  <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
+                  <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>"
+                    id="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
                 </td>
                 <% } %>
               </tr>
@@ -927,6 +985,48 @@
         <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
         <button class="btn btn-ptg" type="submit">Siguiente</button>
       </form>
+      <script>
+        function spliceIntoChunks(arr, chunkSize) {
+          const res = [];
+          while (arr.length > 0) {
+            const chunk = arr.splice(0, chunkSize);
+            res.push(chunk);
+          }
+          return res;
+        }
+
+        let dias_mes_vac = '<%= dias_mes %>'
+        let vacacionesMatrix = '<%= vacacionesMatrix %>'
+        let vacacionesMatrix_array = vacacionesMatrix.split(",")
+        let vacacionesMatrix_array_2 = spliceIntoChunks(vacacionesMatrix_array, dias_mes_vac)
+
+        console.log(vacacionesMatrix_array_2)
+
+        nombres = '<%= nombre %>'
+        nombres_array = nombres.split(",")
+
+
+        if (vacacionesMatrix_array_2.length > 1) {
+
+
+          for (var j = 0; j < nombres_array.length; j++) {
+            let limit = Math.min(dias_mes_vac, vacacionesMatrix_array_2[j].length)
+
+            for (var i = 0; i < limit; i++) {
+
+              let id = "Vacaciones_" + nombres_array[j] + "_" + (i + 1)
+
+              if (vacacionesMatrix_array_2[j][i] == '1') {
+                console.log(id)
+                document.getElementById(id).checked = true
+              }
+
+
+            }
+          }
+
+        }
+      </script>
     </div>
   </div>
 

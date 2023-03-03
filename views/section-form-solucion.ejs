@@ -7,7 +7,8 @@
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
       <div class="progress progress_k">
-        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="<%= topStep %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+          style="width: 100%" aria-valuenow="<%= topStep %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
       <% if (ind_sol > 0) { %>
@@ -79,63 +80,72 @@
       <% break
 
        case 10: %>
-       <div>
-         <h4> El código para buscar la solución es: </h4>
-         <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+      <div>
+        <h4> El código para buscar la solución es: </h4>
+        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
         <div class="mini-filtro">
-          Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
-         alternativa.
+          Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto.
+          Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que
+          busquemos una solución
+          alternativa.
 
-         Gracias por confiar en PonTusGuardias.com
-          </div>
-         
-       </div>
+          Gracias por confiar en PonTusGuardias.com
+        </div>
+
+      </div>
 
 
       <% break ;
 
        case 20: %>
-       <div class="mini-filtro">
-         Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución alternativa.
+      <div class="mini-filtro">
+        Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a
+          href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución alternativa.
 
-         Gracias por confiar en PonTusGuardias.com
-         </div>
+        Gracias por confiar en PonTusGuardias.com
+      </div>
 
       <% break ;
 
        case 30: %>
-       <div>
-         <h4> Tu código para recuperar la solución es: </h4>
-         <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-         <div class="mini-filtro">
-         Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto. Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
-         alternativa.
+      <div>
+        <h4> Tu código para recuperar la solución es: </h4>
+        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+        <div class="mini-filtro">
+          Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto. Tambien
+          puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos
+          una solución
+          alternativa.
 
-         Gracias por confiar en PonTusGuardias.com
-         </div>
-         </div>
+          Gracias por confiar en PonTusGuardias.com
+        </div>
+      </div>
 
       <% break ;
 
        default: %>
-       <div class="mini-filtro">
+      <div class="mini-filtro">
         :)
-        </div>
-      
+      </div>
+
       <% break ;
 
 
        } %>
 
-       <% var arr = [10, 20]%>
-       <% if (!arr.includes(cod_error)) { %>
-         <button class="btn btn-ptg-naranja" onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')" ><i class="fa-solid fa-copy"></i> Copiar enlace</button>
-         <a class="btn btn-ptg-naranja" href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>" data-action="share/whatsapp/share" target="_blank" >
-           <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
-         <a class ="btn btn-ptg-naranja" href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
-           <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
+      <% var arr = [10, 20]%>
+      <% if (!arr.includes(cod_error)) { %>
+      <button class="btn btn-ptg-naranja" onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i
+          class="fa-solid fa-copy"></i> Copiar enlace</button>
+      <a class="btn btn-ptg-naranja"
+        href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>"
+        data-action="share/whatsapp/share" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
+      <a class="btn btn-ptg-naranja"
+        href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
+        <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
 
-         <% } %>
+      <% } %>
 
 
 
@@ -155,7 +165,7 @@
 
 </section>
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
     $(document).scrollTop($("#form").offset().top);
   });
 
@@ -163,8 +173,8 @@
     // Get the text field
     var idSolu = idsolucion;
     //var copyText = "https://PonTusGuardias.com//buscarSolucion?idSol="+ idSolBuscada;
-//    var copyText = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
-    var copyText = "http://localhost:3000/buscarSolucion?idSol="+idSolu;
+    //    var copyText = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
+    var copyText = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
     copyText = copyText.split(" ").join("");
 
     // Copy the text inside the text field

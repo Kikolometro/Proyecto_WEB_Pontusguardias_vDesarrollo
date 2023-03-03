@@ -71,143 +71,20 @@ db.conectarBD().catch(err => console.log(err));
 
 
 // Definimos las rutas del servidor
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   req.session.userID = req.session.id
   res.render("landing", {
     step: 0
   });
 });
 
-app.get("/buscador", function(req, res) {
+app.get("/buscador", function (req, res) {
   req.session.userID = req.session.id
   res.render("landing-buscador");
 });
 
 
-  app.get('/buscarSolucion', function(req, res) {
-    req.session.ind_sol = 0
-    req.session.dias_mes = 30
-    req.session.weekArray = []
-    req.session.n_resis = 2
-    req.session.nombre = []
-    req.session.mes = ""
-    req.session.anyo = 2020
-    req.session.idSolBuscada = req.query.idSol
-
-    db.Petition.findOne({
-      //idSol: req.params.idSol
-      idSol: req.query.idSol
-
-    }, null, {
-
-    }, (err, unaSolucion) => {
-      if (err) {
-        console.error(err)
-        req.session.solucion = []
-        req.session.cod_error = 10 // Error en la query
-        console.log("Hay un error en la query")
-
-        res.render("landing-solucion", {
-          ind_sol: req.session.ind_sol,
-          solucion: req.session.solucion,
-          topStep: topStep,
-          dias_mes: req.session.dias_mes,
-          weekArray: req.session.weekArray,
-          n_resis: req.session.n_resis,
-          nombre: req.session.nombre,
-          mes: req.session.mes,
-          anyo: req.session.anyo,
-          cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
-        });
-      } else {
-
-        if (unaSolucion == null) {
-          req.session.solucion = []
-          req.session.cod_error = 20 // No hay solución para ese problema
-          console.log("No hay solucion")
-
-          res.render("landing-solucion", {
-            ind_sol: req.session.ind_sol,
-            solucion: req.session.solucion,
-            topStep: topStep,
-            dias_mes: req.session.dias_mes,
-            weekArray: req.session.weekArray,
-            n_resis: req.session.n_resis,
-            nombre: req.session.nombre,
-            mes: req.session.mes,
-            anyo: req.session.anyo,
-            cod_error: req.session.cod_error,
-            idSolBuscada: req.session.idSolBuscada
-          });
-
-        } else if (unaSolucion['ind_sol'] == 1){
-          req.session.encontrado = 1
-          req.session.cod_error = 0 // Hay solución
-          if(unaSolucion['soluciones'].length > 0){
-            req.session.ind_sol = 1
-            req.session.solucion = unaSolucion['soluciones']
-
-            req.session.n_resis = unaSolucion['n_medicos']
-            req.session.nombre = unaSolucion['nombres_medicos']
-            req.session.mes = unaSolucion['mes']
-            req.session.anyo = unaSolucion['anio']
-
-            req.session.mes_num = formLogic.mes_num(req.session.mes);
-            req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
-            req.session.dia_1_mes = formLogic.daysOfWeek(req.session.mes_num, req.session.anyo);
-            req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
-
-          } else {
-            req.session.solucion = []
-            req.session.cod_error = 20
-          }
-
-          console.log("Hay solucion: ")
-          console.log(req.session.solucion)
-
-          res.render("landing-solucion", {
-            ind_sol: req.session.ind_sol,
-            solucion: req.session.solucion,
-            topStep: topStep,
-            dias_mes: req.session.dias_mes,
-            weekArray: req.session.weekArray,
-            n_resis: req.session.n_resis,
-            nombre: req.session.nombre,
-            mes: req.session.mes,
-            anyo: req.session.anyo,
-            cod_error: req.session.cod_error,
-            idSolBuscada: req.session.idSolBuscada
-          });
-
-        } else {
-          console.log("Estamos esperando la solución")
-          req.session.solucion = []
-          req.session.cod_error = 40 // No hay solución actualizada
-
-          res.render("landing-solucion", {
-            ind_sol: req.session.ind_sol,
-            solucion: req.session.solucion,
-            topStep: topStep,
-            dias_mes: req.session.dias_mes,
-            weekArray: req.session.weekArray,
-            n_resis: req.session.n_resis,
-            nombre: req.session.nombre,
-            mes: req.session.mes,
-            anyo: req.session.anyo,
-            cod_error: req.session.cod_error,
-            idSolBuscada: req.session.idSolBuscada
-          });
-        }
-
-      }
-    });
-
-
-
-});
-
-app.post('/buscarSolucion', function(req, res) {
+app.get('/buscarSolucion', function (req, res) {
   req.session.ind_sol = 0
   req.session.dias_mes = 30
   req.session.weekArray = []
@@ -264,10 +141,10 @@ app.post('/buscarSolucion', function(req, res) {
           idSolBuscada: req.session.idSolBuscada
         });
 
-      } else if (unaSolucion['ind_sol'] == 1){
+      } else if (unaSolucion['ind_sol'] == 1) {
         req.session.encontrado = 1
         req.session.cod_error = 0 // Hay solución
-        if(unaSolucion['soluciones'].length > 0){
+        if (unaSolucion['soluciones'].length > 0) {
           req.session.ind_sol = 1
           req.session.solucion = unaSolucion['soluciones']
 
@@ -330,7 +207,130 @@ app.post('/buscarSolucion', function(req, res) {
 
 });
 
-app.get("/mostrarSolucion", function(req, res) {
+app.post('/buscarSolucion', function (req, res) {
+  req.session.ind_sol = 0
+  req.session.dias_mes = 30
+  req.session.weekArray = []
+  req.session.n_resis = 2
+  req.session.nombre = []
+  req.session.mes = ""
+  req.session.anyo = 2020
+  req.session.idSolBuscada = req.query.idSol
+
+  db.Petition.findOne({
+    //idSol: req.params.idSol
+    idSol: req.query.idSol
+
+  }, null, {
+
+  }, (err, unaSolucion) => {
+    if (err) {
+      console.error(err)
+      req.session.solucion = []
+      req.session.cod_error = 10 // Error en la query
+      console.log("Hay un error en la query")
+
+      res.render("landing-solucion", {
+        ind_sol: req.session.ind_sol,
+        solucion: req.session.solucion,
+        topStep: topStep,
+        dias_mes: req.session.dias_mes,
+        weekArray: req.session.weekArray,
+        n_resis: req.session.n_resis,
+        nombre: req.session.nombre,
+        mes: req.session.mes,
+        anyo: req.session.anyo,
+        cod_error: req.session.cod_error,
+        idSolBuscada: req.session.idSolBuscada
+      });
+    } else {
+
+      if (unaSolucion == null) {
+        req.session.solucion = []
+        req.session.cod_error = 20 // No hay solución para ese problema
+        console.log("No hay solucion")
+
+        res.render("landing-solucion", {
+          ind_sol: req.session.ind_sol,
+          solucion: req.session.solucion,
+          topStep: topStep,
+          dias_mes: req.session.dias_mes,
+          weekArray: req.session.weekArray,
+          n_resis: req.session.n_resis,
+          nombre: req.session.nombre,
+          mes: req.session.mes,
+          anyo: req.session.anyo,
+          cod_error: req.session.cod_error,
+          idSolBuscada: req.session.idSolBuscada
+        });
+
+      } else if (unaSolucion['ind_sol'] == 1) {
+        req.session.encontrado = 1
+        req.session.cod_error = 0 // Hay solución
+        if (unaSolucion['soluciones'].length > 0) {
+          req.session.ind_sol = 1
+          req.session.solucion = unaSolucion['soluciones']
+
+          req.session.n_resis = unaSolucion['n_medicos']
+          req.session.nombre = unaSolucion['nombres_medicos']
+          req.session.mes = unaSolucion['mes']
+          req.session.anyo = unaSolucion['anio']
+
+          req.session.mes_num = formLogic.mes_num(req.session.mes);
+          req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
+          req.session.dia_1_mes = formLogic.daysOfWeek(req.session.mes_num, req.session.anyo);
+          req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
+
+        } else {
+          req.session.solucion = []
+          req.session.cod_error = 20
+        }
+
+        console.log("Hay solucion: ")
+        console.log(req.session.solucion)
+
+        res.render("landing-solucion", {
+          ind_sol: req.session.ind_sol,
+          solucion: req.session.solucion,
+          topStep: topStep,
+          dias_mes: req.session.dias_mes,
+          weekArray: req.session.weekArray,
+          n_resis: req.session.n_resis,
+          nombre: req.session.nombre,
+          mes: req.session.mes,
+          anyo: req.session.anyo,
+          cod_error: req.session.cod_error,
+          idSolBuscada: req.session.idSolBuscada
+        });
+
+      } else {
+        console.log("Estamos esperando la solución")
+        req.session.solucion = []
+        req.session.cod_error = 40 // No hay solución actualizada
+
+        res.render("landing-solucion", {
+          ind_sol: req.session.ind_sol,
+          solucion: req.session.solucion,
+          topStep: topStep,
+          dias_mes: req.session.dias_mes,
+          weekArray: req.session.weekArray,
+          n_resis: req.session.n_resis,
+          nombre: req.session.nombre,
+          mes: req.session.mes,
+          anyo: req.session.anyo,
+          cod_error: req.session.cod_error,
+          idSolBuscada: req.session.idSolBuscada
+        });
+      }
+
+    }
+  });
+
+
+
+});
+
+app.get("/mostrarSolucion", function (req, res) {
 
   // Hay que cambiar el request timeout
   //2022-12-17T23:41:44.438340+00:00 heroku[router]: at=error code=H12 desc="Request timeout" method=GET path="/mostrarSolucion" host=pontusguardias.com request_id=630552bc-2c11-4a2b-8c5c-a9cbea5fd594 fwd="80.174.36.101" dyno=web.1 connect=0ms service=30000ms status=503 bytes=0 protocol=https
@@ -365,12 +365,12 @@ app.get("/mostrarSolucion", function(req, res) {
           req.session.cod_error = 20 // No hay solución para ese problema
           console.log("No hay solucion")
 
-        } else if (unaSolucion['ind_sol'] == 1){
+        } else if (unaSolucion['ind_sol'] == 1) {
           req.session.encontrado = 1
           req.session.cod_error = 0 // Hay solución
           req.session.idSolBuscada = unaSolucion['idSol']
-          if(unaSolucion['soluciones'].length > 0){
-              req.session.solucion = unaSolucion['soluciones']
+          if (unaSolucion['soluciones'].length > 0) {
+            req.session.solucion = unaSolucion['soluciones']
 
           } else {
             req.session.solucion = []
@@ -404,10 +404,10 @@ app.get("/mostrarSolucion", function(req, res) {
       req.session.contador = req.session.contador + 1
     }
 
-    if ((req.session.tiempoAlcanzadoVuelta == 1) ) {
+    if ((req.session.tiempoAlcanzadoVuelta == 1)) {
       clearInterval(req.session.refresh);
       console.log("Sigo pensando")
-      res.render("landing-loading",{
+      res.render("landing-loading", {
         topStep: topStep
       });
     }
@@ -419,7 +419,7 @@ app.get("/mostrarSolucion", function(req, res) {
       console.log("La solución.length es: ")
       console.log(req.session.solucion.length)
 
-      if(req.session.solucion.length > 0){
+      if (req.session.solucion.length > 0) {
         req.session.ind_sol = 1
 
       } else {
@@ -454,10 +454,10 @@ app.get("/mostrarSolucion", function(req, res) {
 });
 
 
-app.get("/generarplanilla", function(req, res) {
+app.get("/generarplanilla", function (req, res) {
   req.session.completefilepath = filepath + req.session.filename;
   req.session.userID = req.session.id;
-  
+
 
 
   if (req.session.step == null) {
@@ -480,13 +480,15 @@ app.get("/generarplanilla", function(req, res) {
       n_resis: req.session.n_resis,
       nombre: req.session.nombre,
       medicosDeGuardia: req.session.medicosDeGuardia,
-      aviso: req.session.aviso
+      aviso: req.session.aviso,
+      guardiasMatrix: req.session.guardiasMatrix,
+      vacacionesMatrix: req.session.vacacionesMatrix
     });
   };
 });
 
 
-app.post("/generarplanilla", function(req, res) {
+app.post("/generarplanilla", function (req, res) {
 
   if (req.body.botonAnterior == "-1") {
     req.session.step = req.body.step - 2
@@ -509,6 +511,8 @@ app.post("/generarplanilla", function(req, res) {
     req.session.medicosDeGuardia = 0
     req.session.idSolBuscada = ""
     req.session.aviso = ""
+    req.session.guardiasMatrix = []
+    req.session.vacacionesMatrix = []
   };
 
   if (req.session.step == 2 && req.body.botonAnterior != "-1") {
@@ -522,7 +526,49 @@ app.post("/generarplanilla", function(req, res) {
       req.session.id_nom = "Nombre_" + req.session.num.toString();
       req.session.nombre.push(req.body[req.session.id_nom]);
     }
+
+    //Código para comprobar que los nombres son distintos  y no tienen carácteres especiales
+    function comprobacion_nombresDiferentes(nombresArr) {
+      var valuesSoFar = Object.create(null);
+
+      for (var i = 0; i < nombresArr.length; ++i) {
+        var value = nombresArr[i];
+        if (value in valuesSoFar) {
+          req.session.step = req.body.step - 1
+
+          req.session.aviso = "Por favor, que no se repitan los nombres."
+
+          return true;
+        }
+        valuesSoFar[value] = true;
+      }
+      return false;
+    }
+
+
+    comprobacion_nombresDiferentes(req.session.nombre)
+
+    function hasSpecialChars(array) {
+      // Regular expression to match special characters
+      const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+      for (let i = 0; i < array.length; i++) {
+        if (regex.test(array[i])) {
+          return true; // Item contains special characters
+        }
+      }
+
+      return false; // No item contains special characters
+    }
+
+    if (hasSpecialChars(req.session.nombre)) {
+      req.session.step = req.body.step - 1
+      req.session.aviso = "Por favor, que los nombres no contengan carácteres especiales."
+    }
   }
+
+
+
 
   if (req.session.step == 3 && req.body.botonAnterior != "-1") {
     req.session.medicosDeGuardia = req.body.medicosDeGuardia;
@@ -546,8 +592,8 @@ app.post("/generarplanilla", function(req, res) {
         req.session.festivosArray.push(1);
       } else req.session.festivosArray.push(0);
     }
-       
-    
+
+
 
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
       req.session.num = req.session.i;
@@ -555,7 +601,7 @@ app.post("/generarplanilla", function(req, res) {
       req.session.id_g_min_tot = "v_guardias_min_tot_" + req.session.num.toString();
       req.session.id_g_max_fes = "v_guardias_max_fes_" + req.session.num.toString();
       req.session.id_g_min_fes = "v_guardias_min_fes_" + req.session.num.toString();
-      
+
       req.session.v_guardias_max_tot.push(req.body[req.session.id_g_max_tot]);
       req.session.v_guardias_min_tot.push(req.body[req.session.id_g_min_tot]);
       req.session.v_guardias_max_fes.push(req.body[req.session.id_g_max_fes]);
@@ -567,26 +613,26 @@ app.post("/generarplanilla", function(req, res) {
     console.log(req.session.v_guardias_max_fes);
     console.log(req.session.v_guardias_min_fes);
 
-    let prueba = req.session.v_guardias_max_tot.some(v => ((parseInt(v) < 0)|(v =="")));
+    let prueba = req.session.v_guardias_max_tot.some(v => ((parseInt(v) < 0) | (v == "")));
 
     if (prueba) {
 
       req.session.step = req.body.step - 1
       req.session.aviso = "Por favor, revisa que todos tienen guardias (0 o superior)"
-    
-    } 
-    prueba = req.session.v_guardias_max_fes.some(v => ((parseInt(v) < 0)|(v =="")));
+
+    }
+    prueba = req.session.v_guardias_max_fes.some(v => ((parseInt(v) < 0) | (v == "")));
     if (prueba) {
-      
-        req.session.step = req.body.step - 1
-        req.session.aviso = "Por favor, revisa que todos tienen guardias en festivo (0 o superior)"    
-    } 
+
+      req.session.step = req.body.step - 1
+      req.session.aviso = "Por favor, revisa que todos tienen guardias en festivo (0 o superior)"
+    }
 
   }
 
   if (req.session.step == 5 && req.body.botonAnterior != "-1") {
     req.session.guardiasMatrix = [];
-    req.session.aviso ="";
+    req.session.aviso = "";
 
     for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
       req.session.asignacion = [];
@@ -605,101 +651,98 @@ app.post("/generarplanilla", function(req, res) {
     }
 
     //Código para comprobar que las guardias asignadas verticalmente no superan el número de médicos por guardia
-    function comprobacion_medicosporDia_vs_guardias_asignadas(guardiasMatrix, medicosDeGuardia){
+    function comprobacion_medicosporDia_vs_guardias_asignadas(guardiasMatrix, medicosDeGuardia) {
 
       let subtotal = 0;
       let dia = 0;
-      
-      //console.log(guardiasMatrix)
-      //console.log(medicosDeGuardia)
-      for (req.session.i = 0; req.session.i < req.session.dias_mes; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
-          subtotal +=guardiasMatrix[req.session.j][req.session.i]
-        }
 
-        if(subtotal > medicosDeGuardia){
-          dia = req.session.i+1;
+      for (req.session.i = 0; req.session.i < req.session.dias_mes; req.session.i++) {
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
+          subtotal += guardiasMatrix[req.session.j][req.session.i]
+        }
+        if (subtotal > medicosDeGuardia) {
+          dia = req.session.i + 1;
           req.session.step = req.body.step - 1
-          
-          if (req.session.medicosDeGuardia > 1){
-            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  "+ req.session.medicosDeGuardia + " médicos de guardia cada día)."
+
+          if (req.session.medicosDeGuardia > 1) {
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia + " médicos de guardia cada día)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de guardia. Por favor, revísalo. (en un paso anterior has indicado que debe haber "+ req.session.medicosDeGuardia + " médico de guardia cada día)."
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo. (en un paso anterior has indicado que debe haber " + req.session.medicosDeGuardia + " médico de guardia cada día)."
           }
           return true, dia, subtotal;
         }
-        
+
       }
-      
+
       return false, 0, 0;
     }
-    
-    
+
+
     comprobacion_medicosporDia_vs_guardias_asignadas(req.session.guardiasMatrix, req.session.medicosDeGuardia)
-      
-    
+
+
 
     //Código para comprobar que las guardias asignadas por médico no superan el rango de guardias que debe hacer
-    
-    function comprobacion_GuardiasMax_vs_guardias_asignadas(guardiasMatrix, v_guardias_max_tot,v_guardias_max_fes){
+
+    function comprobacion_GuardiasMax_vs_guardias_asignadas(guardiasMatrix, v_guardias_max_tot, v_guardias_max_fes) {
 
       let subtotal = 0;
       let dia = 0;
-      
+
       for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
-          subtotal +=guardiasMatrix[req.session.i][req.session.j]
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          subtotal += guardiasMatrix[req.session.i][req.session.j]
 
         }
-        if(subtotal > v_guardias_max_tot[req.session.i]){
-          dia = req.session.i+1;
+        if (subtotal > v_guardias_max_tot[req.session.i]) {
+          dia = req.session.i + 1;
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
-          
-          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" guardias y su máximo eran "+ v_guardias_max_tot[req.session.i]+ ". Por favor, revísalo."   
+
+          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias y su máximo eran " + v_guardias_max_tot[req.session.i] + ". Por favor, revísalo."
           return true, dia, subtotal;
         }
-        
+
       }
 
-      
+
 
       // Lo mismo pero revisando los festivos
-      
+
       for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
-          if(req.session.festivosArray[req.session.j]=="1"){
-            subtotal +=guardiasMatrix[req.session.i][req.session.j]
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if (req.session.festivosArray[req.session.j] == "1") {
+            subtotal += guardiasMatrix[req.session.i][req.session.j]
           }
-          
+
 
         }
-        if(subtotal > v_guardias_max_fes[req.session.i]){
-          dia = req.session.i+1;
+        if (subtotal > v_guardias_max_fes[req.session.i]) {
+          dia = req.session.i + 1;
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
-          
-          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" guardias en festivo y su máximo era "+ v_guardias_max_fes[req.session.i]+ ". Por favor, revísalo."   
+
+          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias en festivo y su máximo era " + v_guardias_max_fes[req.session.i] + ". Por favor, revísalo."
           return true, dia, subtotal;
         }
-        
+
       }
-      
+
       return false, 0, 0;
     }
-    
-    
-    comprobacion_GuardiasMax_vs_guardias_asignadas(req.session.guardiasMatrix, req.session.v_guardias_max_tot,req.session.v_guardias_max_fes)
-     
+
+
+    comprobacion_GuardiasMax_vs_guardias_asignadas(req.session.guardiasMatrix, req.session.v_guardias_max_tot, req.session.v_guardias_max_fes)
+
 
   };
 
   if (req.session.step == 6 && req.body.botonAnterior != "-1") {
     req.session.vacacionesMatrix = [];
-    req.session.aviso ="";
+    req.session.aviso = "";
 
     for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
       req.session.asignacion = [];
@@ -718,140 +761,140 @@ app.post("/generarplanilla", function(req, res) {
     }
 
     //Código para comprobar que las guardias asignadas verticalmente no superan el número de médicos por guardia
-    function comprobacion_medicosporDia_vs_vacaciones_asignadas(vacacionesMatrix, medicosDeGuardia){
+    function comprobacion_medicosporDia_vs_vacaciones_asignadas(vacacionesMatrix, medicosDeGuardia) {
 
       let subtotal = 0;
       let dia = 0;
-      
+
       //console.log(guardiasMatrix)
       //console.log(medicosDeGuardia)
       for (req.session.i = 0; req.session.i < req.session.dias_mes; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
-          subtotal +=vacacionesMatrix[req.session.j][req.session.i]
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
+          subtotal += vacacionesMatrix[req.session.j][req.session.i]
         }
 
-        if(subtotal > (req.session.n_resis - medicosDeGuardia)){
-          dia = req.session.i+1;
+        if (subtotal > (req.session.n_resis - medicosDeGuardia)) {
+          dia = req.session.i + 1;
           req.session.step = req.body.step - 1
           //console.log("Has indicado " + req.session.medicosDeGuardia + " médicos de guardia, y has asignado "+subtotal+" médicos de libranza el día "+dia+". Por favor, revísalo."   )
-          if (req.session.medicosDeGuardia > 1){
-            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  "+ req.session.medicosDeGuardia + " médicos de guardia cada día y no hay médicos suficientes)."
+          if (req.session.medicosDeGuardia > 1) {
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia + " médicos de guardia cada día y no hay médicos suficientes)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día "+dia+": "+ subtotal+" médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  "+ req.session.medicosDeGuardia + " médico de guardia cada día y no hay médicos suficientes)."
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia + " médico de guardia cada día y no hay médicos suficientes)."
           }
           return true, dia, subtotal;
         }
-        
+
       }
-      
+
       return false, 0, 0;
     }
-    
-    
+
+
     comprobacion_medicosporDia_vs_vacaciones_asignadas(req.session.vacacionesMatrix, req.session.medicosDeGuardia)
-    
+
 
     //Código para comprobar que las vacaciones asignadas no coinciden con las guardias asignadas
-    function comprobacion_VacacionesMatrix_vs_guardiasMatrix(guardiasMatrix, vacacionesMatrix){
+    function comprobacion_VacacionesMatrix_vs_guardiasMatrix(guardiasMatrix, vacacionesMatrix) {
 
-      
+
       let dia = 0;
-      
+
       for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
-          if( vacacionesMatrix[req.session.i][req.session.j] == "1"){
-            if( vacacionesMatrix[req.session.i][req.session.j] == guardiasMatrix[req.session.i][req.session.j]){
-              dia = req.session.j+1;
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if (vacacionesMatrix[req.session.i][req.session.j] == "1") {
+            if (vacacionesMatrix[req.session.i][req.session.j] == guardiasMatrix[req.session.i][req.session.j]) {
+              dia = req.session.j + 1;
               nombre = req.session.nombre[req.session.i];
               req.session.step = req.body.step - 1
-              
-              req.session.aviso = "Le has asignado a "+ nombre +": guardia y libranza el mismo día "+ dia +". Por favor, revísalo."   
+
+              req.session.aviso = "Le has asignado a " + nombre + ": guardia y libranza el mismo día " + dia + ". Por favor, revísalo."
               return true, dia, subtotal;
             }
           }
 
         }
-        
 
-       
+
+
       }
-      
+
       return false, 0, 0;
     }
-    
-    
+
+
     comprobacion_VacacionesMatrix_vs_guardiasMatrix(req.session.guardiasMatrix, req.session.vacacionesMatrix)
-       
+
     //Código para comprobar que las guardias asignadas por médico no superan el rango de guardias que debe hacer
-    
-    function comprobacion_GuardiasMin_vs_vacaciones_asignadas(vacacionesMatrix, v_guardias_min_tot,v_guardias_min_fes){
+
+    function comprobacion_GuardiasMin_vs_vacaciones_asignadas(vacacionesMatrix, v_guardias_min_tot, v_guardias_min_fes) {
 
       let subtotal = 0;
       let dia = 0;
-      
+
       for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
-          subtotal +=vacacionesMatrix[req.session.i][req.session.j]
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          subtotal += vacacionesMatrix[req.session.i][req.session.j]
 
         }
-        if(subtotal > (req.session.dias_mes - v_guardias_min_tot[req.session.i])){
-          dia = req.session.i+1;
+        if (subtotal > (req.session.dias_mes - v_guardias_min_tot[req.session.i])) {
+          dia = req.session.i + 1;
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
-          
-          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" días de vacaciones. No podrá hacer las "+v_guardias_min_tot[req.session.i]+" guardias mínimas que le has asignado en el paso anterior. Por favor, revísalo."   
+
+          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " días de vacaciones. No podrá hacer las " + v_guardias_min_tot[req.session.i] + " guardias mínimas que le has asignado en el paso anterior. Por favor, revísalo."
           return true, dia, subtotal;
         }
-        
+
       }
 
-      
+
 
       // Lo mismo pero revisando los festivos
       function sumArray(array) {
         let sum = 0;
-      
+
         array.forEach(item => {
           sum += item;
         });
-      
-        
+
+
         return sum;
       }
-      
-      
+
+
       req.session.festivosTotal = sumArray(req.session.festivosArray);
 
-      
+
 
       for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
-        subtotal =0;
-        for(req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
-          if(req.session.festivosArray[req.session.j]=="1"){
-            subtotal +=vacacionesMatrix[req.session.i][req.session.j]
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if (req.session.festivosArray[req.session.j] == "1") {
+            subtotal += vacacionesMatrix[req.session.i][req.session.j]
           }
-          
+
         }
-        if(subtotal > (req.session.festivosTotal - v_guardias_min_fes[req.session.i] )){
-          dia = req.session.i+1;
+        if (subtotal > (req.session.festivosTotal - v_guardias_min_fes[req.session.i])) {
+          dia = req.session.i + 1;
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
-          
-          req.session.aviso = "Le has asignado a "+ nombre +": " + subtotal+" días de vacaciones en festivo. No podrá hacer las "+v_guardias_min_fes[req.session.i]+" guardias mínimas en festivo que le has asignado en el paso anterior. Por favor, revísalo."   
+
+          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " días de vacaciones en festivo. No podrá hacer las " + v_guardias_min_fes[req.session.i] + " guardias mínimas en festivo que le has asignado en el paso anterior. Por favor, revísalo."
           return true, dia, subtotal;
         }
-        
+
       }
-      
+
       return false, 0, 0;
     }
-    
-    
-    comprobacion_GuardiasMin_vs_vacaciones_asignadas(req.session.vacacionesMatrix, req.session.v_guardias_min_tot,req.session.v_guardias_min_fes)
-     
+
+
+    comprobacion_GuardiasMin_vs_vacaciones_asignadas(req.session.vacacionesMatrix, req.session.v_guardias_min_tot, req.session.v_guardias_min_fes)
+
 
 
 
@@ -906,7 +949,7 @@ app.post("/generarplanilla", function(req, res) {
         soluciones: [],
         ind_sol: 0,
         idSol: formLogic.makeid(8)
-      }, function(err, value) {
+      }, function (err, value) {
         if (err) {
           console.error(err)
         } else {
@@ -916,7 +959,7 @@ app.post("/generarplanilla", function(req, res) {
       });
 
       // Mando la petición al servidor
-      let respuesta_api = api.mandarPeticionApi(parseInt(req.session.n_resis, 10), parseInt(req.session.medicosDeGuardia, 10), req.session.nombre, req.session.festivosArray,req.session.v_guardias_max_tot,req.session.v_guardias_min_tot,req.session.v_guardias_max_fes,req.session.v_guardias_min_fes, req.session.guardiasMatrix.flat(1), req.session.vacacionesMatrix.flat(1)).then(function(solucion) {
+      let respuesta_api = api.mandarPeticionApi(parseInt(req.session.n_resis, 10), parseInt(req.session.medicosDeGuardia, 10), req.session.nombre, req.session.festivosArray, req.session.v_guardias_max_tot, req.session.v_guardias_min_tot, req.session.v_guardias_max_fes, req.session.v_guardias_min_fes, req.session.guardiasMatrix.flat(1), req.session.vacacionesMatrix.flat(1)).then(function (solucion) {
         console.log('la solucion es:')
         console.log(solucion['solucion'])
         return solucion['solucion'];
@@ -932,7 +975,7 @@ app.post("/generarplanilla", function(req, res) {
         }, {
           soluciones: value,
           ind_sol: 1
-        }, function(err, value) {
+        }, function (err, value) {
           if (err) {
             console.error(err)
           } else {
@@ -1016,7 +1059,7 @@ app.post("/generarplanilla", function(req, res) {
 
 
 
-app.post("/", function(req, res) {
+app.post("/", function (req, res) {
   req.session.step = 0;
   req.session.new_step = 0;
   req.session.mes = "";
@@ -1039,6 +1082,6 @@ app.post("/", function(req, res) {
 });
 
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT || 3000, function () {
   console.log("Server started");
 });
