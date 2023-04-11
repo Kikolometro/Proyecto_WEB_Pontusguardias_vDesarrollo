@@ -1,5 +1,6 @@
-
-const {MongoClient} = require('mongodb');
+const {
+  MongoClient
+} = require('mongodb');
 const mongoose = require('mongoose');
 
 const uriFile = require(__dirname + "/NoSubir.js");
@@ -78,6 +79,12 @@ let petitionSchema = new mongoose.Schema({
   vacaciones_asignadas: {
     type: Array
   },
+  grupos: {
+    type: Array
+  },
+  condiciones: {
+    type: Array
+  },
   comentario: {
     type: String
   },
@@ -96,7 +103,7 @@ let petitionSchema = new mongoose.Schema({
   ind_sol: {
     type: Number
   },
-  idSol:{
+  idSol: {
     type: String
   }
 

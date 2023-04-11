@@ -2,7 +2,7 @@
 const fetch = require('node-fetch');
 
 
-exports.mandarPeticionApi = async function (n_medicos, m_guardia, nombres_medicos, d_festivos,v_guardias_max_tot,v_guardias_min_tot,v_guardias_max_fes,v_guardias_min_fes, guardia_asignada, vacaciones_asignada) {
+exports.mandarPeticionApi = async function (n_medicos, m_guardia, nombres_medicos, d_festivos,v_guardias_max_tot,v_guardias_min_tot,v_guardias_max_fes,v_guardias_min_fes, guardia_asignada, vacaciones_asignada, arrayGroups, arrayNormas) {
   //let todo = {
   //  medicos: 8,
   //  m_guardia: 2,
@@ -21,7 +21,9 @@ exports.mandarPeticionApi = async function (n_medicos, m_guardia, nombres_medico
       v_guardias_max_fes: v_guardias_max_fes,
       v_guardias_min_fes: v_guardias_min_fes,
       guardia_asignada: guardia_asignada,
-      vacaciones_asignada: vacaciones_asignada
+      vacaciones_asignada: vacaciones_asignada,
+      arrayGroups: arrayGroups,
+      arrayNormas: arrayNormas
     };
 
       const response = await fetch("https://servicio-ptg-api-xos75uhnua-ew.a.run.app/api", {
