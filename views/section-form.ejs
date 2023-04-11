@@ -72,7 +72,7 @@
         <div class="form-group" id="divi">
           <input type="hidden" name="step" value=<%= step %>>
 
-          <input class="filtro" size="1" type="number" min="3" id="n_resis" onchange="pregunta_nombres()"
+          <input class="filtro" size="1" type="number" min="3" max="50" id="n_resis" onchange="pregunta_nombres()"
             autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos" required>
 
           <br />
@@ -694,8 +694,8 @@
 
               form.appendChild(document.createElement("br"));
               let desc = document.createElement("p");
-              desc.innerHTML = '<b>Las guardias (totales y en festivo) de ' + nombres_array[n_resis - 1] +
-                ' </b>se calculan automáticamente para que no descuadre';
+              desc.innerHTML = '<b>Las guardias de ' + nombres_array[n_resis - 1] +
+                ' (totales y en festivo) </b>se calculan automáticamente para que no descuadre';
               form.appendChild(desc);
 
               formContainer.appendChild(form);
