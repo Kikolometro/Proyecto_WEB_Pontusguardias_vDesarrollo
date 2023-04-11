@@ -23,10 +23,10 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 10%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 11%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class=" container-text feature-title-box">Indica el mes y el año de la planilla:</h3>
+      <h3 class=" container-text feature-title-box">Indica el mes y el año:</h3>
 
       <form action="/generarplanilla" method="post">
         <div class="form-group">
@@ -61,7 +61,7 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 20%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 22%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
 
@@ -135,7 +135,7 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 30%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 33%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
       <h3 class="container-text feature-title-box">Indica cuántos médicos están de guardia cada día:</h3>
@@ -168,11 +168,13 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 40%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 44%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class="container-text feature-title-box">Indica los días festivos del mes:</h3>
+      <h3 class="container-text feature-title-box">Indica los días festivos / especiales del mes:</h3>
+      Por defecto, se marcan los viernes, sábados y domingos, pero modifícalos a tu conveniencia:
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
+
       <form action="/generarplanilla" method="post">
         <div class="form-group" id="reparto">
 
@@ -298,23 +300,23 @@
           var fg_min = Math.floor(tgf);
 
           if (dg_min != dg_max) {
-            document.getElementById("texto_1").innerHTML = ""
-            document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o " + dg_max +
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+            document.getElementById("texto_2").innerHTML = "<b>Entre " + dg_min + " y " + dg_max +
               " guardias en total.</b>";
           } else {
-            document.getElementById("texto_1").innerHTML = ""
-            document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min +
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+            document.getElementById("texto_2").innerHTML = "<b>" + dg_min +
               " guardias en total.</b>";
           }
 
           if (fg_max != fg_min) {
-            document.getElementById("texto_1").innerHTML = ""
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
             document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o " + fg_max +
-              " estarán repartidas entre en los días festivos</b> que has indicado.";
+              " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
           } else {
-            document.getElementById("texto_1").innerHTML = ""
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
             document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min +
-              " estarán repartidas entre en los días festivos</b> que has indicado.";
+              " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
           }
 
 
@@ -433,11 +435,11 @@
 
             v_guardias_min_fes = v_guardias_max_fes
 
-            console.log("Vectores resultantes:")
-            console.log(v_guardias_max_tot)
-            console.log(v_guardias_min_tot)
-            console.log(v_guardias_max_fes)
-            console.log(v_guardias_max_fes)
+            //console.log("Vectores resultantes:")
+            //console.log(v_guardias_max_tot)
+            //console.log(v_guardias_min_tot)
+            //console.log(v_guardias_max_fes)
+            //console.log(v_guardias_max_fes)
 
             creamosinputs();
 
@@ -520,6 +522,8 @@
             var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
             var n_resis = '<%= n_resis %>';
             var medicosDeGuardia = '<%= medicosDeGuardia %>';
+            var nombres = '<%= nombre %>'
+            var nombres_array = nombres.split(",")
 
 
             for (var i = 0; i < n_resis; i++) {
@@ -577,21 +581,21 @@
               let nombresArray = document.getElementById("nombresArray").value;
               var nameArr = nombresArray.split(',');
 
-              if (medicosDeGuardia > 1) {
-                document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las " + dias_mes_element +
-                  " guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá " +
-                  medicosDeGuardia + " médicos de guardia cada noche.";
-              } else {
-                document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las " + dias_mes_element +
-                  " guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá " +
-                  medicosDeGuardia + " médico de guardia cada noche.";
-              }
+              //  if (medicosDeGuardia > 1) {
+              //    document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las " + dias_mes_element +
+              //      " guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá " +
+              //      medicosDeGuardia + " médicos de guardia cada noche.";
+              //  } else {
+              //    document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las " + dias_mes_element +
+              //      " guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá " +
+              //      medicosDeGuardia + " médico de guardia cada noche.";
+              //  }
+              document.getElementById("texto_1").innerHTML = "<b>Indica exactamente: </b>"
 
               document.getElementById("texto_2").innerHTML =
-                "Indica <b>exactamente el número de guardias que quieres que haga cada médico </b>en el mes.";
+                "<b>El número de guardias en total </b>que debe hacer cada médico en el mes.";
               document.getElementById("texto_3").innerHTML =
-                "Debajo, <b>indica cuántas de esas guardias estarán repartidas entre en los días festivos (" +
-                dias_mes_festivos + ")</b> que has indicado arriba.";
+                "Cuántas de esas <b>guardias deben ser en los días festivos / especiales</b> que has indicado arriba.";
 
 
               form.appendChild(document.createElement("br"));
@@ -652,7 +656,7 @@
               form.appendChild(document.createElement("br"));
               let tit_fes = document.createElement("p");
               tit_fes.setAttribute("class", "titulin");
-              tit_fes.innerHTML = '2. Guardias en los festivos indicados: ';
+              tit_fes.innerHTML = '2. Guardias en días festivos / especiales: ';
 
               form.appendChild(tit_fes);
 
@@ -688,6 +692,12 @@
                 form.appendChild(document.createElement("br"));
               }
 
+              form.appendChild(document.createElement("br"));
+              let desc = document.createElement("p");
+              desc.innerHTML = '<b>Las guardias (totales y en festivo) de ' + nombres_array[n_resis - 1] +
+                ' </b>se calculan automáticamente para que no descuadre';
+              form.appendChild(desc);
+
               formContainer.appendChild(form);
 
               var guardias_asignadas = 0
@@ -714,11 +724,11 @@
               v_guardias_min_tot = v_guardias_max_tot
               v_guardias_min_fes = v_guardias_max_fes
 
-              console.log("Vectores resultantes:")
-              console.log(v_guardias_max_tot)
-              console.log(v_guardias_min_tot)
-              console.log(v_guardias_max_fes)
-              console.log(v_guardias_max_fes)
+              //console.log("Vectores resultantes:")
+              //console.log(v_guardias_max_tot)
+              //console.log(v_guardias_min_tot)
+              //console.log(v_guardias_max_fes)
+              //console.log(v_guardias_max_fes)
 
 
             } else if (document.getElementById("toggle_1").value == "ON") {
@@ -728,23 +738,23 @@
 
 
               if (dg_min != dg_max) {
-                document.getElementById("texto_1").innerHTML = ""
-                document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min + " o " + dg_max +
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+                document.getElementById("texto_2").innerHTML = "<b>Entre " + dg_min + " y " + dg_max +
                   " guardias en total.</b>";
               } else {
-                document.getElementById("texto_1").innerHTML = ""
-                document.getElementById("texto_2").innerHTML = "Cada médico cubrirá <b>" + dg_min +
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+                document.getElementById("texto_2").innerHTML = "<b>" + dg_min +
                   " guardias en total.</b>";
               }
 
               if (fg_max != fg_min) {
-                document.getElementById("texto_1").innerHTML = ""
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
                 document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o " + fg_max +
-                  " estarán repartidas entre en los días festivos</b> que has indicado.";
+                  " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
               } else {
-                document.getElementById("texto_1").innerHTML = ""
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
                 document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min +
-                  " estarán repartidas entre en los días festivos</b> que has indicado.";
+                  " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
               }
 
 
@@ -818,7 +828,7 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 50%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 55%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
       <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado:</h3>
@@ -893,7 +903,7 @@
         let guardiasMatrix_array = guardiasMatrix.split(",")
         let guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
 
-        console.log(guardiasMatrix_array_2)
+        //console.log(guardiasMatrix_array_2)
 
         nombres = '<%= nombre %>'
         nombres_array = nombres.split(",")
@@ -927,7 +937,7 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 60%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 66%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
       <h3 class="container-text feature-title-box">Indica los días de vacaciones / libranza:</h3>
@@ -1001,7 +1011,7 @@
         let vacacionesMatrix_array = vacacionesMatrix.split(",")
         let vacacionesMatrix_array_2 = spliceIntoChunks(vacacionesMatrix_array, dias_mes_vac)
 
-        console.log(vacacionesMatrix_array_2)
+        //console.log(vacacionesMatrix_array_2)
 
         nombres = '<%= nombre %>'
         nombres_array = nombres.split(",")
@@ -1036,15 +1046,14 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 70%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 77%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
 
-      <h3 class="container-text feature-title-box">Reparte en grupos a los médicos y di quién va con quién:</h3>
+      <h3 class="container-text feature-title-box">Reparte en equipos a los médicos</h3>
       <label class="filtro">Si no deseas aplicar esta configuración, sólo dale al
         botón "Siguiente"</label>
 
-      <p class="titulin">1. Reparte en grupos a los médicos</p>
       <div id="formContainer">
 
         <% for (var i = 0; i < n_resis ; i++) { %>
@@ -1053,7 +1062,7 @@
         <select class="form-control filtro" size="1" name="Grupo_<%=nombre[i]%>" id="Grupo_<%=nombre[i]%>"
           onchange="cambiarArray()">
           <% for (var j = 0; j < n_resis ; j++) { %>
-          <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+          <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
           <% } %>
 
         </select>
@@ -1064,14 +1073,16 @@
 
 
       <br>
-      <p class="titulin">2. Establece las relaciones</p>
+      <br>
+      <h3 class="container-text feature-title-box">Establece relaciones entre los equipos</h3>
 
 
       <div class="guardias-box-clear-orange-max col-lg-8 container-fluid" id="cajita_naranja">
 
-        <div id="texto_1" class="ali_izq">Añade todas las reglas que necesites haciendo click en +. <br><br> <b>En la
-            misma
-            guardia... </b></div>
+        <div id="texto_1" class="ali_izq"><b>Añade todas las reglas que necesites haciendo click en </b> <button
+            class="btn btn-ptg-naranja-no-margin"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+          <br><br> <b>En la
+            misma guardia... </b></div>
         <br>
 
         <div class="container">
@@ -1085,14 +1096,14 @@
                     ...si hay alguien del
                     <select class="form-control-normas filtro" size="1" name="Norma_1_A" id="Norma_1_A">
                       <% for (var j = 0; j < n_resis ; j++) { %>
-                      <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
                     </select>
                     , se forzará que siempre haya alguien del
                     <select class="form-control-normas filtro" size="1" name="Norma_1_B" id="Norma_1_B">
                       <% for (var j = 0; j < n_resis ; j++) { %>
-                      <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
                     </select>
@@ -1115,14 +1126,14 @@
                     ...si hay algún médico del
                     <select class="form-control-normas filtro" size="1" name="Norma_2_A" id="Norma_2_A">
                       <% for (var j = 0; j < n_resis ; j++) { %>
-                      <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
                     </select>
                     , nunca coincidirá con nadie del
                     <select class="form-control-normas filtro" size="1" name="Norma_2_B" id="Norma_2_B">
                       <% for (var j = 0; j < n_resis ; j++) { %>
-                      <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
                     </select>
@@ -1146,7 +1157,7 @@
                     ...siempre habrá algún médico del
                     <select class="form-control-normas filtro" size="1" name="Norma_3_A" id="Norma_3_A">
                       <% for (var j = 0; j < n_resis ; j++) { %>
-                      <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
                     </select>
@@ -1168,7 +1179,7 @@
                     ...nunca coincidirá más de un médico del
                     <select class="form-control-normas filtro" size="1" name="Norma_4_A" id="Norma_4_A">
                       <% for (var j = 0; j < n_resis ; j++) { %>
-                      <option value="Grupo <%= j +1%>">Grupo <%= j+1 %></option>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
                     </select>
@@ -1332,7 +1343,8 @@
         var listado_normas = document.getElementById('listado_normas')
         var texto_fin = document.getElementById('texto_fin')
         if (bucle == 0) {
-          texto_fin.innerHTML = "Todavía no has incluido ninguna condición"
+          texto_fin.innerHTML =
+            "No es obligatorio, pero que sepas que... <b>¡¡¡No has incluido ninguna condición!!!!</b><br> <br>Recuerda hacer click en el botón <button class='btn btn-ptg-naranja-no-margin'><i class='fa-solid fa-plus' style='color: #ffffff'></i></button> para añadir las normas"
         } else {
 
           texto_fin.innerHTML = "Estas son las normas que has solicitado: <br><br><b> En la misma guardia...</b>"
@@ -1358,23 +1370,23 @@
           //console.log(arrayNormas_split)
           switch (arrayNormas_split[0]) {
             case '1':
-              newItemLeft.innerHTML = '...si hay alguien del Grupo ' + arrayNormas_split[1] +
-                ', se forzará que siempre haya alguien del Grupo ' + arrayNormas_split[2] + ', pero no al revés'
+              newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
+                ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', pero no al revés'
 
               break;
 
             case '2':
-              newItemLeft.innerHTML = '...si hay algún médico del Grupo ' + arrayNormas_split[1] +
-                ', nunca coincidirá con nadie del Grupo ' + arrayNormas_split[2] + ' y viceversa'
+              newItemLeft.innerHTML = '...si hay algún médico del Equipo ' + arrayNormas_split[1] +
+                ', nunca coincidirá con nadie del Equipo ' + arrayNormas_split[2] + ' y viceversa'
 
               break;
 
             case '3':
-              newItemLeft.innerHTML = '...siempre habrá algún médico del Grupo ' + arrayNormas_split[1]
+              newItemLeft.innerHTML = '...siempre habrá algún médico del Equipo ' + arrayNormas_split[1]
 
               break;
             case '4':
-              newItemLeft.innerHTML = '...nunca coincidirá más de un médico del Grupo ' + arrayNormas_split[1]
+              newItemLeft.innerHTML = '...nunca coincidirá más de un médico del Equipo ' + arrayNormas_split[1]
               break;
             default:
               console.log('Ha habido un error');
@@ -1421,7 +1433,7 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 80%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 88%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
       <h3 class="container-text feature-title-box">Déjanos saber si tienes alguna condición que no estemos contemplando
@@ -1451,7 +1463,7 @@
     <div class="container-md container_k">
       <div class="progress progress_k">
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 90%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+          style="width: 100%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
       <h3 class="container-text feature-title-box"> Por último, indícanos un correo:<br> </h3>
@@ -1464,7 +1476,9 @@
 
           <input class="filtro" type="text" placeholder="Escribe tu email" name="correo" class="form-control"
             id="exampleInputEmail1" aria-describedby="emailHelp" required>
-          <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.</small>
+          <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros, ni mandamos spam.
+            Sólo lo pedimos con fines estadísticos y para resolver cualquier incidencia con las planillas. <br> <br>
+            Estamos aquí para haceros las cosas sencillas, no para complicaroslas. :) </small>
 
         </div>
         <button class="btn btn-ptg defaultsink" type="submit">Finalizar</button>

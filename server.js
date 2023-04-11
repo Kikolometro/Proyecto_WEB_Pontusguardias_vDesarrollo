@@ -918,8 +918,8 @@ app.post("/generarplanilla", function (req, res) {
         req.session.arrayGroups.push(req.session.arrayGroups_pre[i])
       }
     }
-    console.log(req.session.arrayGroups)
-    console.log(req.session.arrayNormas)
+    //console.log(req.session.arrayGroups)
+    //console.log(req.session.arrayNormas)
 
     req.session.aviso = "";
 
@@ -950,7 +950,7 @@ app.post("/generarplanilla", function (req, res) {
             if (subarray[0] == subarray[1]) {
               flag = 1;
               req.session.step = req.body.step - 1
-              req.session.aviso = "Has impuesto una condición en la que prohibes que coincidan médicos de un mismo grupo consigo mismo. Por favor, revisa las condiciones (regla 2)."
+              req.session.aviso = "Has impuesto una condición en la que prohibes que coincidan médicos de un mismo equipo consigo mismo. Por favor, revisa las condiciones (regla 2)."
 
 
             } else {
@@ -975,7 +975,7 @@ app.post("/generarplanilla", function (req, res) {
 
           } else {
             req.session.step = req.body.step - 1
-            req.session.aviso = "Has impuesto una condición sobre el grupo " + subarray[j] + " pero no has asignado ese grupo a ningún médico. Por favor, revísalo."
+            req.session.aviso = "Has impuesto una condición sobre el equipo " + subarray[j] + " pero no has asignado ese equipo a ningún médico. Por favor, revísalo."
 
           };
         }
