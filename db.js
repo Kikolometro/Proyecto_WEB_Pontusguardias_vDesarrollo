@@ -105,6 +105,9 @@ let petitionSchema = new mongoose.Schema({
   },
   idSol: {
     type: String
+  },
+  clientStatus: {
+    type: Number
   }
 
 

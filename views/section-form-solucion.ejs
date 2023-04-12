@@ -75,8 +75,18 @@
       <% switch (cod_error) {
         case 0: %>
       <div class="mini-filtro">
-        Esperamos verte de nuevo por aquí
+        ¿Qué te ha parecido la solución?
       </div>
+
+      <div id="feedback-buttons">
+        <button id="happy-btn" class="btn happy" onclick="updateFeedback(2)"><i class="fa-regular fa-face-smile"></i></button>
+        <button id="medium-btn" class="btn medium" onclick="updateFeedback(1)"><i class="fa-regular fa-face-meh-blank"></i></button>
+        <button id="sad-btn" class="btn sad" onclick="updateFeedback(-1)"><i class="fa-regular fa-face-sad-tear"></i></button>
+        
+      </div>
+      
+      
+
       <% break
 
        case 10: %>
@@ -182,5 +192,24 @@
 
     // Alert the copied text
     alert("¡Enlace copiado! Ahora compártelo");
+  }
+
+  function updateFeedback(status) {
+    // Make a POST request to your server with the updated status
+    fetch('/update-feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          clientStatus: status
+        })
+      })
+      .then(response => {
+        // Handle the response from the server if needed
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
 </script>

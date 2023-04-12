@@ -402,6 +402,17 @@ color-orange {
   background-color: #3AB091;
 }
 
+.happy{
+  background-color: #87e6ae;
+}
+
+.medium{
+  background-color: #f1f09b;
+}
+.sad{
+  background-color: #eeb2a7;
+}
+
 /*TOGGLE BUTTON*/
 
 

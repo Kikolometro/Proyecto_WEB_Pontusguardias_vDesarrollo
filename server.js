@@ -330,6 +330,26 @@ app.post('/buscarSolucion', function (req, res) {
 
 });
 
+app.post("/update-feedback", (req, res) => {
+  // Extract the feedback status from the request body
+  console.log("El cliente está: " + req.body.clientStatus);
+
+
+  db.Petition.findOneAndUpdate({
+    //uniqueID: req.session.uniqueID
+    idSol: req.session.idSolBuscada
+  }, {
+    clientStatus: parseInt(req.body.clientStatus, 10)
+  }, function (err, value) {
+    if (err) {
+      console.error(err)
+    } else {
+      //console.log("Se ha actualizado el estado del cliente. ")
+      res.send("Feedback saved successfully");
+    };
+  });
+});
+
 app.get("/mostrarSolucion", function (req, res) {
 
   // Hay que cambiar el request timeout
@@ -1040,7 +1060,8 @@ app.post("/generarplanilla", function (req, res) {
         uniqueID: req.session.uniqueID,
         soluciones: [],
         ind_sol: 0,
-        idSol: formLogic.makeid(8)
+        idSol: formLogic.makeid(8),
+        clientStatus: 0
       }, function (err, value) {
         if (err) {
           console.error(err)
