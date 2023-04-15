@@ -1023,7 +1023,7 @@ app.post("/generarplanilla", function (req, res) {
     //console.log("User Id:")
     //console.log(req.session.userID)
     req.session.aviso = "";
-    if (emailvalidator.validate(req.body.correo)) {
+    if (emailvalidator.validate(req.body.correo)|| req.body.correo =="") {
       req.session.correo = req.body.correo;
       req.session.message = req.session.userID + req.session.mes + req.session.anyo + req.session.n_resis + req.session.medicosDeGuardia + req.session.nombre + req.session.festivosArray + req.session.guardiasMatrix + req.session.vacacionesMatrix + req.session.arrayGroups + req.session.arrayNormas + req.session.comentario + req.session.correo;
 

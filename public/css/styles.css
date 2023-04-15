@@ -403,14 +403,25 @@ color-orange {
 }
 
 .happy{
-  background-color: #87e6ae;
+  background-color: #52ec92;
+}
+
+.happy:hover {
+  background-color: #61f19d;
 }
 
 .medium{
   background-color: #f1f09b;
 }
+
+.medium:hover {
+  background-color: #e9e647;
+}
 .sad{
   background-color: #eeb2a7;
+}
+.sad:hover {
+  background-color: #ee705a;
 }
 
 /*TOGGLE BUTTON*/
