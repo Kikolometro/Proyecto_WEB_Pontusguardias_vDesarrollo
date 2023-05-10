@@ -72,8 +72,9 @@
         <div class="form-group" id="divi">
           <input type="hidden" name="step" value=<%= step %>>
 
-          <input class="filtro" size="1" type="number" min="3" max="50" style="width: 12em" id="n_resis" onchange="pregunta_nombres()"
-            autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos" required>
+          <input class="filtro" size="1" type="number" min="3" max="50" style="width: 12em" id="n_resis"
+            onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis"
+            placeholder="Nº médicos" required>
 
           <br />
           <br />
@@ -1119,6 +1120,37 @@
               <br>
               <!-- End of item 1 -->
 
+              <!-- Start of item 5 -->
+              <div class="item list-group-item">
+                <div class="item-left">
+                  <b>
+                    ...si hay alguien del
+                    <select class="form-control-normas filtro" size="1" name="Norma_5_A" id="Norma_5_A">
+                      <% for (var j = 0; j < n_resis ; j++) { %>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                      <% } %>
+
+                    </select>
+                    , se forzará que siempre haya alguien del
+                    <select class="form-control-normas filtro" size="1" name="Norma_5_B" id="Norma_5_B">
+                      <% for (var j = 0; j < n_resis ; j++) { %>
+                      <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                      <% } %>
+
+                    </select>
+                    , y viceversa.</b>
+                  <color-orange> (Ej: Si hay un ginecólogo de guardia se fuerza que haya un obstetra, y viceverssa)
+                  </color-orange>
+
+                </div>
+                <div class="item-right">
+                  <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('5')"><i class="fa-solid fa-plus"
+                      style="color: #ffffff;"></i></button>
+                </div>
+              </div>
+              <br>
+              <!-- End of item 5 -->
+
               <!-- Start of item 2 -->
               <div class="item list-group-item">
                 <div class="item-left">
@@ -1176,8 +1208,17 @@
               <div class="item list-group-item">
                 <div class="item-left">
                   <b>
-                    ...nunca coincidirá más de un médico del
+                    ...nunca coincidirá/n más de
+
                     <select class="form-control-normas filtro" size="1" name="Norma_4_A" id="Norma_4_A">
+                      <% for (var j = 0; j < n_resis ; j++) { %>
+                      <option value="Grupo <%= j +1%>"><%= j+1 %></option>
+                      <% } %>
+
+                    </select>
+
+                    médico/s del
+                    <select class="form-control-normas filtro" size="1" name="Norma_4_B" id="Norma_4_B">
                       <% for (var j = 0; j < n_resis ; j++) { %>
                       <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
@@ -1315,9 +1356,22 @@
             break;
           case '4':
             codigo_a = 'Norma_' + norma + '_A'
+            codigo_b = 'Norma_' + norma + '_B'
 
             largo_a = 6 - document.getElementById(codigo_a).value.length
-            codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a)
+            largo_b = 6 - document.getElementById(codigo_b).value.length
+            codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a) + '_' + document
+              .getElementById(codigo_b).value.substr(largo_b)
+
+            break;
+          case '5':
+            codigo_a = 'Norma_' + norma + '_A'
+            codigo_b = 'Norma_' + norma + '_B'
+
+            largo_a = 6 - document.getElementById(codigo_a).value.length
+            largo_b = 6 - document.getElementById(codigo_b).value.length
+            codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a) + '_' + document
+              .getElementById(codigo_b).value.substr(largo_b)
 
             break;
           default:
@@ -1386,7 +1440,12 @@
 
               break;
             case '4':
-              newItemLeft.innerHTML = '...nunca coincidirá más de un médico del Equipo ' + arrayNormas_split[1]
+              newItemLeft.innerHTML = '...nunca coincidirá/n más de ' + arrayNormas_split[1] + ' médico/s del Equipo ' +
+                arrayNormas_split[2]
+              break;
+            case '5':
+              newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
+                ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', y viceversa'
               break;
             default:
               console.log('Ha habido un error');
@@ -1475,9 +1534,10 @@
 
 
           <input class="filtro" type="text" placeholder="Escribe tu email" name="correo" class="form-control"
-            id="exampleInputEmail1" aria-describedby="emailHelp" >
+            id="exampleInputEmail1" aria-describedby="emailHelp">
           <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.
-            Sólo lo utilizaremos con fines estadísticos, para avisar de las últimas novedades y para resolver cualquier incidencia con las planillas. <br> <br>
+            Sólo lo utilizaremos con fines estadísticos, para avisar de las últimas novedades y para resolver cualquier
+            incidencia con las planillas. <br> <br>
             Estamos aquí para haceros las cosas sencillas, no para complicaroslas. :) </small>
 
         </div>

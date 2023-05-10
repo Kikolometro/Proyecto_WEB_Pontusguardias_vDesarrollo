@@ -651,6 +651,14 @@ app.post("/generarplanilla", function (req, res) {
       req.session.aviso = "Por favor, revisa que todos tienen guardias en festivo (0 o superior)"
     }
 
+    for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+
+      if (parseInt(req.session.v_guardias_max_tot[req.session.i]) < parseInt(req.session.v_guardias_max_fes[req.session.i])) {
+        req.session.step = req.body.step - 1
+        req.session.aviso = "Por favor, revisa las guardias de " + req.session.nombre[req.session.i] + ", le has asignado " + req.session.v_guardias_max_fes[req.session.i] + " guardias de festivo y " + req.session.v_guardias_max_tot[req.session.i] + " en total."
+      }
+
+    }
   }
 
   if (req.session.step == 5 && req.body.botonAnterior != "-1") {
@@ -1023,7 +1031,7 @@ app.post("/generarplanilla", function (req, res) {
     //console.log("User Id:")
     //console.log(req.session.userID)
     req.session.aviso = "";
-    if (emailvalidator.validate(req.body.correo)|| req.body.correo =="") {
+    if (emailvalidator.validate(req.body.correo) || req.body.correo == "") {
       req.session.correo = req.body.correo;
       req.session.message = req.session.userID + req.session.mes + req.session.anyo + req.session.n_resis + req.session.medicosDeGuardia + req.session.nombre + req.session.festivosArray + req.session.guardiasMatrix + req.session.vacacionesMatrix + req.session.arrayGroups + req.session.arrayNormas + req.session.comentario + req.session.correo;
 
