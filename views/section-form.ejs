@@ -733,7 +733,7 @@
 
 
             } else if (document.getElementById("toggle_1").value == "ON") {
-              //Lo que ocurre cuando le damos a un festivo y es tamos en modo Equitativo
+              //Lo que ocurre cuando le damos a un festivo y estamos en modo Equitativo
 
 
 
@@ -805,13 +805,18 @@
               document.getElementById("toggle_1").value = "ON";
               //document.getElementById("cajita_naranja").style.display = "block";
 
-              recalculate(checkbox);
+              recalculate(checkbox);     
 
 
             } else if (document.getElementById("toggle_1").value == "ON") {
               document.getElementById("toggle_1").value = "OFF";
               //document.getElementById("cajita_naranja").style.display = "none";
               recalculate(checkbox);
+              
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "orange";
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "orange";
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "orange";
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "orange";
             }
 
           }
