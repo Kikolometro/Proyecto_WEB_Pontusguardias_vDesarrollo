@@ -783,7 +783,7 @@ app.post("/generarplanilla", function (req, res) {
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias en ''no festivo''. No va a poder hacer las suficientes guardias en festivo. Por favor, revísalo."
+          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias en ''no festivo''. No va a poder cubrir las guardias mínimas en festivo. Por favor, revísalo."
           return true;
         }
 
