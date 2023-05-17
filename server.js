@@ -768,6 +768,32 @@ app.post("/generarplanilla", function (req, res) {
 
     comprobacion_GuardiasMax_vs_guardias_asignadas(req.session.guardiasMatrix, req.session.v_guardias_max_tot, req.session.v_guardias_max_fes)
 
+    //Código para comprobar que las guardias asignadas a un médico dejan hueco para los festivos
+    function comprobacion_minFes_vs_GuardiasAsignadas(guardiasMatrix, v_guardias_max_tot, v_guardias_min_fes) {
+      for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
+        subtotal = 0;
+        for (req.session.j = 0; req.session.j < req.session.dias_mes; req.session.j++) {
+          if (req.session.festivosArray[req.session.j] == "0") {
+            subtotal += guardiasMatrix[req.session.i][req.session.j]
+          }
+        }
+
+        if ((v_guardias_max_tot[req.session.i] - subtotal) < v_guardias_min_fes[req.session.i]) {
+
+          nombre = req.session.nombre[req.session.i];
+          req.session.step = req.body.step - 1
+
+          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias en ''no festivo''. No va a poder hacer las suficientes guardias en festivo. Por favor, revísalo."
+          return true;
+        }
+
+      }
+    }
+
+
+    comprobacion_minFes_vs_GuardiasAsignadas(req.session.guardiasMatrix, req.session.v_guardias_max_tot, req.session.v_guardias_min_fes)
+
+
 
   };
 
