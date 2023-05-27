@@ -14,7 +14,7 @@
           spellcheck=false required>
 
         <div>
-          <button class="btn btn-ptg-naranja" type="submit">Mostrar resultado</button>
+          <button class="btn btn-ptg-naranja" type="submit" id="BtnMostrarPlanilla">Mostrar resultado</button>
         </div>
       </form>
 
@@ -27,7 +27,6 @@
 
 </section>
 <script type="text/javascript">
-  
   //$(document).ready(function () {
   //  $(document).scrollTop($("#form").offset().top);
   //});
@@ -37,4 +36,13 @@
     var your_form = document.getElementById('your_form');
     your_form.action = action_src;
   }
+
+
+  // Add an event listener to the button
+  document.getElementById('BtnMostrarPlanilla').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'BuscarPlanilla', {
+      'button_name': 'BtnMostrarPlanilla'
+    });
+  });
 </script>

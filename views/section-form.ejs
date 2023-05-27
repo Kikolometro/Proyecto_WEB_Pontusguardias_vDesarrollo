@@ -10,10 +10,21 @@
 
     <form action="/generarplanilla" method="post">
       <input type="hidden" name="step" value="<%= step %>">
-      <button class="btn btn-outline-light btn-lg download-button filtro" type="submit">Empezar</button>
+      <button class="btn btn-outline-light btn-lg download-button filtro" type="submit" id="BtnInicio">Empezar</button>
     </form>
 
   </div>
+  <!-- GA -->
+  <script>
+    // Add an event listener to the button
+    document.getElementById('BtnInicio').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnInicioForm'
+      });
+    });
+  </script>
+
 
   <% } else if (step > 0) { %>
 
@@ -49,13 +60,23 @@
           </select>
         </div>
 
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep1">Siguiente</button>
 
       </form>
     </div>
 
-
   </div>
+
+  <script>
+    document.getElementById('BtnStep1').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep1'
+      });
+
+    });
+  </script>
+
   <% } else if (step === 2) { %>
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
@@ -124,13 +145,37 @@
           <noscript>¡Ha habido un error! Prueba a abrir la web desde Google Chrome.</noscript>
 
         </div>
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux2">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn2">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep2">Siguiente</button>
 
       </form>
     </div>
   </div>
+
+
+  <script>
+    document.getElementById('BtnStepAux2').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep2'
+      });
+    });
+
+    document.getElementById('BtnStep2').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep2'
+      });
+    });
+
+    document.getElementById('BtnReturn2').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn2'
+      });
+    });
+  </script>
   <% } else if (step === 3) { %>
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
@@ -157,13 +202,37 @@
 
 
         </div>
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux3">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn3">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep3">Siguiente</button>
 
       </form>
     </div>
   </div>
+
+
+  <script>
+    document.getElementById('BtnStep3').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep3'
+      });
+    });
+    document.getElementById('BtnStepAux3').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep3'
+      });
+    });
+
+    document.getElementById('BtnReturn3').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn3'
+      });
+    });
+  </script>
+
   <% } else if (step === 4) { %>
   <div class="container-fluid" id="contenedor_fest">
     <div class="container-md container_k">
@@ -805,14 +874,14 @@
               document.getElementById("toggle_1").value = "ON";
               //document.getElementById("cajita_naranja").style.display = "block";
 
-              recalculate(checkbox);     
+              recalculate(checkbox);
 
 
             } else if (document.getElementById("toggle_1").value == "ON") {
               document.getElementById("toggle_1").value = "OFF";
               //document.getElementById("cajita_naranja").style.display = "none";
               recalculate(checkbox);
-              
+
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "orange";
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "orange";
               document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "orange";
@@ -823,12 +892,35 @@
         </script>
 
 
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux4">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn4">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep4">Siguiente</button>
       </form>
     </div>
   </div>
+
+  <script>
+    document.getElementById('BtnStep4').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep4'
+      });
+    });
+    document.getElementById('BtnStepAux4').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep4'
+      });
+    });
+
+    document.getElementById('BtnReturn4').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn4'
+      });
+    });
+  </script>
+
   <% } else if (step === 5) { %>
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
@@ -890,9 +982,9 @@
           </table>
 
         </div>
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux5">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn5">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep5">Siguiente</button>
       </form>
 
       <script>
@@ -938,6 +1030,30 @@
       </script>
     </div>
   </div>
+
+  <script>
+    document.getElementById('BtnStep5').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep5'
+      });
+    });
+
+    document.getElementById('BtnStepAux5').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep5'
+      });
+    });
+
+    document.getElementById('BtnReturn5').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn5'
+      });
+    });
+  </script>
+
   <% } else if (step === 6) { %>
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
@@ -998,9 +1114,9 @@
           </table>
 
         </div>
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux6">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn6">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep6">Siguiente</button>
       </form>
       <script>
         function spliceIntoChunks(arr, chunkSize) {
@@ -1047,6 +1163,29 @@
     </div>
   </div>
 
+
+  <script>
+    document.getElementById('BtnStep6').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep6'
+      });
+    });
+
+    document.getElementById('BtnStepAux6').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep6'
+      });
+    });
+
+    document.getElementById('BtnReturn6').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn6'
+      });
+    });
+  </script>
   <% } else if (step === 7) { %>
   <div class="container-fluid" id="contenedor">
     <div class="container-md container_k">
@@ -1274,9 +1413,9 @@
 
 
 
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux7">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn7">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep7">Siguiente</button>
       </form>
     </div>
 
@@ -1491,6 +1630,28 @@
     </script>
   </div>
 
+  <script>
+    document.getElementById('BtnStep7').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep7'
+      });
+    });
+
+    document.getElementById('BtnStepAux7').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep7'
+      });
+    });
+
+    document.getElementById('BtnReturn7').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn7'
+      });
+    });
+  </script>
 
   <% } else if (step === 8) { %>
   <div class="container-fluid" id="contenedor">
@@ -1515,12 +1676,35 @@
           <textarea class="form-control filtro" name="comentario" rows="3"></textarea>
         </div>
 
-        <button class="btn btn-ptg defaultsink" type="submit">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Siguiente</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux8">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn8">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep8">Siguiente</button>
       </form>
     </div>
   </div>
+
+  <script>
+    document.getElementById('BtnStep8').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep8'
+      });
+    });
+
+    document.getElementById('BtnStepAux8').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep8'
+      });
+    });
+
+    document.getElementById('BtnReturn8').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn8'
+      });
+    });
+  </script>
 
   <% } else if (step === 9) { %>
   <div class="container-fluid" id="contenedor">
@@ -1546,16 +1730,36 @@
             Estamos aquí para haceros las cosas sencillas, no para complicaroslas. :) </small>
 
         </div>
-        <button class="btn btn-ptg defaultsink" type="submit">Finalizar</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1">Anterior</button>
-        <button class="btn btn-ptg" type="submit">Finalizar</button>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAuxFin">Finalizar</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturnFin">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStepFin">Finalizar</button>
       </form>
 
     </div>
-
-
   </div>
 
+  <script>
+    document.getElementById('BtnStepFin').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStepFin'
+      });
+    });
+
+    document.getElementById('BtnStepAuxFin').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStepFin'
+      });
+    });
+
+    document.getElementById('BtnReturnFin').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturnFin'
+      });
+    });
+  </script>
 
 
   <% } else if (step === 10) { %>
