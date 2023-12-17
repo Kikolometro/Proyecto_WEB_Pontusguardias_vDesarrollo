@@ -827,9 +827,9 @@ app.post("/generarplanilla", function (req, res) {
           req.session.step = req.body.step - 1
           //console.log("Has indicado " + req.session.medicosDeGuardia + " médicos de guardia, y has asignado "+subtotal+" médicos de libranza el día "+dia+". Por favor, revísalo."   )
           if (req.session.medicosDeGuardia[req.session.i] > 1) {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día y no hay médicos suficientes)."
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de vacaciones. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día y no hay médicos suficientes)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día y no hay médicos suficientes)."
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de vacaciones. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día y no hay médicos suficientes)."
           }
           return true, dia, subtotal;
         }

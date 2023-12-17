@@ -37,7 +37,7 @@
           style="width: 11%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class=" container-text feature-title-box">Indica el mes y el año:</h3>
+      <h3 class=" container-text feature-title-box">Indica el mes y el año</h3>
 
       <form action="/generarplanilla" method="post">
         <div class="form-group">
@@ -86,7 +86,7 @@
       </div>
 
 
-      <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres:</h3>
+      <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres</h3>
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
 
       <form action="/generarplanilla" method="post">
@@ -184,7 +184,7 @@
           style="width: 33%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class="container-text feature-title-box">Indica cuántos médicos están de guardia cada día:</h3>
+      <h3 class="container-text feature-title-box">Indica cuántos médicos están de guardia cada día</h3>
       <form action="/generarplanilla" method="post">
         <div class="form-group">
           <input type="hidden" name="step" value="<%= step %>">
@@ -374,7 +374,7 @@
           style="width: 44%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class="container-text feature-title-box">Indica los días festivos / especiales del mes:</h3>
+      <h3 class="container-text feature-title-box">Indica los días festivos / especiales del mes</h3>
       Por defecto, se marcan los viernes, sábados y domingos, pero modifícalos a tu conveniencia:
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
 
@@ -1130,8 +1130,8 @@
           style="width: 55%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado:</h3>
-      <h5>Estas guardias se forzarán al día y médico correspondiente</h5>
+      <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado</h3>
+      <h5>Estas guardias se forzarán al día y médico correspondiente:</h5>
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
@@ -1264,8 +1264,8 @@
           style="width: 66%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class="container-text feature-title-box">Indica los días de vacaciones / libranza:</h3>
-      <h5>En estos días no asignaremos guardias</h5>
+      <h3 class="container-text feature-title-box">Indica los días de vacaciones</h3>
+      <h5>En estos días no asignaremos guardias:</h5>
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
@@ -1938,7 +1938,7 @@
       </div>
 
       <h3 class="container-text feature-title-box">Déjanos saber si tienes alguna condición que no estemos contemplando
-        o una sugerencia y lo tendremos en cuenta:</h3>
+        o una sugerencia y lo tendremos en cuenta</h3>
 
 
       <form action="/generarplanilla" method="POST">
@@ -1990,7 +1990,7 @@
           style="width: 100%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
 
-      <h3 class="container-text feature-title-box"> Por último, puedes indícarnos un correo:<br> </h3>
+      <h3 class="container-text feature-title-box"> Por último, puedes indícarnos un correo<br> </h3>
 
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
@@ -2048,7 +2048,7 @@
 
 
       <h3 class="container-text feature-title-box">¡Muchas gracias por completar el formulario!</h3>
-      <h3 class="container-text feature-title-box">Estamos generando tu planilla. Danos unos segundos...</h3>
+      <h3 class="container-text feature-title-box">Estamos generando tu planilla. Danos un minuto...</h3>
 
       <div class="lds-ellipsis">
         <div></div>
@@ -2062,7 +2062,6 @@
         <button class="btn btn-ptg defaultsink" type="">Mostrar resultado</button>
       </form>
       <script type="text/javascript">
-        console.log("Estamos antes del onload")
         var auto_refresh = setTimeout(function () {
           submitform();
         }, 1500);
