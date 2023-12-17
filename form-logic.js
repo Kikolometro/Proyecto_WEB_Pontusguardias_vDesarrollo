@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const anyos = ["2023", "2024"];
+const anyos = ["2024", "2025"];
 const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const dias_l = ["D", "L", "M", "X", "J", "V", "S"];
 exports.dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];

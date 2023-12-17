@@ -8,6 +8,7 @@ var secure = require('ssl-express-www');
 const {
   v4: uuidv4
 } = require('uuid');
+//const { weekArray } = require("./form-logic");
 
 // Nos conectamos con el resto de ficheros
 const formLogic = require(__dirname + "/form-logic.js");
@@ -360,7 +361,6 @@ app.get("/mostrarSolucion", function (req, res) {
   req.session.contador_total = Math.ceil(tiempo_total_espera / tiempo_espera_por_busqueda);
   req.session.contador_total_vueltas = Math.ceil(25000 / tiempo_espera_por_busqueda);
 
-
   req.session.contador_24s = 0;
   req.session.tiempoAlcanzadoVuelta = 0;
 
@@ -479,7 +479,6 @@ app.get("/generarplanilla", function (req, res) {
   req.session.userID = req.session.id;
 
 
-
   if (req.session.step == null) {
     req.session.step = 0;
 
@@ -529,7 +528,7 @@ app.post("/generarplanilla", function (req, res) {
     req.session.contador = 0
     req.session.encontrado = 0
     req.session.solucion = []
-    req.session.medicosDeGuardia = 0
+    req.session.medicosDeGuardia = []
     req.session.idSolBuscada = ""
     req.session.aviso = ""
     req.session.guardiasMatrix = []
@@ -543,7 +542,7 @@ app.post("/generarplanilla", function (req, res) {
     req.session.n_resis = req.body.n_resis;
     req.session.aviso = "";
     req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
-
+    
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
       req.session.num = req.session.i;
       req.session.id_nom = "Nombre_" + req.session.num.toString();
@@ -590,13 +589,13 @@ app.post("/generarplanilla", function (req, res) {
     }
   }
 
-
-
-
   if (req.session.step == 3 && req.body.botonAnterior != "-1") {
-    req.session.medicosDeGuardia = req.body.medicosDeGuardia;
+    req.session.medicosDeGuardia = req.body.medicosDeGuardia.split(',');
     req.session.aviso = "";
-
+        
+    for(let i = 0; i< req.session.medicosDeGuardia.length; i++){
+      req.session.medicosDeGuardia[i] = parseInt(req.session.medicosDeGuardia[i]);
+    }
   };
 
   if (req.session.step == 4 && req.body.botonAnterior != "-1") {
@@ -616,8 +615,6 @@ app.post("/generarplanilla", function (req, res) {
       } else req.session.festivosArray.push(0);
     }
 
-
-
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
       req.session.num = req.session.i;
       req.session.id_g_max_tot = "v_guardias_max_tot_" + req.session.num.toString();
@@ -630,11 +627,6 @@ app.post("/generarplanilla", function (req, res) {
       req.session.v_guardias_max_fes.push(req.body[req.session.id_g_max_fes]);
       req.session.v_guardias_min_fes.push(req.body[req.session.id_g_min_fes]);
     }
-    //console.log("Estos son los vectores")
-    //console.log(req.session.v_guardias_max_tot);
-    //console.log(req.session.v_guardias_min_tot);
-    //console.log(req.session.v_guardias_max_fes);
-    //console.log(req.session.v_guardias_min_fes);
 
     let prueba = req.session.v_guardias_max_tot.some(v => ((parseInt(v) < 0) | (v == "")));
 
@@ -692,14 +684,14 @@ app.post("/generarplanilla", function (req, res) {
         for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
           subtotal += guardiasMatrix[req.session.j][req.session.i]
         }
-        if (subtotal > medicosDeGuardia) {
+        if (subtotal > medicosDeGuardia[req.session.i]) {
           dia = req.session.i + 1;
           req.session.step = req.body.step - 1
 
-          if (req.session.medicosDeGuardia > 1) {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia + " médicos de guardia cada día)."
+          if (req.session.medicosDeGuardia[req.session.i] > 1) {
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber " + req.session.medicosDeGuardia + " médico de guardia cada día)."
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día)."
           }
           return true, dia, subtotal;
         }
@@ -794,7 +786,6 @@ app.post("/generarplanilla", function (req, res) {
     comprobacion_minFes_vs_GuardiasAsignadas(req.session.guardiasMatrix, req.session.v_guardias_max_tot, req.session.v_guardias_min_fes)
 
 
-
   };
 
   if (req.session.step == 6 && req.body.botonAnterior != "-1") {
@@ -831,14 +822,14 @@ app.post("/generarplanilla", function (req, res) {
           subtotal += vacacionesMatrix[req.session.j][req.session.i]
         }
 
-        if (subtotal > (req.session.n_resis - medicosDeGuardia)) {
+        if (subtotal > (req.session.n_resis - medicosDeGuardia[req.session.i])) {
           dia = req.session.i + 1;
           req.session.step = req.body.step - 1
           //console.log("Has indicado " + req.session.medicosDeGuardia + " médicos de guardia, y has asignado "+subtotal+" médicos de libranza el día "+dia+". Por favor, revísalo."   )
-          if (req.session.medicosDeGuardia > 1) {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia + " médicos de guardia cada día y no hay médicos suficientes)."
+          if (req.session.medicosDeGuardia[req.session.i] > 1) {
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día y no hay médicos suficientes)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia + " médico de guardia cada día y no hay médicos suficientes)."
+            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de libranza. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día y no hay médicos suficientes)."
           }
           return true, dia, subtotal;
         }
@@ -953,8 +944,6 @@ app.post("/generarplanilla", function (req, res) {
     comprobacion_GuardiasMin_vs_vacaciones_asignadas(req.session.vacacionesMatrix, req.session.v_guardias_min_tot, req.session.v_guardias_min_fes)
 
 
-
-
   };
 
   if (req.session.step == 7 && req.body.botonAnterior != "-1") {
@@ -982,11 +971,12 @@ app.post("/generarplanilla", function (req, res) {
 
       let secretMessage = arrayNormas.map((arrayNorma) => arrayNorma[0]).join('')
       let bucle = arrayNormas.length;
+      let min =(Math.min.apply(null, medicosDeGuardia));
 
-      if (medicosDeGuardia < 2 && ((secretMessage.includes(1)) || (secretMessage.includes(3)))) {
+      if (min < 2 && ((secretMessage.includes(1)) || (secretMessage.includes(3)))) {
         // Primer aviso: si hay menos de un médico de guardia, no puede funcionar la regla 1 o la regla 3
         req.session.step = req.body.step - 1
-        req.session.aviso = "Has asignado " + medicosDeGuardia + " médicos de guardia en un paso previo. Por favor, elimina la condición que fuerza que haya 2 médicos de guardia (regla 1 o regla 3)."
+        req.session.aviso = "En un paso previo, has forzado que haya, al menos un día, " + min + " médico de guardia. Por favor, elimina la condición que fuerza que haya 2 médicos de guardia (regla 1 o regla 3)."
 
         return true;
       }
@@ -1049,7 +1039,6 @@ app.post("/generarplanilla", function (req, res) {
   if (req.session.step == 8 && req.body.botonAnterior != "-1") {
     req.session.comentario = req.body.comentario;
     req.session.aviso = "";
-
   };
 
 
@@ -1061,16 +1050,16 @@ app.post("/generarplanilla", function (req, res) {
       req.session.correo = req.body.correo;
       req.session.message = req.session.userID + req.session.mes + req.session.anyo + req.session.n_resis + req.session.medicosDeGuardia + req.session.nombre + req.session.festivosArray + req.session.guardiasMatrix + req.session.vacacionesMatrix + req.session.arrayGroups + req.session.arrayNormas + req.session.comentario + req.session.correo;
 
-      let n_medicos = parseInt(req.session.n_resis, 10);
-      let m_guardia = parseInt(req.session.medicosDeGuardia, 10);
-      let nombres_medicos = req.session.nombre;
-      let d_festivos = req.session.festivosArray;
-      let guardia_asignada_pre = req.session.guardiasMatrix;
-      let vacaciones_asignada_pre = req.session.vacacionesMatrix;
+      //let n_medicos = parseInt(req.session.n_resis, 10);
+      //let m_guardia = parseInt(req.session.medicosDeGuardia, 10);
+      //let nombres_medicos = req.session.nombre;
+      //let d_festivos = req.session.festivosArray;
+      //let guardia_asignada_pre = req.session.guardiasMatrix;
+      //let vacaciones_asignada_pre = req.session.vacacionesMatrix;
 
 
-      let guardia_asignada = guardia_asignada_pre.flat(1);
-      let vacaciones_asignada = vacaciones_asignada_pre.flat(1);
+      //let guardia_asignada = guardia_asignada_pre.flat(1);
+      //let vacaciones_asignada = vacaciones_asignada_pre.flat(1);
 
       // Hago un INSERT con la petición
       db.Petition.create({
@@ -1078,7 +1067,8 @@ app.post("/generarplanilla", function (req, res) {
         mes: req.session.mes,
         anio: req.session.anyo,
         n_medicos: parseInt(req.session.n_resis, 10),
-        medicosDeGuardia: parseInt(req.session.medicosDeGuardia, 10),
+        //medicosDeGuardia: parseInt(req.session.medicosDeGuardia, 10),
+        medicosDeGuardia: req.session.medicosDeGuardia,
         nombres_medicos: req.session.nombre,
         festivos: req.session.festivosArray,
         v_guardias_max_tot: req.session.v_guardias_max_tot,
@@ -1106,7 +1096,7 @@ app.post("/generarplanilla", function (req, res) {
       });
 
       // Mando la petición al servidor
-      let respuesta_api = api.mandarPeticionApi(parseInt(req.session.n_resis, 10), parseInt(req.session.medicosDeGuardia, 10), req.session.nombre, req.session.festivosArray, req.session.v_guardias_max_tot, req.session.v_guardias_min_tot, req.session.v_guardias_max_fes, req.session.v_guardias_min_fes, req.session.guardiasMatrix.flat(1), req.session.vacacionesMatrix.flat(1), req.session.arrayGroups, req.session.arrayNormas).then(function (solucion) {
+      let respuesta_api = api.mandarPeticionApi(parseInt(req.session.n_resis, 10), req.session.medicosDeGuardia, req.session.nombre, req.session.festivosArray, req.session.v_guardias_max_tot, req.session.v_guardias_min_tot, req.session.v_guardias_max_fes, req.session.v_guardias_min_fes, req.session.guardiasMatrix.flat(1), req.session.vacacionesMatrix.flat(1), req.session.arrayGroups, req.session.arrayNormas, req.session.weekArray).then(function (solucion) {
         console.log('la solucion es:')
         console.log(solucion['solucion'])
         return solucion['solucion'];
@@ -1153,7 +1143,6 @@ app.post("/generarplanilla", function (req, res) {
           } else {
             req.session.KeyPetition = 0;
             req.session.KeyPetition = peticion['petitionId']
-
 
             //console.log("KeyPetition: ", req.session.KeyPetition);
             req.session.filename = "Datos_" + req.session.KeyPetition + ".txt";
@@ -1216,7 +1205,7 @@ app.post("/", function (req, res) {
   req.session.festivosArray = [];
   req.session.guardiasMatrix = [];
   req.session.vacacionesMatrix = [];
-  req.session.medicosDeGuardia = 0;
+  req.session.medicosDeGuardia = [];
   req.session.comentario = "";
   req.session.correo = "";
   req.session.weekArray = [];

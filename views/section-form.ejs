@@ -185,21 +185,79 @@
       </div>
 
       <h3 class="container-text feature-title-box">Indica cuántos médicos están de guardia cada día:</h3>
-
-
       <form action="/generarplanilla" method="post">
         <div class="form-group">
           <input type="hidden" name="step" value="<%= step %>">
+          <input type="hidden" name="medicosDeGuardia" id="medicosDeGuardia">
+          <div class="settings">
+            <label>Homogéneo</label>
+            <label class="toggle">
+
+              <input type="checkbox" id="toggle_med_1" onclick="toggle_med(this);" value="ON">
+              <span class="slider"></span>
+              <!--<span class="labels" data-on="Custom" data-off="Equitativamente"></span>-->
+
+            </label>
+
+            <label>Cada día distinto</label>
+          </div>
+          <div class="scroll_k" id="scroll_k">
 
 
-          <select class="form-control filtro" size="1" type="number" name="medicosDeGuardia" required>
-            <option disabled="" selected="" value="">Médicos por guardia</option>
-            <% for (var i = 0; i < n_resis ; i++) { %>
-            <option type="number" value="<%= i + 1 %>"><%= i + 1 %></option>
-            <% } %>
-          </select>
+            <select class="form-control filtro" size="1" type="number" name="select_medGuardia" id="select_medGuardia"
+              onchange="calcularMedGuard()" required>
+              <option disabled="" selected="" value="">Médicos por guardia</option>
+              <% for (var i = 0; i < n_resis ; i++) { %>
+              <option type="number" value="<%= i + 1 %>"><%= i + 1 %></option>
+              <% } %>
+            </select>
+
+            <!-- Pendiente de meter tabla -->
+            <table class="table table_k tabla" id="table_medGuard">
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= i %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
+
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= weekArray[i-1] %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th scope="row">Nº de médicos:</th>
+                  <% for (var j = 0; j < dias_mes ; j++) { %>
+
+                  <td>
+                    <input class="filtro" size="1" type="number" min="0" max=<%= n_resis %> style="width: 2em"
+                      id="m_guardia_dia_<%= j %>" name="m_guardia_dia_<%= j %>" class="form-control"
+                      onchange="calcularMedGuard()" required>
+                  </td>
+
+                  <% } %>
+                </tr>
+              </tbody>
+            </table>
 
 
+          </div>
 
         </div>
         <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux3">Siguiente</button>
@@ -207,11 +265,26 @@
         <button class="btn btn-ptg" type="submit" id="BtnStep3">Siguiente</button>
 
       </form>
+
+
     </div>
   </div>
 
 
   <script>
+    var medicosDeGuardia = [];
+    var select_medGuardia = 1;
+    var dias_mes = '<%= dias_mes %>';
+    document.getElementById('scroll_k').className = "";
+
+    for (let i = 0; i < dias_mes; i++) {
+      document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
+    };
+
+
+    document.getElementById("select_medGuardia").style.display = "block";
+    document.getElementById("table_medGuard").style.display = "none";
+
     document.getElementById('BtnStep3').addEventListener('click', function () {
       // Call the gtag() function to send the event data
       gtag('event', 'stepForm', {
@@ -231,6 +304,66 @@
         'button_name': 'BtnReturn3'
       });
     });
+
+
+
+    function toggle_med(checkbox) {
+      medicosDeGuardia = [];
+
+      //Esto se ejecuta cuando le damos al toggle button
+      if (document.getElementById("toggle_med_1").value == "OFF") {
+        document.getElementById("toggle_med_1").value = "ON";
+        document.getElementById('scroll_k').className = "";
+
+        document.getElementById("select_medGuardia").style.display = "block";
+        document.getElementById("table_medGuard").style.display = "none";
+        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
+
+      } else if (document.getElementById("toggle_med_1").value == "ON") {
+        document.getElementById("toggle_med_1").value = "OFF";
+        document.getElementById('scroll_k').className = "scroll_k";
+
+        document.getElementById("select_medGuardia").style.display = "none";
+        document.getElementById("table_medGuard").style.display = "block";
+        document.getElementById("select_medGuardia").value = 1;
+
+        for (let i = 0; i < dias_mes; i++) {
+          document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
+          medicosDeGuardia.push(parseInt(select_medGuardia))
+        };
+
+      }
+      //console.log(medicosDeGuardia)
+      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
+    }
+
+    function calcularMedGuard() {
+      //console.log("funcion activada")
+
+      select_medGuardia = document.getElementById("select_medGuardia").value;
+      medicosDeGuardia = [];
+
+      if (document.getElementById("toggle_med_1").value == "OFF") {
+        //console.log("está OFF")
+
+
+        for (let i = 0; i < dias_mes; i++) {
+          let m_guardia_dia = document.getElementById("m_guardia_dia_" + i).value;
+          medicosDeGuardia.push(parseInt(m_guardia_dia))
+        };
+
+        //console.log(medicosDeGuardia)
+
+      } else if (document.getElementById("toggle_med_1").value == "ON") {
+        //console.log("está ON")
+        let select_medGuardia = document.getElementById("select_medGuardia").value;
+        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
+        //console.log(medicosDeGuardia)
+
+      }
+      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
+
+    }
   </script>
 
   <% } else if (step === 4) { %>
@@ -251,56 +384,59 @@
           <input type="hidden" name="step" value=<%= step %>>
           <input type="hidden" id="nombresArray" name="nombresArray" value=<%= nombre %>>
 
-          <!-- Pendiente de meter tabla -->
-          <table class="table table_k tabla">
-            <thead>
-              <tr>
-                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                <% if (i > 0) { %>
-                <th scope="col">
-                  <%= i %>
-                </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
-              </tr>
-            </thead>
+          <div class="scroll_k" id="scroll_k">
+            <!-- Pendiente de meter tabla -->
+            <table class="table table_k tabla">
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= i %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
 
-            <thead>
-              <tr>
-                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                <% if (i > 0) { %>
-                <th scope="col">
-                  <%= weekArray[i-1] %>
-                </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
-              </tr>
-            </thead>
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= weekArray[i-1] %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
 
-            <tbody>
-              <tr>
-                <th scope="row">Festivos:</th>
-                <% for (var j = 0; j < dias_mes ; j++) { %>
-                <% var vsd = ['V','S','D'] %>
+              <tbody>
+                <tr>
+                  <th scope="row">Festivos:</th>
+                  <% for (var j = 0; j < dias_mes ; j++) { %>
+                  <% var vsd = ['V','S','D'] %>
 
-                <% if (vsd.includes(weekArray[j]) ) { %>
-                <td>
-                  <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>"
-                    name="Festivo_<%= j + 1 %>" onclick="recalculate(this);" checked>
-                </td>
-                <% } else {%>
-                <td>
-                  <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>"
-                    name="Festivo_<%= j + 1 %>" onclick="recalculate(this);">
-                </td>
-                <% } %>
+                  <% if (vsd.includes(weekArray[j]) ) { %>
+                  <td>
+                    <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>"
+                      name="Festivo_<%= j + 1 %>" onclick="recalculate(this);" checked>
+                  </td>
+                  <% } else {%>
+                  <td>
+                    <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>"
+                      name="Festivo_<%= j + 1 %>" onclick="recalculate(this);">
+                  </td>
+                  <% } %>
 
-                <% } %>
-              </tr>
-            </tbody>
-          </table>
+                  <% } %>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
 
           <div style='margin-top: 30px'> </div>
 
@@ -322,8 +458,6 @@
 
           <div class="guardias-box-clear-orange col-lg-8 container-fluid" id="cajita_naranja">
 
-
-
             <div id="texto_1" class="ali_izq"></div>
             <br>
             <ol>
@@ -333,7 +467,6 @@
             </ol>
 
 
-
           </div>
           <div id="formContainer"></div>
 
@@ -341,11 +474,29 @@
         </div>
 
 
-        <script>
+        <script type="text/javascript">
           var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
           //var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
           var n_resis = '<%= n_resis %>';
-          var medicosDeGuardia = '<%= medicosDeGuardia %>';
+
+          var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+          medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+          var medicosDeGuardia = 0;
+          var RecuentoTotGuardFest = 0;
+
+          for (let x of medicosDeGuardia_pre) {
+            medicosDeGuardia += parseInt(x);
+          }
+
+          for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+            medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+            if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+              RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+            }
+          }
+
           //Esto se ejecuta cada vez que hagas click en un checkbox de Festivos
 
           var reparto = document.getElementById("reparto");
@@ -361,8 +512,8 @@
             var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
           }
 
-          var tg = medicosDeGuardia * dias_mes_element / n_resis;
-          var tgf = medicosDeGuardia * dias_mes_festivos / n_resis;
+          var tg = medicosDeGuardia / n_resis;
+          var tgf = RecuentoTotGuardFest / n_resis;
 
           var dg_max = Math.ceil(tg);
           var dg_min = Math.floor(tg);
@@ -395,8 +546,6 @@
           v_guardias_min_tot = Array(parseInt(n_resis)).fill(dg_min)
           v_guardias_max_fes = Array(parseInt(n_resis)).fill(fg_max)
           v_guardias_min_fes = Array(parseInt(n_resis)).fill(fg_min)
-
-
 
 
           var reparto = document.getElementById("reparto");
@@ -444,7 +593,24 @@
           function recalcular_tot() {
             var guardias_asignadas = 0
             var n_resis = '<%= n_resis %>';
-            var medicosDeGuardia = '<%= medicosDeGuardia %>';
+
+            var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+            medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+            var medicosDeGuardia = 0;
+            var RecuentoTotGuardFest = 0;
+
+            for (let x of medicosDeGuardia_pre) {
+              medicosDeGuardia += parseInt(x);
+            }
+
+            for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+              medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+              if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+                RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+              }
+            }
             var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
 
             for (var i = 0; i < n_resis - 1; i++) {
@@ -452,7 +618,7 @@
               guardias_asignadas += parseInt(document.getElementById("Nombre_tot_" + i).value)
             }
 
-            var guardias_restantes = (medicosDeGuardia * dias_mes_element) - guardias_asignadas
+            var guardias_restantes = (medicosDeGuardia) - guardias_asignadas
             var nombre_aux_ult = "Nombre_tot_" + (n_resis - 1)
             var ult_tot = document.getElementById(nombre_aux_ult)
             ult_tot.value = guardias_restantes
@@ -480,7 +646,24 @@
 
             var guardias_asignadas = 0
             var n_resis = '<%= n_resis %>';
-            var medicosDeGuardia = '<%= medicosDeGuardia %>';
+
+            var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+            medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+            var medicosDeGuardia = 0;
+            var RecuentoTotGuardFest = 0;
+
+            for (let x of medicosDeGuardia_pre) {
+              medicosDeGuardia += parseInt(x);
+            }
+
+            for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+              medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+              if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+                RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+              }
+            }
 
             if (document.getElementById("toggle_1").value == "OFF") {
               var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length - 1;
@@ -493,7 +676,7 @@
               guardias_asignadas += parseInt(document.getElementById("Nombre_fes_" + i).value)
             }
 
-            var guardias_restantes = (medicosDeGuardia * dias_mes_festivos) - guardias_asignadas
+            var guardias_restantes = (RecuentoTotGuardFest) - guardias_asignadas
             var nombre_aux_ult = "Nombre_fes_" + (n_resis - 1)
             var ult_fes = document.getElementById(nombre_aux_ult)
             ult_fes.value = guardias_restantes
@@ -591,9 +774,28 @@
             // Calculamos el número de guardias totales del mes
             var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
             var n_resis = '<%= n_resis %>';
-            var medicosDeGuardia = '<%= medicosDeGuardia %>';
+
             var nombres = '<%= nombre %>'
             var nombres_array = nombres.split(",")
+
+
+            var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+            medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+            var medicosDeGuardia = 0;
+            var RecuentoTotGuardFest = 0;
+
+            for (let x of medicosDeGuardia_pre) {
+              medicosDeGuardia += parseInt(x);
+            }
+
+            for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+              medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+              if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+                RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+              }
+            }
 
 
             for (var i = 0; i < n_resis; i++) {
@@ -631,8 +833,8 @@
               var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
             }
 
-            var tg = medicosDeGuardia * dias_mes_element / n_resis;
-            var tgf = medicosDeGuardia * dias_mes_festivos / n_resis;
+            var tg = medicosDeGuardia / n_resis;
+            var tgf = RecuentoTotGuardFest / n_resis;
 
             var dg_max = Math.ceil(tg);
             var dg_min = Math.floor(tg);
@@ -717,7 +919,7 @@
                 guardias_asignadas += parseInt(document.getElementById("Nombre_tot_" + i).value)
               }
 
-              var guardias_restantes = (medicosDeGuardia * dias_mes_element) - guardias_asignadas
+              var guardias_restantes = (medicosDeGuardia) - guardias_asignadas
               var nombre_aux_ult = "Nombre_tot_" + (n_resis - 1)
               var ult_tot = document.getElementById(nombre_aux_ult)
               ult_tot.value = guardias_restantes
@@ -776,7 +978,7 @@
                 guardias_asignadas += parseInt(document.getElementById("Nombre_fes_" + i).value)
               }
 
-              var guardias_restantes = (medicosDeGuardia * dias_mes_festivos) - guardias_asignadas
+              var guardias_restantes = (RecuentoTotGuardFest) - guardias_asignadas
               var nombre_aux_ult = "Nombre_fes_" + (n_resis - 1)
               var ult_fes = document.getElementById(nombre_aux_ult)
               ult_fes.value = guardias_restantes
@@ -840,7 +1042,6 @@
 
 
           }
-
 
           function toggle(checkbox) {
 
@@ -936,52 +1137,53 @@
         <div class="form-group">
           <input type="hidden" name="step" value=<%= step %>>
 
+          <div class="scroll_k" id="scroll_k">
+            <!-- Pendiente de meter tabla -->
+            <table class="table table_k">
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= i %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
 
-          <!-- Pendiente de meter tabla -->
-          <table class="table table_k">
-            <thead>
-              <tr>
-                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                <% if (i > 0) { %>
-                <th scope="col">
-                  <%= i %>
-                </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
-              </tr>
-            </thead>
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= weekArray[i-1] %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
 
-            <thead>
-              <tr>
-                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                <% if (i > 0) { %>
-                <th scope="col">
-                  <%= weekArray[i-1] %>
-                </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% for (var i = 0; i < n_resis ; i++) {%>
-              <tr>
-                <th scope="row"><%= nombre[i] %> </th>
-                <% for (var j = 0; j < dias_mes ; j++) { %>
-                <td>
-                  <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>"
-                    id="Asignado_<%=nombre[i]%>_<%=j + 1%>">
-                </td>
+              <tbody>
+                <% for (var i = 0; i < n_resis ; i++) {%>
+                <tr>
+                  <th scope="row"><%= nombre[i] %> </th>
+                  <% for (var j = 0; j < dias_mes ; j++) { %>
+                  <td>
+                    <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>"
+                      id="Asignado_<%=nombre[i]%>_<%=j + 1%>">
+                  </td>
+                  <% } %>
+                </tr>
                 <% } %>
-              </tr>
-              <% } %>
 
-            </tbody>
-          </table>
-
+              </tbody>
+            </table>
+          </div>
         </div>
+
         <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux5">Siguiente</button>
         <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn5">Anterior</button>
         <button class="btn btn-ptg" type="submit" id="BtnStep5">Siguiente</button>
@@ -1070,49 +1272,50 @@
           <input type="hidden" name="step" value=<%= step %>>
 
           <!-- Pendiente de meter tabla -->
-          <table class="table">
-            <thead>
-              <tr>
-                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                <% if (i > 0) { %>
-                <th scope="col">
-                  <%= i %>
-                </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
-              </tr>
-            </thead>
+          <div class="scroll_k" id="scroll_k">
+            <table class="table">
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= i %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
 
-            <thead>
-              <tr>
-                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                <% if (i > 0) { %>
-                <th scope="col">
-                  <%= weekArray[i-1] %>
-                </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
-              </tr>
-            </thead>
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= weekArray[i-1] %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
 
-            <tbody>
-              <% for (var i = 0; i < n_resis ; i++) {%>
-              <tr>
-                <th scope="row"><%= nombre[i] %> </th>
-                <% for (var j = 0; j < dias_mes ; j++) { %>
-                <td>
-                  <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>"
-                    id="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
-                </td>
+              <tbody>
+                <% for (var i = 0; i < n_resis ; i++) {%>
+                <tr>
+                  <th scope="row"><%= nombre[i] %> </th>
+                  <% for (var j = 0; j < dias_mes ; j++) { %>
+                  <td>
+                    <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>"
+                      id="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
+                  </td>
+                  <% } %>
+                </tr>
                 <% } %>
-              </tr>
-              <% } %>
 
-            </tbody>
-          </table>
-
+              </tbody>
+            </table>
+          </div>
         </div>
         <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux6">Siguiente</button>
         <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn6">Anterior</button>
@@ -1378,6 +1581,42 @@
               </div>
               <br>
               <!-- End of item 4 -->
+              <!-- Start of item 6 -->
+              <div class="item list-group-item">
+                <div class="item-left">
+                  <b>
+                    Nadie hará más de
+
+                    <select class="form-control-normas filtro" size="1" name="Norma_6_A" id="Norma_6_A">
+                      <% for (var j = 0; j < 4 ; j++) { %>
+                      <option value="<%= j +1%>"><%= j+1 %></option>
+                      <% } %>
+
+                    </select>
+
+                    guardia/s en
+                    <select class="form-control-normas filtro" size="1" name="Norma_6_B" id="Norma_6_B">
+
+                      <option value="L">lunes</option>
+                      <option value="M">martes</option>
+                      <option value="X">miércoles</option>
+                      <option value="J">jueves</option>
+                      <option value="V">viernes</option>
+                      <option value="S">sábado</option>
+                      <option value="D">domingo</option>
+
+
+                    </select>
+                  </b>
+                  <color-orange>. (Ej: Nadie hará más de un viernes)</color-orange>
+                </div>
+                <div class="item-right">
+                  <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('6')"><i class="fa-solid fa-plus"
+                      style="color: #ffffff;"></i></button>
+                </div>
+              </div>
+              <br>
+              <!-- End of item 6 -->
             </div>
           </div>
         </div>
@@ -1518,6 +1757,14 @@
               .getElementById(codigo_b).value.substr(largo_b)
 
             break;
+          case '6':
+            codigo_a = 'Norma_' + norma + '_A'
+            codigo_b = 'Norma_' + norma + '_B'
+
+            codigo = norma + '_' + document.getElementById(codigo_a).value + '_' + document
+              .getElementById(codigo_b).value
+
+            break;
           default:
             console.log(`Sorry, we are out of ${norma}.`);
         }
@@ -1570,26 +1817,55 @@
             case '1':
               newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
                 ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', pero no al revés'
-
               break;
 
             case '2':
               newItemLeft.innerHTML = '...si hay algún médico del Equipo ' + arrayNormas_split[1] +
                 ', nunca coincidirá con nadie del Equipo ' + arrayNormas_split[2] + ' y viceversa'
-
               break;
 
             case '3':
               newItemLeft.innerHTML = '...siempre habrá algún médico del Equipo ' + arrayNormas_split[1]
-
               break;
+
             case '4':
               newItemLeft.innerHTML = '...nunca coincidirá/n más de ' + arrayNormas_split[1] + ' médico/s del Equipo ' +
                 arrayNormas_split[2]
               break;
+              
             case '5':
               newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
                 ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', y viceversa'
+              break;
+            case '6':
+              let dia = "";
+              switch (arrayNormas_split[2]) {
+                case 'L':
+                  dia = 'lunes'
+                  break;
+                case 'M':
+                  dia = 'martes'
+                  break;
+                case 'X':
+                  dia = 'miércoles'
+                  break;
+                case 'J':
+                  dia = 'jueves'
+                  break;
+                case 'V':
+                  dia = 'viernes'
+                  break;
+                case 'S':
+                  dia = 'sábado'
+                  break;
+                case 'D':
+                  dia = 'domingo'
+                  break;
+                default:
+                  dia = "";
+              }
+              newItemLeft.innerHTML = '...nadie hará más de ' + arrayNormas_split[1] +
+                ' guardia/s los ' + dia
               break;
             default:
               console.log('Ha habido un error');

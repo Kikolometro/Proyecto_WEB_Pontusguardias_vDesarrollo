@@ -21,23 +21,6 @@ exports.conectarBD = async function () {
   });
 }
 
-// let solutionSchema = new mongoose.Schema({
-//   soluciones: {
-//     type: Array
-//   },
-//   user_id: {
-//     type: String
-//   },
-//   solutionId: {
-//     type: Number
-//   }
-//
-// }, {
-//   timestamps: {
-//     createdAt: 'created_at'
-//   }
-// });
-
 
 let petitionSchema = new mongoose.Schema({
   user_id: {
@@ -53,7 +36,7 @@ let petitionSchema = new mongoose.Schema({
     type: Number
   },
   medicosDeGuardia: {
-    type: Number
+    type: Array
   },
   nombres_medicos: {
     type: Array

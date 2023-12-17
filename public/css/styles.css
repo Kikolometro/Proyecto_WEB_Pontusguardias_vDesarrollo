@@ -207,9 +207,12 @@ color-orange {
   padding: 2.5% 5% 5%;
   /*box-shadow: 10px 10px 8px rgb(125, 125, 125);*/
   display: inline-block;
+  margin-right: 10%;
+}
+
+.scroll_k {
   overflow-x: scroll;
   overflow-y: hidden;
-  margin-right: 10%;
 }
 
 .container_k::-webkit-scrollbar {
