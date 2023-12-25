@@ -15,58 +15,60 @@
       <h3>
         <%= mes %> <%= anyo %>
       </h3>
-      <table class="table tabla">
-        <thead>
-          <tr>
-            <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-            <% if (i > 0) { %>
-            <th scope="col">
-              <%= i %>
-            </th>
-            <% } else {%>
-            <th scope="col"></th>
-            <% }} %>
-          </tr>
-        </thead>
-
-        <thead>
-          <tr>
-            <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-            <% if (i > 0) { %>
-            <th scope="col">
-              <%= weekArray[i-1] %>
-            </th>
-            <% } else {%>
-            <th scope="col"></th>
-            <% }} %>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% var k = 0%>
-          <% for (var i = 0; i < n_resis ; i++) {%>
-          <tr>
-            <th scope="row"><%= nombre[i] %> </th>
-            <% for (var j = 0; j < dias_mes ; j++) { %>
-
-            <td>
-
-              <% if (solucion[k] === 0) { %>
-              -
+      <div class="scroll_k" id="scroll_k">
+        <table class="table tabla">
+          <thead>
+            <tr>
+              <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+              <% if (i > 0) { %>
+              <th scope="col">
+                <%= i %>
+              </th>
               <% } else {%>
+              <th scope="col"></th>
+              <% }} %>
+            </tr>
+          </thead>
 
-              <i class="fa-solid fa-house-medical icon-red checkboxSize"></i>
+          <thead>
+            <tr>
+              <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+              <% if (i > 0) { %>
+              <th scope="col">
+                <%= weekArray[i-1] %>
+              </th>
+              <% } else {%>
+              <th scope="col"></th>
+              <% }} %>
+            </tr>
+          </thead>
 
+          <tbody>
+            <% var k = 0%>
+            <% for (var i = 0; i < n_resis ; i++) {%>
+            <tr>
+              <th scope="row"><%= nombre[i] %> </th>
+              <% for (var j = 0; j < dias_mes ; j++) { %>
+
+              <td>
+
+                <% if (solucion[k] === 0) { %>
+                -
+                <% } else {%>
+
+                <i class="fa-solid fa-house-medical icon-red checkboxSize"></i>
+
+                <% } %>
+
+              </td>
+              <% var k = k + 1%>
               <% } %>
-
-            </td>
-            <% var k = k + 1%>
+            </tr>
             <% } %>
-          </tr>
-          <% } %>
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
 
       <h4> El código para buscar la solución es: </h4>
       <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
@@ -79,13 +81,16 @@
       </div>
 
       <div id="feedback-buttons">
-        <button id="happy-btn" class="btn happy" onclick="updateFeedback(2)"><i class="fa-regular fa-face-smile"></i></button>
-        <button id="medium-btn" class="btn medium" onclick="updateFeedback(1)"><i class="fa-regular fa-face-meh-blank"></i></button>
-        <button id="sad-btn" class="btn sad" onclick="updateFeedback(-1)"><i class="fa-regular fa-face-sad-tear"></i></button>
-        
+        <button id="happy-btn" class="btn happy" onclick="updateFeedback(2)"><i
+            class="fa-regular fa-face-smile"></i></button>
+        <button id="medium-btn" class="btn medium" onclick="updateFeedback(1)"><i
+            class="fa-regular fa-face-meh-blank"></i></button>
+        <button id="sad-btn" class="btn sad" onclick="updateFeedback(-1)"><i
+            class="fa-regular fa-face-sad-tear"></i></button>
+
       </div>
-      
-      
+
+
 
       <% break
 

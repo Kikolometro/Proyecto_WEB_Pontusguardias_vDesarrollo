@@ -592,8 +592,8 @@ app.post("/generarplanilla", function (req, res) {
   if (req.session.step == 3 && req.body.botonAnterior != "-1") {
     req.session.medicosDeGuardia = req.body.medicosDeGuardia.split(',');
     req.session.aviso = "";
-        
-    for(let i = 0; i< req.session.medicosDeGuardia.length; i++){
+
+    for (let i = 0; i < req.session.medicosDeGuardia.length; i++) {
       req.session.medicosDeGuardia[i] = parseInt(req.session.medicosDeGuardia[i]);
     }
   };
@@ -971,7 +971,7 @@ app.post("/generarplanilla", function (req, res) {
 
       let secretMessage = arrayNormas.map((arrayNorma) => arrayNorma[0]).join('')
       let bucle = arrayNormas.length;
-      let min =(Math.min.apply(null, medicosDeGuardia));
+      let min = (Math.min.apply(null, medicosDeGuardia));
 
       if (min < 2 && ((secretMessage.includes(1)) || (secretMessage.includes(3)))) {
         // Primer aviso: si hay menos de un médico de guardia, no puede funcionar la regla 1 o la regla 3
@@ -1008,22 +1008,67 @@ app.post("/generarplanilla", function (req, res) {
 
       // Tercer aviso: Todos los médicos utilizados en las normas deben aparecer en el vector de médicos
 
+      // Revisamos cada norma
+      // Normas a las que aplica esta revisión:
+      let revisarNormas = ['1', '2', '3', '4', '5']
 
       for (let i = 0; i < bucle; i++) {
+        let subarray_norma = []
 
         subarray = arrayNormas[i].substring(2).split('_')
-        for (let j = 0; j < subarray.length; j++) {
+        subarray_norma = arrayNormas[i].substring(0).split('_')
 
-          if (arrayGroups.includes(subarray[j])) {
-
-
-          } else {
-            req.session.step = req.body.step - 1
-            req.session.aviso = "Has impuesto una condición sobre el equipo " + subarray[j] + " pero no has asignado ese equipo a ningún médico. Por favor, revísalo."
-
-          };
+        if (revisarNormas.includes(subarray_norma[0])) {
+          for (let j = 0; j < subarray.length; j++) {
+            if (arrayGroups.includes(subarray[j])) {} else {
+              req.session.step = req.body.step - 1
+              req.session.aviso = "Has impuesto una condición sobre el equipo " + subarray[j] + " pero no has asignado ese equipo a ningún médico. Por favor, revísalo."
+            };
+          }
         }
+      }
 
+      // Cuarto aviso: Para la norma 6, debe haber más lunes que médicos x guardias mínimas
+
+
+      // Normas a las que aplica esta revisión:
+      revisarNormas = ['6']
+
+      // Revisamos cada norma  
+      for (let i = 0; i < bucle; i++) {
+        let subarray_norma = []
+        subarray_norma = arrayNormas[i].substring(0).split('_')
+
+
+        // Entramos si la norma es la seleccionada:
+        if (revisarNormas.includes(subarray_norma[0])) {
+
+          let dia_D = subarray_norma[2]
+          let max_G = subarray_norma[1]
+
+          let weekArray = req.session.weekArray
+          let medicosDeGuardia = req.session.medicosDeGuardia
+          let n_resis = req.session.n_resis
+
+          let guardias_Tot_D = 0
+          let guardias_min_med_D = 0
+
+          for (let j = 0; j < weekArray.length; j++) {
+            if (weekArray[j] == dia_D) {
+              guardias_Tot_D = guardias_Tot_D + medicosDeGuardia[j]
+            }
+          }
+
+          guardias_min_med_D = Math.ceil(guardias_Tot_D / n_resis);
+
+
+          if (guardias_min_med_D <= max_G) {} else {
+            req.session.step = req.body.step - 1
+            req.session.aviso = "Has impuesto que los médicos no hagan más de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
+          };
+
+
+        }
       }
 
       return false;

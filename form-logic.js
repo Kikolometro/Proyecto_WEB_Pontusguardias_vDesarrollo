@@ -53,7 +53,6 @@ exports.createTXT = function (completefilepath, mes, anyo, n_resis, medicosDeGua
 
 }
 
-
 exports.makeid = function (length) {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -66,4 +65,33 @@ exports.makeid = function (length) {
   return result;
 }
 
+exports.v_Viernes = function (d) {
+  let dia = "";
+  switch (d) {
+    case 'L':
+      dia = 'lunes'
+      break;
+    case 'M':
+      dia = 'martes'
+      break;
+    case 'X':
+      dia = 'miércoles'
+      break;
+    case 'J':
+      dia = 'jueves'
+      break;
+    case 'V':
+      dia = 'viernes'
+      break;
+    case 'S':
+      dia = 'sábado'
+      break;
+    case 'D':
+      dia = 'domingo'
+      break;
+    default:
+      dia = "";
+  }
+  return dia;
+}
 //console.log(makeid(5));
