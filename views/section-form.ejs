@@ -633,7 +633,7 @@
 
             creamosinputs();
 
-            if (parseInt(document.getElementById("Nombre_tot_" + (n_resis - 1)).value) < 0) {
+            if (parseInt(document.getElementById("Nombre_tot_" + (n_resis - 1)).value) <= 0) {
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "red";
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "red";
             } else {
@@ -892,7 +892,7 @@
                 input1.setAttribute("type", "number");
                 input1.setAttribute("id", "Nombre_tot_" + i);
                 input1.setAttribute("name", "Nombre_tot_" + i);
-                input1.setAttribute("min", "0");
+                input1.setAttribute("min", "1");
                 input1.setAttribute("max", dias_mes_element);
                 input1.setAttribute("value", dg_max);
                 input1.required = true;

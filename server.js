@@ -628,12 +628,12 @@ app.post("/generarplanilla", function (req, res) {
       req.session.v_guardias_min_fes.push(req.body[req.session.id_g_min_fes]);
     }
 
-    let prueba = req.session.v_guardias_max_tot.some(v => ((parseInt(v) < 0) | (v == "")));
+    let prueba = req.session.v_guardias_max_tot.some(v => ((parseInt(v) <= 0) | (v == "")));
 
     if (prueba) {
 
       req.session.step = req.body.step - 1
-      req.session.aviso = "Por favor, revisa que todos tienen guardias (0 o superior)"
+      req.session.aviso = "No puedes asignar 0 guardias a un médico"
 
     }
     prueba = req.session.v_guardias_max_fes.some(v => ((parseInt(v) < 0) | (v == "")));
