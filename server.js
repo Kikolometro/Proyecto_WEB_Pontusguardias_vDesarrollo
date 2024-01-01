@@ -572,7 +572,7 @@ app.post("/generarplanilla", function (req, res) {
 
     function hasSpecialChars(array) {
       // Regular expression to match special characters
-      const regex = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      const regex = /[`\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
       for (let i = 0; i < array.length; i++) {
         if (regex.test(array[i])) {
@@ -585,7 +585,7 @@ app.post("/generarplanilla", function (req, res) {
 
     if (hasSpecialChars(req.session.nombre)) {
       req.session.step = req.body.step - 1
-      req.session.aviso = "Por favor, que los nombres no contengan carácteres especiales."
+      req.session.aviso = "Por favor, que los nombres no contengan carácteres especiales ni espacios."
     }
   }
 
