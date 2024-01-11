@@ -20,7 +20,11 @@
           <thead>
             <tr>
               <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-              <% if (i > 0) { %>
+              <% if (i > 0 && festivosArray[i-1]==1) { %>
+              <th scope="col" class="table-clear-blue">
+                <%= i %>
+              </th>
+              <% } else if(i > 0) {%>
               <th scope="col">
                 <%= i %>
               </th>
@@ -33,7 +37,11 @@
           <thead>
             <tr>
               <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-              <% if (i > 0) { %>
+              <% if (i > 0 && festivosArray[i-1]==1) { %>
+              <th scope="col" class="table-clear-blue">
+                <%= weekArray[i-1] %>
+              </th>
+              <%  } else if (i > 0) { %>
               <th scope="col">
                 <%= weekArray[i-1] %>
               </th>
@@ -47,20 +55,32 @@
             <% var k = 0%>
             <% for (var i = 0; i < n_resis ; i++) {%>
             <tr>
-              <th scope="row"><%= nombre[i] %> </th>
+              <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
               <% for (var j = 0; j < dias_mes ; j++) { %>
 
-              <td>
+              <% if (solucion[k] === 1  && guardiasMatrix[i][j] === 1) { %>
+              <td class="table-clear-red"><i class="fa-solid fa-house-medical icon-red checkboxSize"></i></td>
 
-                <% if (solucion[k] === 0) { %>
-                -
-                <% } else {%>
+              <% } else if (solucion[k] === 0  && vacacionesMatrix[i][j] === 1){%>
+              <td class="table-clear-green"> - </td>
 
-                <i class="fa-solid fa-house-medical icon-red checkboxSize"></i>
+              <% } else if (solucion[k] === 0){ %>
+              <% if (festivosArray[j]===0) { %>
+              <td> - </td>
+              <% } else if (festivosArray[j]===1){ %>
+              <td class="table-clear-blue"> - </td>
+              <% } %>
 
-                <% } %>
+              <% } else if (solucion[k] === 1){ %>
+              <% if (festivosArray[j]===0) { %>
+              <td><i class="fa-solid fa-house-medical icon-red checkboxSize "></i></td>
+              <% } else if (festivosArray[j]===1){ %>
+              <td class="table-clear-blue"><i class="fa-solid fa-house-medical icon-red checkboxSize "></i></td>
+              <% } %>
 
-              </td>
+              <%}%>
+
+
               <% var k = k + 1%>
               <% } %>
             </tr>
@@ -70,6 +90,26 @@
         </table>
       </div>
 
+      <div class="container-fluid-light bold">
+
+        <div class="row">
+
+          <div class="col-lg-4">
+            <p class="table-clear-blue">Festivos</p>
+          </div>
+
+          <div class="col-lg-4">
+            <p class="table-clear-red">Guardias preasignadas</p>
+          </div>
+
+          <div class="col-lg-4">
+            <p class="table-clear-green">Vacaciones asignadas</p>
+          </div>
+
+        </div>
+
+
+      </div>
       <h4> El código para buscar la solución es: </h4>
       <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
       <% } %>

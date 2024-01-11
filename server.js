@@ -8,7 +8,6 @@ var secure = require('ssl-express-www');
 const {
   v4: uuidv4
 } = require('uuid');
-//const { weekArray } = require("./form-logic");
 
 // Nos conectamos con el resto de ficheros
 const formLogic = require(__dirname + "/form-logic.js");
@@ -61,15 +60,6 @@ const email = inputs.email;
 //Conexión a la BD
 //Desconectar si estamos offline
 db.conectarBD().catch(err => console.log(err));
-
-
-
-// ZONA DE PRUEBAS
-
-
-//FIN ZONA DE PRUEBAS
-
-
 
 // Definimos las rutas del servidor
 app.get("/", function (req, res) {
@@ -153,6 +143,9 @@ app.get('/buscarSolucion', function (req, res) {
           req.session.nombre = unaSolucion['nombres_medicos']
           req.session.mes = unaSolucion['mes']
           req.session.anyo = unaSolucion['anio']
+          req.session.festivosArray = unaSolucion['festivos']
+          req.session.guardiasMatrix = unaSolucion['guardias_asignadas']
+          req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
 
           req.session.mes_num = formLogic.mes_num(req.session.mes);
           req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
@@ -178,7 +171,10 @@ app.get('/buscarSolucion', function (req, res) {
           mes: req.session.mes,
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
+          idSolBuscada: req.session.idSolBuscada,
+          festivosArray: req.session.festivosArray,
+          guardiasMatrix: req.session.guardiasMatrix,
+          vacacionesMatrix: req.session.vacacionesMatrix
         });
 
       } else {
@@ -203,8 +199,6 @@ app.get('/buscarSolucion', function (req, res) {
 
     }
   });
-
-
 
 });
 
@@ -276,6 +270,9 @@ app.post('/buscarSolucion', function (req, res) {
           req.session.nombre = unaSolucion['nombres_medicos']
           req.session.mes = unaSolucion['mes']
           req.session.anyo = unaSolucion['anio']
+          req.session.festivosArray = unaSolucion['festivos']
+          req.session.guardiasMatrix = unaSolucion['guardias_asignadas']
+          req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
 
           req.session.mes_num = formLogic.mes_num(req.session.mes);
           req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
@@ -301,7 +298,10 @@ app.post('/buscarSolucion', function (req, res) {
           mes: req.session.mes,
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
+          idSolBuscada: req.session.idSolBuscada,
+          festivosArray: req.session.festivosArray,
+          guardiasMatrix: req.session.guardiasMatrix,
+          vacacionesMatrix: req.session.vacacionesMatrix
         });
 
       } else {
@@ -391,6 +391,9 @@ app.get("/mostrarSolucion", function (req, res) {
           req.session.idSolBuscada = unaSolucion['idSol']
           if (unaSolucion['soluciones'].length > 0) {
             req.session.solucion = unaSolucion['soluciones']
+            req.session.festivosArray = unaSolucion['festivos']
+            req.session.guardiasMatrix = unaSolucion['guardias_asignadas']
+            req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
 
           } else {
             req.session.solucion = []
@@ -462,7 +465,10 @@ app.get("/mostrarSolucion", function (req, res) {
         mes: req.session.mes,
         anyo: req.session.anyo,
         cod_error: req.session.cod_error,
-        idSolBuscada: req.session.idSolBuscada
+        idSolBuscada: req.session.idSolBuscada,
+        festivosArray: req.session.festivosArray,
+        guardiasMatrix: req.session.guardiasMatrix,
+        vacacionesMatrix: req.session.vacacionesMatrix
       });
     }
 
@@ -500,6 +506,7 @@ app.get("/generarplanilla", function (req, res) {
       nombre: req.session.nombre,
       medicosDeGuardia: req.session.medicosDeGuardia,
       aviso: req.session.aviso,
+      festivosArray: req.session.festivosArray,
       guardiasMatrix: req.session.guardiasMatrix,
       vacacionesMatrix: req.session.vacacionesMatrix,
       arrayNormas: req.session.arrayNormas
@@ -535,6 +542,7 @@ app.post("/generarplanilla", function (req, res) {
     req.session.vacacionesMatrix = []
     req.session.arrayGroups = []
     req.session.arrayNormas = []
+    req.session.festivosArray = []
   };
 
   if (req.session.step == 2 && req.body.botonAnterior != "-1") {

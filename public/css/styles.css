@@ -143,6 +143,10 @@ color-orange {
   color: red;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 /* Containers */
 
 
@@ -180,6 +184,11 @@ color-orange {
 
 .container-fluid {
   padding: 6% 15%;
+
+}
+
+.container-fluid-light {
+  padding: 1% 1%;
 
 }
 
@@ -240,6 +249,11 @@ color-orange {
 .defaultsink {
   position: absolute;
   left: -100%;
+}
+
+.margen-texto {
+  box-sizing: border-box;
+  padding: 100px;
 }
 
 /* EL CONTAINER DE Cómo son las planillas*/
@@ -630,11 +644,17 @@ div.settings {
   margin: auto;
 }
 
+.form-control-equipo {
+  float: left;
+  width: max-content;
+  margin: auto;
+}
+
 .label_form {
   /* Other styling... */
   text-align: right;
   clear: both;
-  float: left;
+  float: right;
   vertical-align: middle;
   margin-left: 5%;
 
@@ -656,7 +676,24 @@ div.settings {
   right: 30%;
 }
 
-@media (max-width: 1028px) {
+@media (max-width: 991px) {
+  
+  .label_form {
+    /* Other styling... */
+    text-align: right;
+    
+    float: none;
+    
+    margin-bottom: 0;
+    margin-left: 0;
+  
+  }
+  .form-control-equipo {
+    float: none;
+    width: max-content;
+    margin-bottom: 1%;
+    text-align: center;
+  }
 
   .title-image {
     position: static;
@@ -691,6 +728,11 @@ div.settings {
 
 
 /* Tablas */
+.celda{
+  padding: 0 10px 0 0;
+  vertical-align: middle;
+}
+
 .table th {
   padding: 0;
   width: 2rem;
@@ -706,6 +748,21 @@ div.settings {
   padding: 0;
   width: 2rem;
   min-width: 23px;
+}
+
+.table-clear-blue{
+  background: #bdeaf7;
+  
+}
+
+.table-clear-red{
+  background: #f7cfbd;
+  
+}
+
+.table-clear-green{
+  background: #d6f7bd;
+  
 }
 
 /* CAROUSEL */
@@ -807,6 +864,7 @@ input[type=checkbox]:hover {
     width: 100%;
     overflow-x: hidden;
   }
+
 
   .navbar-brand {
     font-size: 2rem;

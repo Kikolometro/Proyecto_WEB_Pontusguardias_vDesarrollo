@@ -2,6 +2,7 @@ const {
   MongoClient
 } = require('mongodb');
 const mongoose = require('mongoose');
+mongoose.set('strictQuery', true);
 
 const uriFile = require(__dirname + "/NoSubir.js");
 const uri = uriFile.uri_address
