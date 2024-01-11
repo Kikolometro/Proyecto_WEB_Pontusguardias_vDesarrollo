@@ -1,0 +1,548 @@
+
+  <% if (step === 7) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+          style="width: 77%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+
+      <h3 class="container-text feature-title-box">Reparte en equipos a los médicos</h3>
+      <label class="filtro">Si no deseas aplicar esta configuración, sólo dale al
+        botón "Siguiente"</label>
+
+      <div id="formContainer">
+        <div class="container-fluid-light">
+
+          <% for (var i = 0; i < n_resis ; i++) { %>
+
+          <div class="row">
+
+            <div class="col-lg-6">
+              <label class="label_form filtro bold" for="Grupo_<%=nombre[i]%>"><%=nombre[i]%>: </label>
+            </div>
+            <div class="col-lg-6">
+              <select class="form-control-equipo filtro" size="1" name="Grupo_<%=nombre[i]%>" id="Grupo_<%=nombre[i]%>"
+                onchange="cambiarArray()">
+                <% for (var j = 0; j < n_resis ; j++) { %>
+                <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                <% } %>
+
+              </select>
+            </div>
+
+          </div>
+          <% } %>
+
+        </div>
+
+        <h3 class="container-text feature-title-box">Establece relaciones entre los equipos</h3>
+
+
+        <div class="guardias-box-clear-orange-max col-lg-8 container-fluid" id="cajita_naranja">
+
+          <div id="texto_1" class="ali_izq"><b>Añade todas las reglas que necesites haciendo click en </b> <button
+              class="btn btn-ptg-naranja-no-margin"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+            <br><br> <b>En la
+              misma guardia... </b></div>
+          <br>
+
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-12">
+
+                <!-- Start of item 1 -->
+                <div class="item list-group-item">
+                  <div class="item-left">
+                    <b>
+                      ...si hay alguien del
+                      <select class="form-control-normas filtro" size="1" name="Norma_1_A" id="Norma_1_A">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                      , se forzará que siempre haya alguien del
+                      <select class="form-control-normas filtro" size="1" name="Norma_1_B" id="Norma_1_B">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                      , pero no al revés.</b>
+                    <color-orange> (Ej: Si hay un R1 de guardia se fuerza que haya un R4, pero no al revés)
+                    </color-orange>
+
+                  </div>
+                  <div class="item-right">
+                    <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('1')"><i
+                        class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                  </div>
+                </div>
+                <br>
+                <!-- End of item 1 -->
+
+                <!-- Start of item 5 -->
+                <div class="item list-group-item">
+                  <div class="item-left">
+                    <b>
+                      ...si hay alguien del
+                      <select class="form-control-normas filtro" size="1" name="Norma_5_A" id="Norma_5_A">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                      , se forzará que siempre haya alguien del
+                      <select class="form-control-normas filtro" size="1" name="Norma_5_B" id="Norma_5_B">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                      , y viceversa.</b>
+                    <color-orange> (Ej: Si hay un ginecólogo de guardia se fuerza que haya un obstetra, y viceverssa)
+                    </color-orange>
+
+                  </div>
+                  <div class="item-right">
+                    <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('5')"><i
+                        class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                  </div>
+                </div>
+                <br>
+                <!-- End of item 5 -->
+
+                <!-- Start of item 2 -->
+                <div class="item list-group-item">
+                  <div class="item-left">
+                    <b>
+                      ...si hay algún médico del
+                      <select class="form-control-normas filtro" size="1" name="Norma_2_A" id="Norma_2_A">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                      , nunca coincidirá con nadie del
+                      <select class="form-control-normas filtro" size="1" name="Norma_2_B" id="Norma_2_B">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                      y viceversa.</b>
+                    <color-orange> (Ej: Los R3 y los R4 nunca coincidirán en la misma guardia)</color-orange>
+
+                  </div>
+                  <div class="item-right">
+                    <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('2')"><i
+                        class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                  </div>
+                </div>
+                <br>
+                <!-- End of item 2 -->
+
+
+                <!-- Start of item 3 -->
+                <div class="item list-group-item">
+                  <div class="item-left">
+                    <b>
+                      ...siempre habrá algún médico del
+                      <select class="form-control-normas filtro" size="1" name="Norma_3_A" id="Norma_3_A">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                    </b>
+                    <color-orange>. (Ej: Siempre habrá un R4 de guardia)</color-orange>
+                  </div>
+                  <div class="item-right">
+                    <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('3')"><i
+                        class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                  </div>
+                </div>
+                <br>
+                <!-- End of item 3 -->
+
+                <!-- Start of item 4 -->
+                <div class="item list-group-item">
+                  <div class="item-left">
+                    <b>
+                      ...nunca coincidirá/n más de
+
+                      <select class="form-control-normas filtro" size="1" name="Norma_4_A" id="Norma_4_A">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>"><%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+
+                      médico/s del
+                      <select class="form-control-normas filtro" size="1" name="Norma_4_B" id="Norma_4_B">
+                        <% for (var j = 0; j < n_resis ; j++) { %>
+                        <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+                    </b>
+                    <color-orange>. (Ej: Nunca habrá más de un R4 de guardia)</color-orange>
+                  </div>
+                  <div class="item-right">
+                    <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('4')"><i
+                        class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                  </div>
+                </div>
+                <br>
+                <!-- End of item 4 -->
+                <!-- Start of item 6 -->
+                <div class="item list-group-item">
+                  <div class="item-left">
+                    <b>
+                      Nadie hará más de
+
+                      <select class="form-control-normas filtro" size="1" name="Norma_6_A" id="Norma_6_A">
+                        <% for (var j = 0; j < 4 ; j++) { %>
+                        <option value="<%= j +1%>"><%= j+1 %></option>
+                        <% } %>
+
+                      </select>
+
+                      guardia/s en
+                      <select class="form-control-normas filtro" size="1" name="Norma_6_B" id="Norma_6_B">
+
+                        <option value="L">lunes</option>
+                        <option value="M">martes</option>
+                        <option value="X">miércoles</option>
+                        <option value="J">jueves</option>
+                        <option value="V">viernes</option>
+                        <option value="S">sábado</option>
+                        <option value="D">domingo</option>
+
+
+                      </select>
+                    </b>
+                    <color-orange>. (Ej: Nadie hará más de un viernes)</color-orange>
+                  </div>
+                  <div class="item-right">
+                    <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('6')"><i
+                        class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                  </div>
+                </div>
+                <br>
+                <!-- End of item 6 -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <br>
+        <div class="guardias-box-clear-green-max col-lg-8 container-fluid" id="cajita_naranja">
+
+
+          <div id="texto_fin" class="ali_izq">Estas son las condiciones que has solicitado: <br><br><b> En la misma
+              guardia...</b></div>
+
+          <br>
+
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-12" id='listado_normas'>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <form action="/generarplanilla" method="POST">
+          <div class="form-group">
+            <input type="hidden" name="step" value="<%= step %>">
+            <input type="hidden" name="arrayGroups" id="arrayGroups">
+            <input type="hidden" name="arrayNormas" id="arrayNormas">
+
+          </div>
+
+
+
+          <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux7">Siguiente</button>
+          <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn7">Anterior</button>
+          <button class="btn btn-ptg" type="submit" id="BtnStep7">Siguiente</button>
+        </form>
+      </div>
+
+      <script type="text/javascript">
+        let arrayGroups = [];
+        let nombresArray = '<%= nombre %>';
+        var nameArr = nombresArray.split(',');
+        let n_resis = '<%= n_resis%>';
+        let arrayNormas_pre = '<%= arrayNormas %>';
+        let arrayNormas = arrayNormas_pre.split(',');
+        if (arrayNormas[0] == '') {
+
+          arrayNormas = []
+        }
+
+        for (var i = 0; i < parseInt(n_resis); i++) {
+          // Generamos un array con los grupos de los médicos nada más empezar
+
+          arrayGroups[i] = document.getElementById("Grupo_" + nameArr[i]).value
+
+        }
+
+        document.getElementById("arrayGroups").value = arrayGroups
+        console.log(document.getElementById("arrayGroups").value)
+        actualizarNormas()
+
+        function cambiarArray() {
+
+          // Cambiamos el array con los grupos de los médicos al cambiar alguno de los selectores
+          let arrayGroups = [];
+          let nombresArray = '<%= nombre %>';
+          var nameArr = nombresArray.split(',');
+
+          for (var i = 0; i < parseInt(n_resis); i++) {
+
+            arrayGroups[i] = document.getElementById("Grupo_" + nameArr[i]).value
+
+          }
+
+          document.getElementById("arrayGroups").value = arrayGroups
+          console.log(document.getElementById("arrayGroups").value)
+
+        }
+
+        function valorEnArray(norma) {
+
+          let nombresArray = '<%= nombre %>';
+
+          var nameArr = nombresArray.split(',');
+          let codigo = ''
+          let codigo_a = ''
+          let codigo_b = ''
+
+          //meter un switch para que según la norma cree un código
+          switch (norma) {
+            case '1':
+              codigo_a = 'Norma_' + norma + '_A'
+              codigo_b = 'Norma_' + norma + '_B'
+              largo_a = 6 - document.getElementById(codigo_a).value.length
+              largo_b = 6 - document.getElementById(codigo_b).value.length
+              codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a) + '_' + document
+                .getElementById(codigo_b).value.substr(largo_b)
+
+              break;
+
+            case '2':
+              codigo_a = 'Norma_' + norma + '_A'
+              codigo_b = 'Norma_' + norma + '_B'
+              largo_a = 6 - document.getElementById(codigo_a).value.length
+              largo_b = 6 - document.getElementById(codigo_b).value.length
+              codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a) + '_' + document
+                .getElementById(codigo_b).value.substr(largo_b)
+
+              break;
+
+            case '3':
+              codigo_a = 'Norma_' + norma + '_A'
+
+              largo_a = 6 - document.getElementById(codigo_a).value.length
+              codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a)
+
+              break;
+            case '4':
+              codigo_a = 'Norma_' + norma + '_A'
+              codigo_b = 'Norma_' + norma + '_B'
+
+              largo_a = 6 - document.getElementById(codigo_a).value.length
+              largo_b = 6 - document.getElementById(codigo_b).value.length
+              codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a) + '_' + document
+                .getElementById(codigo_b).value.substr(largo_b)
+
+              break;
+            case '5':
+              codigo_a = 'Norma_' + norma + '_A'
+              codigo_b = 'Norma_' + norma + '_B'
+
+              largo_a = 6 - document.getElementById(codigo_a).value.length
+              largo_b = 6 - document.getElementById(codigo_b).value.length
+              codigo = norma + '_' + document.getElementById(codigo_a).value.substr(largo_a) + '_' + document
+                .getElementById(codigo_b).value.substr(largo_b)
+
+              break;
+            case '6':
+              codigo_a = 'Norma_' + norma + '_A'
+              codigo_b = 'Norma_' + norma + '_B'
+
+              codigo = norma + '_' + document.getElementById(codigo_a).value + '_' + document
+                .getElementById(codigo_b).value
+
+              break;
+            default:
+              console.log(`Sorry, we are out of ${norma}.`);
+          }
+          //hacer push del código en arrayNormas
+          arrayNormas[arrayNormas.length] = codigo;
+
+
+
+          //actualizar la caja final
+
+          actualizarNormas()
+
+
+        }
+
+        function actualizarNormas() {
+          document.getElementById("arrayNormas").value = arrayNormas
+          let bucle = arrayNormas.length
+          console.log(bucle)
+
+          var listado_normas = document.getElementById('listado_normas')
+          var texto_fin = document.getElementById('texto_fin')
+          if (bucle == 0) {
+            texto_fin.innerHTML =
+              "No es obligatorio, pero que sepas que... <b>¡¡¡No has incluido ninguna condición!!!!</b><br> <br>Recuerda hacer click en el botón <button class='btn btn-ptg-naranja-no-margin'><i class='fa-solid fa-plus' style='color: #ffffff'></i></button> para añadir las normas"
+          } else {
+
+            texto_fin.innerHTML = "Estas son las normas que has solicitado: <br><br><b> En la misma guardia...</b>"
+          }
+
+          while (listado_normas.hasChildNodes()) {
+            listado_normas.removeChild(listado_normas.firstChild)
+          }
+
+          for (let i = 0; i < bucle; i++) {
+            // Create a new item
+            var newItem = document.createElement('div');
+            newItem.setAttribute('class', 'item list-group-item');
+
+
+            var newItemLeft = document.createElement('div');
+            newItemLeft.setAttribute('class', 'titulin');
+            newItemLeft.classList.add('item-left');
+
+
+
+            let arrayNormas_split = arrayNormas[i].split('_')
+            //console.log(arrayNormas_split)
+            switch (arrayNormas_split[0]) {
+              case '1':
+                newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
+                  ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', pero no al revés'
+                break;
+
+              case '2':
+                newItemLeft.innerHTML = '...si hay algún médico del Equipo ' + arrayNormas_split[1] +
+                  ', nunca coincidirá con nadie del Equipo ' + arrayNormas_split[2] + ' y viceversa'
+                break;
+
+              case '3':
+                newItemLeft.innerHTML = '...siempre habrá algún médico del Equipo ' + arrayNormas_split[1]
+                break;
+
+              case '4':
+                newItemLeft.innerHTML = '...nunca coincidirá/n más de ' + arrayNormas_split[1] +
+                  ' médico/s del Equipo ' +
+                  arrayNormas_split[2]
+                break;
+
+              case '5':
+                newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
+                  ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', y viceversa'
+                break;
+              case '6':
+                let dia = "";
+                switch (arrayNormas_split[2]) {
+                  case 'L':
+                    dia = 'lunes'
+                    break;
+                  case 'M':
+                    dia = 'martes'
+                    break;
+                  case 'X':
+                    dia = 'miércoles'
+                    break;
+                  case 'J':
+                    dia = 'jueves'
+                    break;
+                  case 'V':
+                    dia = 'viernes'
+                    break;
+                  case 'S':
+                    dia = 'sábado'
+                    break;
+                  case 'D':
+                    dia = 'domingo'
+                    break;
+                  default:
+                    dia = "";
+                }
+                newItemLeft.innerHTML = '...nadie hará más de ' + arrayNormas_split[1] +
+                  ' guardia/s los ' + dia
+                break;
+              default:
+                console.log('Ha habido un error');
+            }
+
+
+            var newItemRight = document.createElement('div');
+            newItemRight.classList.add('item-right');
+
+            var newItemRightButton = document.createElement('button');
+            newItemRightButton.classList.add('btn');
+            newItemRightButton.classList.add('btn-ptg-naranja-no-margin');
+            newItemRightButton.setAttribute('onclick', 'eliminarNorma(' + i + ')');
+            newItemRightButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+
+            newItemRight.appendChild(newItemRightButton);
+
+            newItem.appendChild(newItemLeft);
+            newItem.appendChild(newItemRight);
+
+            // Add the new item to the item list
+
+            listado_normas.appendChild(newItem)
+
+          }
+          console.log(arrayNormas)
+
+
+        }
+
+        function eliminarNorma(norma) {
+          //norma será la posición del elemento a eliminar. Por lo que cada botón tendrá que pasar un valor según su posición en el vector 
+          arrayNormas.splice(norma, 1); // 2nd parameter means remove one item only
+          document.getElementById("arrayNormas").value = arrayNormas
+          actualizarNormas()
+          return 0
+        }
+      </script>
+    </div>
+
+    <script>
+      document.getElementById('BtnStep7').addEventListener('click', function () {
+        // Call the gtag() function to send the event data
+        gtag('event', 'stepForm', {
+          'button_name': 'BtnStep7'
+        });
+      });
+
+      document.getElementById('BtnStepAux7').addEventListener('click', function () {
+        // Call the gtag() function to send the event data
+        gtag('event', 'stepForm', {
+          'button_name': 'BtnStep7'
+        });
+      });
+
+      document.getElementById('BtnReturn7').addEventListener('click', function () {
+        // Call the gtag() function to send the event data
+        gtag('event', 'stepForm', {
+          'button_name': 'BtnReturn7'
+        });
+      });
+    </script>
+<% }  %>

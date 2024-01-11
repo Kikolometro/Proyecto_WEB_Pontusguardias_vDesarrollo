@@ -1,0 +1,38 @@
+    <%  if (step === 10) { %>
+    <div class="container-fluid" id="contenedor">
+      <div class="container-md container_k">
+        <div class="progress progress_k">
+          <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+            style="width: 100%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+        </div>
+
+
+        <h3 class="container-text feature-title-box">¡Muchas gracias por completar el formulario!</h3>
+        <h3 class="container-text feature-title-box">Estamos generando tu planilla. Danos un minuto...</h3>
+
+        <div class="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <form action="/mostrarSolucion" method="GET" id="formulario_final" name="formulario_final">
+
+          <button class="btn btn-ptg defaultsink" type="">Mostrar resultado</button>
+        </form>
+        <script type="text/javascript">
+          var auto_refresh = setTimeout(function () {
+            submitform();
+          }, 1500);
+
+          function submitform() {
+            document.getElementById("formulario_final").submit();
+          }
+        </script>
+      </div>
+    </div>
+
+    <% } %>
+    
+</section>

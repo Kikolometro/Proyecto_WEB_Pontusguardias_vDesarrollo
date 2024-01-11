@@ -1,0 +1,51 @@
+
+
+
+  <% if (step === 1) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+          style="width: 11%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class=" container-text feature-title-box">Indica el mes y el año</h3>
+
+      <form action="/generarplanilla" method="post">
+        <div class="form-group">
+          <input type="hidden" name="step" value="<%= step %>">
+
+          <select class="form-control filtro" size="1" name="mes" required>
+            <option disabled="" selected="" value="">Mes</option>
+            <% for (var i = 0; i < 12 ; i++) { %>
+            <option value="<%= meses[i] %>"><%= meses[i] %></option>
+            <% } %>
+
+          </select>
+
+          <select class="form-control filtro" size="1" name="anyo" required>
+            <option disabled="" selected="" value="">Año</option>
+            <% for (var i = 0; i < anyosLength ; i++) { %>
+            <option value="<%= anyos[i] %>"><%= anyos[i] %></option>
+            <% } %>
+
+          </select>
+        </div>
+
+        <button class="btn btn-ptg" type="submit" id="BtnStep1">Siguiente</button>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('BtnStep1').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep1'
+      });
+
+    });
+  </script>
+<% }  %>

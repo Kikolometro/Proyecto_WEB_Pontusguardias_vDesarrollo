@@ -1,0 +1,30 @@
+<!-- FORM -->
+
+
+<section class="colored-section" id="form">
+
+  <% if (step === 0) { %>
+  <div class="container-fluid">
+
+    <h3 class="big-heading-white">Prueba a obtener tu primera planilla</h3>
+
+    <form action="/generarplanilla" method="post">
+      <input type="hidden" name="step" value="<%= step %>">
+      <button class="btn btn-outline-light btn-lg download-button filtro" type="submit" id="BtnInicio">Empezar</button>
+    </form>
+
+  </div>
+  <!-- GA -->
+  <script>
+    // Add an event listener to the button
+    document.getElementById('BtnInicio').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnInicioForm'
+      });
+    });
+  </script>
+
+
+  <% } %>
+

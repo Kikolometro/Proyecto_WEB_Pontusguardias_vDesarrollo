@@ -1,0 +1,191 @@
+
+  <% if (step === 3) { %>
+  <div class="container-fluid" id="contenedor">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+          style="width: 33%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Indica cuántos médicos están de guardia cada día</h3>
+      <form action="/generarplanilla" method="post">
+        <div class="form-group">
+          <input type="hidden" name="step" value="<%= step %>">
+          <input type="hidden" name="medicosDeGuardia" id="medicosDeGuardia">
+          <div class="settings">
+            <label>Homogéneo</label>
+            <label class="toggle">
+
+              <input type="checkbox" id="toggle_med_1" onclick="toggle_med(this);" value="ON">
+              <span class="slider"></span>
+              <!--<span class="labels" data-on="Custom" data-off="Equitativamente"></span>-->
+
+            </label>
+
+            <label>Cada día distinto</label>
+          </div>
+          <div class="scroll_k" id="scroll_k">
+
+
+            <select class="form-control filtro" size="1" type="number" name="select_medGuardia" id="select_medGuardia"
+              onchange="calcularMedGuard()" required>
+              <option disabled="" selected="" value="">Médicos por guardia</option>
+              <% for (var i = 0; i < n_resis ; i++) { %>
+              <option type="number" value="<%= i + 1 %>"><%= i + 1 %></option>
+              <% } %>
+            </select>
+
+            <!-- Pendiente de meter tabla -->
+            <table class="table table_k tabla" id="table_medGuard">
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= i %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
+
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col">
+                    <%= weekArray[i-1] %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;">Nº de médicos:</th>
+                  <% for (var j = 0; j < dias_mes ; j++) { %>
+
+                  <td>
+                    <input class="filtro" size="1" type="number" min="0" max=<%= n_resis %> style="width: 2em"
+                      id="m_guardia_dia_<%= j %>" name="m_guardia_dia_<%= j %>" class="form-control"
+                      onchange="calcularMedGuard()" required>
+                  </td>
+
+                  <% } %>
+                </tr>
+              </tbody>
+            </table>
+
+
+          </div>
+
+        </div>
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux3">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn3">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep3">Siguiente</button>
+
+      </form>
+
+
+    </div>
+  </div>
+
+
+  <script>
+    var medicosDeGuardia = [];
+    var select_medGuardia = 1;
+    var dias_mes = '<%= dias_mes %>';
+    document.getElementById('scroll_k').className = "";
+
+    for (let i = 0; i < dias_mes; i++) {
+      document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
+    };
+
+
+    document.getElementById("select_medGuardia").style.display = "block";
+    document.getElementById("table_medGuard").style.display = "none";
+
+    document.getElementById('BtnStep3').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep3'
+      });
+    });
+    document.getElementById('BtnStepAux3').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep3'
+      });
+    });
+
+    document.getElementById('BtnReturn3').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn3'
+      });
+    });
+
+
+
+    function toggle_med(checkbox) {
+      medicosDeGuardia = [];
+
+      //Esto se ejecuta cuando le damos al toggle button
+      if (document.getElementById("toggle_med_1").value == "OFF") {
+        document.getElementById("toggle_med_1").value = "ON";
+        document.getElementById('scroll_k').className = "";
+
+        document.getElementById("select_medGuardia").style.display = "block";
+        document.getElementById("table_medGuard").style.display = "none";
+        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
+
+      } else if (document.getElementById("toggle_med_1").value == "ON") {
+        document.getElementById("toggle_med_1").value = "OFF";
+        document.getElementById('scroll_k').className = "scroll_k";
+
+        document.getElementById("select_medGuardia").style.display = "none";
+        document.getElementById("table_medGuard").style.display = "block";
+        document.getElementById("select_medGuardia").value = 1;
+
+        for (let i = 0; i < dias_mes; i++) {
+          document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
+          medicosDeGuardia.push(parseInt(select_medGuardia))
+        };
+
+      }
+      //console.log(medicosDeGuardia)
+      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
+    }
+
+    function calcularMedGuard() {
+      //console.log("funcion activada")
+
+      select_medGuardia = document.getElementById("select_medGuardia").value;
+      medicosDeGuardia = [];
+
+      if (document.getElementById("toggle_med_1").value == "OFF") {
+        //console.log("está OFF")
+
+
+        for (let i = 0; i < dias_mes; i++) {
+          let m_guardia_dia = document.getElementById("m_guardia_dia_" + i).value;
+          medicosDeGuardia.push(parseInt(m_guardia_dia))
+        };
+
+        //console.log(medicosDeGuardia)
+
+      } else if (document.getElementById("toggle_med_1").value == "ON") {
+        //console.log("está ON")
+        let select_medGuardia = document.getElementById("select_medGuardia").value;
+        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
+        //console.log(medicosDeGuardia)
+
+      }
+      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
+
+    }
+  </script>
+<% }  %>

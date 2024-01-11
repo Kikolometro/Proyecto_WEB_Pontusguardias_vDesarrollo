@@ -1,0 +1,817 @@
+
+
+  <% if (step === 4) { %>
+  <div class="container-fluid" id="contenedor_fest">
+    <div class="container-md container_k">
+      <div class="progress progress_k">
+        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
+          style="width: 44%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+      </div>
+
+      <h3 class="container-text feature-title-box">Indica los días festivos / especiales del mes</h3>
+      Por defecto, se marcan los viernes, sábados y domingos, pero modifícalos a tu conveniencia:
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+
+      <form action="/generarplanilla" method="post">
+        <div class="form-group" id="reparto">
+
+          <input type="hidden" name="step" value=<%= step %>>
+          <input type="hidden" id="nombresArray" name="nombresArray" value=<%= nombre %>>
+
+          <div class="scroll_k" id="scroll_k">
+            <!-- Pendiente de meter tabla -->
+            <table class="table table_k tabla">
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col" id="dia_mes_fes_<%= i-1 %>">
+                    <%= i %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
+
+              <thead>
+                <tr>
+                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                  <% if (i > 0) { %>
+                  <th scope="col" id="l_dia_mes_fes_<%= i-1 %>">
+                    <%= weekArray[i-1] %>
+                  </th>
+                  <% } else {%>
+                  <th scope="col"></th>
+                  <% }} %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;">Festivos:</th>
+                  <% for (var j = 0; j < dias_mes ; j++) { %>
+                  <% var vsd = ['V','S','D'] %>
+
+                  <% if (vsd.includes(weekArray[j]) ) { %>
+                  <td id="c_dia_mes_fes_<%= j %>">
+                    <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>"
+                      name="Festivo_<%= j + 1 %>" onclick="recalculate(this);" checked>
+                  </td>
+                  <% } else {%>
+                  <td id="c_dia_mes_fes_<%= j %>">
+                    <input class="checkboxSize" type="checkbox" value="1" id="Festivo_<%= j + 1 %>"
+                      name="Festivo_<%= j + 1 %>" onclick="recalculate(this);">
+                  </td>
+                  <% } %>
+
+                  <% } %>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="container-fluid-light bold">
+
+            <div class="row">
+
+              <div class="col-lg-4">
+                <p class="table-clear-blue">Festivos</p>
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+          <div style='margin-top: 30px'> </div>
+
+          <h3 class="container-text feature-title-box">¿Cómo deseas que se repartan las guardias?</h3>
+
+          <div class="settings">
+            <label>Equitativamente</label>
+            <label class="toggle">
+
+              <input type="checkbox" id="toggle_1" onclick="toggle(this);" value="ON">
+              <span class="slider"></span>
+              <!--<span class="labels" data-on="Custom" data-off="Equitativamente"></span>-->
+
+            </label>
+            <label>Personalizado</label>
+          </div>
+
+
+
+          <div class="guardias-box-clear-orange col-lg-8 container-fluid" id="cajita_naranja">
+
+            <div id="texto_1" class="ali_izq"></div>
+            <br>
+            <ol>
+              <li id="texto_2" class="ali_izq"></li>
+              <br>
+              <li id="texto_3" class="ali_izq"></li>
+            </ol>
+
+
+          </div>
+          <div id="formContainer"></div>
+
+
+        </div>
+
+
+        <script type="text/javascript">
+          var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
+          //var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+          var n_resis = '<%= n_resis %>';
+
+          var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+          medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+          var medicosDeGuardia = 0;
+          var RecuentoTotGuardFest = 0;
+
+          for (let x of medicosDeGuardia_pre) {
+            medicosDeGuardia += parseInt(x);
+          }
+
+          for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+            medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+            if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+              RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+              document.getElementById("dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+              document.getElementById("l_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+              document.getElementById("c_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+
+            } else {
+              document.getElementById("dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+              document.getElementById("l_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+              document.getElementById("c_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+            }
+          }
+
+          //Esto se ejecuta cada vez que hagas click en un checkbox de Festivos
+
+          var reparto = document.getElementById("reparto");
+
+          var v_guardias_max_tot = []
+          var v_guardias_min_tot = []
+          var v_guardias_max_fes = []
+          var v_guardias_min_fes = []
+
+          if (document.getElementById("toggle_1").value == "OFF") {
+            var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length - 1;
+          } else if (document.getElementById("toggle_1").value == "ON") {
+            var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+          }
+
+          var tg = medicosDeGuardia / n_resis;
+          var tgf = RecuentoTotGuardFest / n_resis;
+
+          var dg_max = Math.ceil(tg);
+          var dg_min = Math.floor(tg);
+          var fg_max = Math.ceil(tgf);
+          var fg_min = Math.floor(tgf);
+
+          if (dg_min != dg_max) {
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+            document.getElementById("texto_2").innerHTML = "<b>Entre " + dg_min + " y " + dg_max +
+              " guardias en total.</b>";
+          } else {
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+            document.getElementById("texto_2").innerHTML = "<b>" + dg_min +
+              " guardias en total.</b>";
+          }
+
+          if (fg_max != fg_min) {
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o " + fg_max +
+              " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+          } else {
+            document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+            document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min +
+              " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+          }
+
+
+
+          v_guardias_max_tot = Array(parseInt(n_resis)).fill(dg_max)
+          v_guardias_min_tot = Array(parseInt(n_resis)).fill(dg_min)
+          v_guardias_max_fes = Array(parseInt(n_resis)).fill(fg_max)
+          v_guardias_min_fes = Array(parseInt(n_resis)).fill(fg_min)
+
+
+          var reparto = document.getElementById("reparto");
+
+          for (var i = 0; i < n_resis; i++) {
+            var input_v_guardias_max_tot = document.createElement("input");
+            input_v_guardias_max_tot.setAttribute("type", "hidden");
+            input_v_guardias_max_tot.id = "v_guardias_max_tot";
+            input_v_guardias_max_tot.setAttribute("name", "v_guardias_max_tot_" + i);
+            input_v_guardias_max_tot.value = v_guardias_max_tot[i];
+            reparto.appendChild(input_v_guardias_max_tot);
+
+          }
+
+          for (var i = 0; i < n_resis; i++) {
+            var input_v_guardias_min_tot = document.createElement("input");
+            input_v_guardias_min_tot.setAttribute("type", "hidden");
+            input_v_guardias_min_tot.id = "v_guardias_min_tot";
+            input_v_guardias_min_tot.setAttribute("name", "v_guardias_min_tot_" + i);
+            input_v_guardias_min_tot.value = v_guardias_min_tot[i];
+            reparto.appendChild(input_v_guardias_min_tot);
+
+          }
+
+          for (var i = 0; i < n_resis; i++) {
+            var input_v_guardias_max_fes = document.createElement("input");
+            input_v_guardias_max_fes.setAttribute("type", "hidden");
+            input_v_guardias_max_fes.id = "v_guardias_max_fes";
+            input_v_guardias_max_fes.setAttribute("name", "v_guardias_max_fes_" + i);
+            input_v_guardias_max_fes.value = v_guardias_max_fes[i];
+            reparto.appendChild(input_v_guardias_max_fes);
+
+          }
+
+          for (var i = 0; i < n_resis; i++) {
+            var input_v_guardias_min_fes = document.createElement("input");
+            input_v_guardias_min_fes.setAttribute("type", "hidden");
+            input_v_guardias_min_fes.id = "v_guardias_min_fes";
+            input_v_guardias_min_fes.setAttribute("name", "v_guardias_min_fes_" + i);
+            input_v_guardias_min_fes.value = v_guardias_min_fes[i];
+            reparto.appendChild(input_v_guardias_min_fes);
+
+          }
+
+          function recalcular_tot() {
+            var guardias_asignadas = 0
+            var n_resis = '<%= n_resis %>';
+
+            var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+            medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+            var medicosDeGuardia = 0;
+            var RecuentoTotGuardFest = 0;
+
+            for (let x of medicosDeGuardia_pre) {
+              medicosDeGuardia += parseInt(x);
+            }
+
+            for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+              medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+              if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+                RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+              }
+            }
+            var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
+
+            for (var i = 0; i < n_resis - 1; i++) {
+              var nombre_aux = "Nombre_tot_" + i
+              guardias_asignadas += parseInt(document.getElementById("Nombre_tot_" + i).value)
+            }
+
+            var guardias_restantes = (medicosDeGuardia) - guardias_asignadas
+            var nombre_aux_ult = "Nombre_tot_" + (n_resis - 1)
+            var ult_tot = document.getElementById(nombre_aux_ult)
+            ult_tot.value = guardias_restantes
+
+            for (var i = 0; i < n_resis; i++) {
+
+              v_guardias_max_tot[i] = document.getElementById("Nombre_tot_" + i).value
+            }
+
+            v_guardias_min_tot = v_guardias_max_tot
+
+
+            creamosinputs();
+
+            if (parseInt(document.getElementById("Nombre_tot_" + (n_resis - 1)).value) <= 0) {
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "red";
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "red";
+            } else {
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "black";
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "black";
+            }
+          }
+
+          function recalcular_fes() {
+
+            var guardias_asignadas = 0
+            var n_resis = '<%= n_resis %>';
+
+            var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+            medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+            var medicosDeGuardia = 0;
+            var RecuentoTotGuardFest = 0;
+
+            for (let x of medicosDeGuardia_pre) {
+              medicosDeGuardia += parseInt(x);
+            }
+
+            for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+              medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+              if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+                RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+
+              }
+            }
+
+            if (document.getElementById("toggle_1").value == "OFF") {
+              var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length - 1;
+            } else if (document.getElementById("toggle_1").value == "ON") {
+              var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            }
+
+            for (var i = 0; i < n_resis - 1; i++) {
+              var nombre_aux = "Nombre_fes_" + i
+              guardias_asignadas += parseInt(document.getElementById("Nombre_fes_" + i).value)
+            }
+
+            var guardias_restantes = (RecuentoTotGuardFest) - guardias_asignadas
+            var nombre_aux_ult = "Nombre_fes_" + (n_resis - 1)
+            var ult_fes = document.getElementById(nombre_aux_ult)
+            ult_fes.value = guardias_restantes
+
+            for (var i = 0; i < n_resis; i++) {
+
+              v_guardias_max_fes[i] = document.getElementById("Nombre_fes_" + i).value
+            }
+
+            v_guardias_min_fes = v_guardias_max_fes
+
+            //console.log("Vectores resultantes:")
+            //console.log(v_guardias_max_tot)
+            //console.log(v_guardias_min_tot)
+            //console.log(v_guardias_max_fes)
+            //console.log(v_guardias_max_fes)
+
+            creamosinputs();
+
+            if (parseInt(document.getElementById("Nombre_fes_" + (n_resis - 1)).value) < 0) {
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "red";
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "red";
+            } else {
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "black";
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "black";
+            }
+          }
+
+          function creamosinputs() {
+            var n_resis = '<%= n_resis %>';
+
+            while (document.contains(document.getElementById("v_guardias_max_tot"))) {
+              document.getElementById("v_guardias_max_tot").remove();
+            }
+
+            while (document.contains(document.getElementById("v_guardias_min_tot"))) {
+              document.getElementById("v_guardias_min_tot").remove();
+            }
+            while (document.contains(document.getElementById("v_guardias_max_fes"))) {
+              document.getElementById("v_guardias_max_fes").remove();
+            }
+
+            while (document.contains(document.getElementById("v_guardias_min_fes"))) {
+              document.getElementById("v_guardias_min_fes").remove();
+            }
+
+
+
+
+            for (var i = 0; i < n_resis; i++) {
+              var input_v_guardias_max_tot = document.createElement("input");
+              input_v_guardias_max_tot.setAttribute("type", "hidden");
+              input_v_guardias_max_tot.id = "v_guardias_max_tot";
+              input_v_guardias_max_tot.setAttribute("name", "v_guardias_max_tot_" + i);
+              input_v_guardias_max_tot.value = v_guardias_max_tot[i];
+              reparto.appendChild(input_v_guardias_max_tot);
+
+            }
+
+            for (var i = 0; i < n_resis; i++) {
+              var input_v_guardias_min_tot = document.createElement("input");
+              input_v_guardias_min_tot.setAttribute("type", "hidden");
+              input_v_guardias_min_tot.id = "v_guardias_min_tot";
+              input_v_guardias_min_tot.setAttribute("name", "v_guardias_min_tot_" + i);
+              input_v_guardias_min_tot.value = v_guardias_min_tot[i];
+              reparto.appendChild(input_v_guardias_min_tot);
+
+            }
+
+            for (var i = 0; i < n_resis; i++) {
+              var input_v_guardias_max_fes = document.createElement("input");
+              input_v_guardias_max_fes.setAttribute("type", "hidden");
+              input_v_guardias_max_fes.id = "v_guardias_max_fes";
+              input_v_guardias_max_fes.setAttribute("name", "v_guardias_max_fes_" + i);
+              input_v_guardias_max_fes.value = v_guardias_max_fes[i];
+              reparto.appendChild(input_v_guardias_max_fes);
+
+            }
+
+            for (var i = 0; i < n_resis; i++) {
+              var input_v_guardias_min_fes = document.createElement("input");
+              input_v_guardias_min_fes.setAttribute("type", "hidden");
+              input_v_guardias_min_fes.id = "v_guardias_min_fes";
+              input_v_guardias_min_fes.setAttribute("name", "v_guardias_min_fes_" + i);
+              input_v_guardias_min_fes.value = v_guardias_min_fes[i];
+              reparto.appendChild(input_v_guardias_min_fes);
+
+            }
+
+          }
+
+          function recalculate(checkbox) {
+
+
+            // Calculamos el número de guardias totales del mes
+            var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
+            var n_resis = '<%= n_resis %>';
+
+            var nombres = '<%= nombre %>'
+            var nombres_array = nombres.split(",")
+
+
+            var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
+            medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
+            var medicosDeGuardia = 0;
+            var RecuentoTotGuardFest = 0;
+
+            for (let x of medicosDeGuardia_pre) {
+              medicosDeGuardia += parseInt(x);
+            }
+
+            for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
+              medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
+
+              if (document.getElementById("Festivo_" + (i + 1)).checked == true) {
+                RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
+                document.getElementById("dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+                document.getElementById("l_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+                document.getElementById("c_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+
+              } else {
+                document.getElementById("dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+                document.getElementById("l_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+                document.getElementById("c_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+              }
+            }
+
+
+            for (var i = 0; i < n_resis; i++) {
+
+
+              while (document.contains(document.getElementById("Nombre_tot_" + i))) {
+
+                document.getElementById("Nombre_tot_" + i).remove();
+
+              }
+              while (document.contains(document.getElementById("Nombre_tot_label_" + i))) {
+                document.getElementById("Nombre_tot_label_" + i).remove();
+              }
+              while (document.contains(document.getElementById("Nombre_fes_" + i))) {
+
+                document.getElementById("Nombre_fes_" + i).remove();
+
+              }
+              while (document.contains(document.getElementById("Nombre_fes_label_" + i))) {
+                document.getElementById("Nombre_fes_label_" + i).remove();
+              }
+
+            }
+
+            while (document.contains(document.getElementById("form_id"))) {
+              document.getElementById("form_id").remove();
+
+            }
+
+
+            // Calculamos el número de guardias en festivos totales del mes
+            if (document.getElementById("toggle_1").value == "OFF") {
+              var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length - 1;
+            } else if (document.getElementById("toggle_1").value == "ON") {
+              var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            }
+
+            var tg = medicosDeGuardia / n_resis;
+            var tgf = RecuentoTotGuardFest / n_resis;
+
+            var dg_max = Math.ceil(tg);
+            var dg_min = Math.floor(tg);
+            var fg_max = Math.ceil(tgf);
+            var fg_min = Math.floor(tgf);
+
+            //Dependiendo del modo, se generan los vectores de una forma o de otra
+
+            if (document.getElementById("toggle_1").value == "OFF") {
+              //Lo que ocurre cuando le damos a un festivo y es tamos en modo Personalizado
+              // Create form container
+              let formContainer = document.getElementById("formContainer");
+              let form = document.createElement("form");
+              form.setAttribute("id", "form_id");
+
+              let nombresArray = document.getElementById("nombresArray").value;
+              var nameArr = nombresArray.split(',');
+
+              //  if (medicosDeGuardia > 1) {
+              //    document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las " + dias_mes_element +
+              //      " guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá " +
+              //      medicosDeGuardia + " médicos de guardia cada noche.";
+              //  } else {
+              //    document.getElementById("texto_1").innerHTML = "<b>Deberás repartir las " + dias_mes_element +
+              //      " guardias entre los " + n_resis + " médicos.</b> Recuerda que has indicado que habrá " +
+              //      medicosDeGuardia + " médico de guardia cada noche.";
+              //  }
+              document.getElementById("texto_1").innerHTML = "<b>Indica exactamente: </b>"
+
+              document.getElementById("texto_2").innerHTML =
+                "<b>El número de guardias en total </b>que debe hacer cada médico en el mes.";
+              document.getElementById("texto_3").innerHTML =
+                "Cuántas de esas <b>guardias deben ser en los días festivos / especiales</b> que has indicado arriba.";
+
+
+              form.appendChild(document.createElement("br"));
+
+              //Creamos los inputs TOTALES
+              let tit_tot = document.createElement("p");
+              tit_tot.setAttribute("class", "titulin");
+              tit_tot.innerHTML = '1. Guardias totales en el mes: ';
+
+              form.appendChild(tit_tot);
+
+              var contenedor = document.createElement("div");
+              contenedor.setAttribute("class", "container-fluid-light");
+
+              for (var i = 0; i < n_resis; i++) {
+                var fila = document.createElement("div");
+                fila.setAttribute("class", "row");
+                contenedor.appendChild(fila);
+
+                var grid_izq = document.createElement("div");
+                grid_izq.setAttribute("class", "col-lg-6");
+
+                var grid_der = document.createElement("div");
+                grid_der.setAttribute("class", "col-lg-6");
+
+                fila.appendChild(grid_izq);
+                fila.appendChild(grid_der);
+
+                var nombre = nameArr[i]
+
+                var label1 = document.createElement("label");
+                label1.innerHTML = nombre + ':  ';
+                label1.setAttribute("for", "Nombre_tot_" + i);
+                label1.setAttribute("id", "Nombre_tot_label_" + i);
+                label1.setAttribute("class", "label_form filtro bold");
+
+                let input1 = document.createElement("input");
+                input1.setAttribute("type", "number");
+                input1.setAttribute("id", "Nombre_tot_" + i);
+                input1.setAttribute("name", "Nombre_tot_" + i);
+                input1.setAttribute("min", "1");
+                input1.setAttribute("max", dias_mes_element);
+                input1.setAttribute("value", dg_max);
+                input1.setAttribute("class", "form-control-equipo filtro");
+                input1.required = true;
+
+                if (i == n_resis - 1) {
+                  input1.setAttribute("readonly", "readonly");
+                } else {
+                  input1.setAttribute("onchange", "recalcular_tot()");
+                }
+
+                grid_izq.appendChild(label1);
+                grid_der.appendChild(input1);
+                form.appendChild(contenedor);
+
+              }
+
+              formContainer.appendChild(form);
+
+              var guardias_asignadas = 0
+              for (var i = 0; i < n_resis - 1; i++) {
+                var nombre_aux = "Nombre_tot_" + i
+                guardias_asignadas += parseInt(document.getElementById("Nombre_tot_" + i).value)
+              }
+
+              var guardias_restantes = (medicosDeGuardia) - guardias_asignadas
+              var nombre_aux_ult = "Nombre_tot_" + (n_resis - 1)
+              var ult_tot = document.getElementById(nombre_aux_ult)
+              ult_tot.value = guardias_restantes
+
+              //Creamos los inputs FESTIVOS
+              form.appendChild(document.createElement("br"));
+              let tit_fes = document.createElement("p");
+              tit_fes.setAttribute("class", "titulin");
+              tit_fes.innerHTML = '2. Guardias en días festivos / especiales: ';
+
+              form.appendChild(tit_fes);
+
+              var contenedor = document.createElement("div");
+              contenedor.setAttribute("class", "container-fluid-light");
+
+              for (var i = 0; i < n_resis; i++) {
+                var fila = document.createElement("div");
+                fila.setAttribute("class", "row");
+                contenedor.appendChild(fila);
+
+                var grid_izq = document.createElement("div");
+                grid_izq.setAttribute("class", "col-lg-6");
+
+                var grid_der = document.createElement("div");
+                grid_der.setAttribute("class", "col-lg-6");
+
+                fila.appendChild(grid_izq);
+                fila.appendChild(grid_der);
+
+                var nombre = nameArr[i]
+
+                var label1 = document.createElement("label");
+                label1.innerHTML = nombre + ':  ';
+                label1.setAttribute("for", "Nombre_fes_" + i);
+                label1.setAttribute("id", "Nombre_fes_label_" + i);
+                label1.setAttribute("class", "label_form filtro bold");
+
+                let input1 = document.createElement("input");
+                input1.setAttribute("type", "number");
+                input1.setAttribute("id", "Nombre_fes_" + i);
+                input1.setAttribute("name", "Nombre_fes_" + i);
+                input1.setAttribute("min", "0");
+                input1.setAttribute("max", dias_mes_festivos);
+                input1.setAttribute("value", fg_max);
+                input1.setAttribute("class", "form-control-equipo filtro");
+                input1.required = true;
+
+                if (i == n_resis - 1) {
+                  input1.setAttribute("readonly", "readonly");
+                } else {
+                  input1.setAttribute("onchange", "recalcular_fes()");
+                }
+
+
+                grid_izq.appendChild(label1);
+                grid_der.appendChild(input1);
+                form.appendChild(contenedor);
+              }
+
+              form.appendChild(document.createElement("br"));
+              let desc = document.createElement("p");
+              desc.innerHTML = '<b>Las guardias de ' + nombres_array[n_resis - 1] +
+                ' (totales y en festivo) </b>se calculan automáticamente para que no descuadre';
+              form.appendChild(desc);
+
+              formContainer.appendChild(form);
+
+              var guardias_asignadas = 0
+              for (var i = 0; i < n_resis - 1; i++) {
+                var nombre_aux = "Nombre_fes_" + i
+                guardias_asignadas += parseInt(document.getElementById("Nombre_fes_" + i).value)
+              }
+
+              var guardias_restantes = (RecuentoTotGuardFest) - guardias_asignadas
+              var nombre_aux_ult = "Nombre_fes_" + (n_resis - 1)
+              var ult_fes = document.getElementById(nombre_aux_ult)
+              ult_fes.value = guardias_restantes
+
+
+              //Creamos las variables que vamos a pasar al servidor:
+
+
+              for (var i = 0; i < n_resis; i++) {
+
+                v_guardias_max_tot[i] = document.getElementById("Nombre_tot_" + i).value
+                v_guardias_max_fes[i] = document.getElementById("Nombre_fes_" + i).value
+              }
+
+              v_guardias_min_tot = v_guardias_max_tot
+              v_guardias_min_fes = v_guardias_max_fes
+
+              //console.log("Vectores resultantes:")
+              //console.log(v_guardias_max_tot)
+              //console.log(v_guardias_min_tot)
+              //console.log(v_guardias_max_fes)
+              //console.log(v_guardias_max_fes)
+
+
+            } else if (document.getElementById("toggle_1").value == "ON") {
+              //Lo que ocurre cuando le damos a un festivo y estamos en modo Equitativo
+
+
+
+
+              if (dg_min != dg_max) {
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+                document.getElementById("texto_2").innerHTML = "<b>Entre " + dg_min + " y " + dg_max +
+                  " guardias en total.</b>";
+              } else {
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+                document.getElementById("texto_2").innerHTML = "<b>" + dg_min +
+                  " guardias en total.</b>";
+              }
+
+              if (fg_max != fg_min) {
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+                document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o " + fg_max +
+                  " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+              } else {
+                document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
+                document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min +
+                  " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+              }
+
+
+
+              v_guardias_max_tot = Array(parseInt(n_resis)).fill(dg_max)
+              v_guardias_min_tot = Array(parseInt(n_resis)).fill(dg_min)
+              v_guardias_max_fes = Array(parseInt(n_resis)).fill(fg_max)
+              v_guardias_min_fes = Array(parseInt(n_resis)).fill(fg_min)
+
+            }
+
+            creamosinputs()
+
+
+          }
+
+          function toggle(checkbox) {
+
+            //Borramos las cajas existentes
+            while (document.contains(document.getElementById("Guardias_pers_tot"))) {
+              document.getElementById("Guardias_pers_tot").remove();
+            }
+            //Borramos las cajas existentes
+            while (document.contains(document.getElementById("Guardias_pers_fes"))) {
+              document.getElementById("Guardias_pers_fes").remove();
+            }
+
+            //Borramos los vectores predefinidos
+            while (document.contains(document.getElementById("v_guardias_max_tot"))) {
+              document.getElementById("v_guardias_max_tot").remove();
+            }
+
+            while (document.contains(document.getElementById("v_guardias_min_tot"))) {
+              document.getElementById("v_guardias_min_tot").remove();
+            }
+            while (document.contains(document.getElementById("v_guardias_max_fes"))) {
+              document.getElementById("v_guardias_max_fes").remove();
+            }
+
+            while (document.contains(document.getElementById("v_guardias_min_fes"))) {
+              document.getElementById("v_guardias_min_fes").remove();
+            }
+
+            //Esto se ejecuta cuando le damos al toggle button
+            if (document.getElementById("toggle_1").value == "OFF") {
+              document.getElementById("toggle_1").value = "ON";
+              //document.getElementById("cajita_naranja").style.display = "block";
+
+              recalculate(checkbox);
+
+
+            } else if (document.getElementById("toggle_1").value == "ON") {
+              document.getElementById("toggle_1").value = "OFF";
+              //document.getElementById("cajita_naranja").style.display = "none";
+              recalculate(checkbox);
+
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "orange";
+              document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "orange";
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "orange";
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "orange";
+            }
+
+          }
+        </script>
+
+
+        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux4">Siguiente</button>
+        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn4">Anterior</button>
+        <button class="btn btn-ptg" type="submit" id="BtnStep4">Siguiente</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('BtnStep4').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep4'
+      });
+    });
+    document.getElementById('BtnStepAux4').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnStep4'
+      });
+    });
+
+    document.getElementById('BtnReturn4').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'stepForm', {
+        'button_name': 'BtnReturn4'
+      });
+    });
+  </script>
+<% }  %>
