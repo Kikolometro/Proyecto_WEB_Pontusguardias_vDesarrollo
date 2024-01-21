@@ -1,102 +1,106 @@
-
-
-  <% if (step === 2) { %>
-  <div class="container-fluid" id="contenedor">
-    <div class="container-md container_k">
-      <div class="progress progress_k">
-        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 22%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
-      </div>
-
-
-      <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres</h3>
-      <h4 id="aviso" class="aviso"><%= aviso %></h4>
-
-      <form action="/generarplanilla" method="post">
-        <div class="form-group" id="divi">
-          <input type="hidden" name="step" value=<%= step %>>
-
-          <input class="filtro" size="1" type="number" min="3" max="85" style="width: 12em" id="n_resis"
-            onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis"
-            placeholder="Nº médicos" required>
-
-          <br />
-          <br />
-
-          <!-- Se pregunta por el nombre de los residentes -->
-
-          <script>
-            function pregunta_nombres() {
-              let nombres = '<%= nombre %>'
-              let nombres_array = nombres.split(",")
-
-
-              for (var i = 0; i <= 50; i++) {
-                while (document.contains(document.getElementById("Nombre_" + i))) {
-                  document.getElementById("Nombre_" + i).remove();
-                }
-
-              }
-
-              var n_resis = document.getElementById("n_resis");
-              var n_resis_value = n_resis.value;
-              var divi = document.getElementById("divi");
-
-              // Crea las celdas
-              for (var i = 0; i < n_resis_value; i++) {
-                var input = document.createElement("input");
-                input.setAttribute("type", "text");
-                input.setAttribute("name", "Nombre_" + i);
-                input.setAttribute("id", "Nombre_" + i);
-                input.setAttribute("class", "form-control filtro");
-                input.setAttribute("placeholder", "Nombre");
-                input.setAttribute("maxlength", "12");
-                input.required = true;
-                divi.appendChild(input);
-              }
-
-              if (nombres_array.length > 1) {
-                limit = Math.min(nombres_array.length, n_resis_value)
-                for (var i = 0; i < limit; i++) {
-                  let id = "Nombre_" + i
-                  document.getElementById(id).value = nombres_array[i]
-
-                }
-              }
-            }
-          </script>
-          <noscript>¡Ha habido un error! Prueba a abrir la web desde Google Chrome.</noscript>
-
-        </div>
-        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux2">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn2">Anterior</button>
-        <button class="btn btn-ptg" type="submit" id="BtnStep2">Siguiente</button>
-
-      </form>
+<% if (step === 2) { %>
+<div class="container-fluid" id="contenedor">
+  <div class="container-md container_k">
+    <div class="progress progress_k">
+      <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 22%"
+        aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
     </div>
+
+
+    <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres</h3>
+    <h4 id="aviso" class="aviso"><%= aviso %></h4>
+
+    <form action="/generarplanilla" method="post">
+      <div class="form-group" id="divi">
+        <input type="hidden" name="step" value=<%= step %>>
+
+        <input class="filtro" size="1" type="number" min="3" max="85" style="width: 12em" id="n_resis"
+          onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos"
+          required>
+
+        <br />
+        <br />
+
+
+      </div>
+      <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux2">Siguiente</button>
+      <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn2">Anterior</button>
+      <button class="btn btn-ptg" type="submit" id="BtnStep2">Siguiente</button>
+
+    </form>
   </div>
+</div>
 
 
-  <script>
-    document.getElementById('BtnStepAux2').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnStep2'
-      });
+<script>
+  document.getElementById('BtnStepAux2').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep2'
     });
+  });
 
-    document.getElementById('BtnStep2').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnStep2'
-      });
+  document.getElementById('BtnStep2').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep2'
     });
+  });
 
-    document.getElementById('BtnReturn2').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnReturn2'
-      });
+  document.getElementById('BtnReturn2').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnReturn2'
     });
-  </script>
-  <% }  %>
+  });
+
+
+  var n_resis = '<%= n_resis %>';
+
+
+  function pregunta_nombres() {
+    let nombres = '<%= nombre %>'
+    let nombres_array = nombres.split(",")
+
+
+    for (var i = 0; i <= 50; i++) {
+      while (document.contains(document.getElementById("Nombre_" + i))) {
+        document.getElementById("Nombre_" + i).remove();
+      }
+
+    }
+
+    var n_resis = document.getElementById("n_resis");
+    var n_resis_value = n_resis.value;
+    var divi = document.getElementById("divi");
+
+    // Crea las celdas
+    for (var i = 0; i < n_resis_value; i++) {
+      var input = document.createElement("input");
+      input.setAttribute("type", "text");
+      input.setAttribute("name", "Nombre_" + i);
+      input.setAttribute("id", "Nombre_" + i);
+      input.setAttribute("class", "form-control filtro");
+      input.setAttribute("placeholder", "Nombre");
+      input.setAttribute("maxlength", "12");
+      input.required = true;
+      divi.appendChild(input);
+    }
+
+    if (nombres_array.length > 1) {
+      limit = Math.min(nombres_array.length, n_resis_value)
+      for (var i = 0; i < limit; i++) {
+        let id = "Nombre_" + i
+        document.getElementById(id).value = nombres_array[i]
+
+      }
+    }
+  }
+
+  if (n_resis > 0) {
+    
+    document.getElementById('n_resis').value = n_resis
+    pregunta_nombres()
+  }
+</script>
+<% }  %>

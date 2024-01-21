@@ -276,14 +276,27 @@
 
       <script type="text/javascript">
         let arrayGroups = [];
+        let imp_arrayGroups = '<%= arrayGroups %>'
+        imp_arrayGroups_split = imp_arrayGroups.split(",")
         let nombresArray = '<%= nombre %>';
         var nameArr = nombresArray.split(',');
         let n_resis = '<%= n_resis%>';
         let arrayNormas_pre = '<%= arrayNormas %>';
         let arrayNormas = arrayNormas_pre.split(',');
-        if (arrayNormas[0] == '') {
 
+        if (arrayNormas[0] == '') {
           arrayNormas = []
+        }
+
+        if(imp_arrayGroups_split.length > 1){
+          //console.log("Esto es tamaño arrayGroups: " + imp_arrayGroups_split.length)
+          for (var i = 0; i < parseInt(n_resis); i++) {
+            // Generamos un array con los grupos de los médicos nada más empezar
+            document.getElementById("Grupo_" + nameArr[i]).value = "Grupo "+ imp_arrayGroups_split[i];
+
+          }
+        } else {
+          arrayGroups= []
         }
 
         for (var i = 0; i < parseInt(n_resis); i++) {
@@ -294,7 +307,7 @@
         }
 
         document.getElementById("arrayGroups").value = arrayGroups
-        console.log(document.getElementById("arrayGroups").value)
+        //console.log(document.getElementById("arrayGroups").value)
         actualizarNormas()
 
         function cambiarArray() {
@@ -311,7 +324,7 @@
           }
 
           document.getElementById("arrayGroups").value = arrayGroups
-          console.log(document.getElementById("arrayGroups").value)
+          //console.log(document.getElementById("arrayGroups").value)
 
         }
 
@@ -382,7 +395,7 @@
 
               break;
             default:
-              console.log(`Sorry, we are out of ${norma}.`);
+              //console.log(`Sorry, we are out of ${norma}.`);
           }
           //hacer push del código en arrayNormas
           arrayNormas[arrayNormas.length] = codigo;
@@ -399,7 +412,7 @@
         function actualizarNormas() {
           document.getElementById("arrayNormas").value = arrayNormas
           let bucle = arrayNormas.length
-          console.log(bucle)
+          //console.log(bucle)
 
           var listado_normas = document.getElementById('listado_normas')
           var texto_fin = document.getElementById('texto_fin')
@@ -485,7 +498,7 @@
                   ' guardia/s los ' + dia
                 break;
               default:
-                console.log('Ha habido un error');
+                //console.log('Ha habido un error');
             }
 
 
@@ -508,7 +521,7 @@
             listado_normas.appendChild(newItem)
 
           }
-          console.log(arrayNormas)
+          //console.log(arrayNormas)
 
 
         }

@@ -19,9 +19,9 @@
           </div>
 
           <div class="form-group">
-            <label class="filtro titulin" for="exampleFormControlTextarea1">Ejemplo: En mi servicio necesitamos
+            <label class="filtro titulin" for="comentario">Ejemplo: En mi servicio necesitamos
               que,...</label>
-            <textarea class="form-control filtro" name="comentario" rows="3"></textarea>
+            <textarea class="form-control filtro" name="comentario" id = "comentario" rows="3"></textarea>
           </div>
 
           <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux8">Siguiente</button>
@@ -52,5 +52,11 @@
           'button_name': 'BtnReturn8'
         });
       });
+
+      let comentario = '<%= comentario %>';
+
+      if (comentario != ""){
+        document.getElementById("comentario").value = comentario;
+      }
     </script>
 <% }  %>

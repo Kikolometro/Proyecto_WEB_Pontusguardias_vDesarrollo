@@ -126,14 +126,32 @@
           var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
           //var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
           var n_resis = '<%= n_resis %>';
-
+          let dias_mes = '<%= dias_mes %>'
           var medicosDeGuardia_pre = '<%= medicosDeGuardia %>';
           medicosDeGuardia_pre = medicosDeGuardia_pre.split(",")
           var medicosDeGuardia = 0;
           var RecuentoTotGuardFest = 0;
+          let festivosArray = '<%= festivosArray%>'
+          let festivosArray_array = festivosArray.split(",")
 
           for (let x of medicosDeGuardia_pre) {
             medicosDeGuardia += parseInt(x);
+          }
+          
+          if (festivosArray_array.length > 1) {
+ 
+            for (var i = 0; i < dias_mes; i++) {
+
+              let id = "Festivo_" + (i+1)
+
+              if (festivosArray_array[i] == '1') {
+                //console.log(id)
+                document.getElementById(id).checked = true
+              } else {
+                document.getElementById(id).checked = false
+              }
+
+            }
           }
 
           for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
@@ -161,6 +179,35 @@
           var v_guardias_min_tot = []
           var v_guardias_max_fes = []
           var v_guardias_min_fes = []
+
+          let imp_v_guardias_max_tot = '<%= v_guardias_max_tot %>'
+          let imp_v_guardias_max_tot_split = imp_v_guardias_max_tot.split(",")
+          
+
+          let imp_v_guardias_min_tot = '<%= v_guardias_min_tot %>'
+          let imp_v_guardias_min_tot_split = imp_v_guardias_min_tot.split(",")
+          
+
+          let imp_v_guardias_max_fes = '<%= v_guardias_max_fes %>'
+          let imp_v_guardias_max_fes_split = imp_v_guardias_max_fes.split(",")
+          
+
+          let imp_v_guardias_min_fes = '<%= v_guardias_min_fes %>'
+          let imp_v_guardias_min_fes_split = imp_v_guardias_min_fes.split(",")
+          
+          
+          for(i=0; i < imp_v_guardias_max_tot_split.length; i++){
+            imp_v_guardias_max_tot_split[i]= parseInt(imp_v_guardias_max_tot_split[i])
+            imp_v_guardias_min_tot_split[i]= parseInt(imp_v_guardias_min_tot_split[i])
+            imp_v_guardias_max_fes_split[i]= parseInt(imp_v_guardias_max_fes_split[i])
+            imp_v_guardias_min_fes_split[i]= parseInt(imp_v_guardias_min_fes_split[i])    
+          }
+          imp_v_guardias_max_tot_split.splice(imp_v_guardias_max_tot.length)
+          imp_v_guardias_min_tot_split.splice(imp_v_guardias_max_tot.length)
+          imp_v_guardias_max_fes_split.splice(imp_v_guardias_max_tot.length)
+          imp_v_guardias_min_fes_split.splice(imp_v_guardias_max_tot.length)
+          
+
 
           if (document.getElementById("toggle_1").value == "OFF") {
             var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length - 1;
@@ -203,6 +250,30 @@
           v_guardias_max_fes = Array(parseInt(n_resis)).fill(fg_max)
           v_guardias_min_fes = Array(parseInt(n_resis)).fill(fg_min)
 
+          let flag = 0;
+          for(i=0; i < imp_v_guardias_max_tot_split.length; i++){
+            if ((v_guardias_max_tot[i] === imp_v_guardias_max_tot_split[i]) && (v_guardias_min_tot[i] === imp_v_guardias_min_tot_split[i]) && (v_guardias_max_fes[i] === imp_v_guardias_max_fes_split[i]) && (v_guardias_min_fes[i] === imp_v_guardias_min_fes_split[i])){
+                      
+            } else {
+              flag = 1;
+              
+            }
+
+          }
+
+          //console.log(v_guardias_max_tot)
+          //console.log(imp_v_guardias_max_tot_split)
+
+          //console.log(v_guardias_min_tot)
+          //console.log(imp_v_guardias_min_tot_split)
+
+          //console.log(v_guardias_max_fes)
+          //console.log(imp_v_guardias_max_fes_split)
+
+          //console.log(v_guardias_min_fes)
+          //console.log(imp_v_guardias_min_fes_split)
+
+          
 
           var reparto = document.getElementById("reparto");
 
@@ -245,6 +316,31 @@
             reparto.appendChild(input_v_guardias_min_fes);
 
           }
+
+          if (flag == 0){
+            //console.log("son iguales, no hacemos nada")
+          } else {
+            //console.log("no son iguales")
+            document.getElementById("toggle_1").checked = true;
+            document.getElementById("toggle_1").value == "OFF"
+            toggle();
+
+            for (var i = 0; i < n_resis; i++) {
+
+              document.getElementById("Nombre_tot_" + i).value = imp_v_guardias_max_tot_split[i];
+              document.getElementById("Nombre_fes_" + i).value = imp_v_guardias_max_fes_split[i];
+              
+              v_guardias_max_tot[i] = document.getElementById("Nombre_tot_" + i).value
+              v_guardias_max_fes[i] = document.getElementById("Nombre_fes_" + i).value
+              
+
+              
+            }
+            v_guardias_min_tot = v_guardias_max_tot
+            v_guardias_min_fes = v_guardias_max_fes
+
+
+            }
 
           function recalcular_tot() {
             var guardias_asignadas = 0
@@ -380,8 +476,6 @@
             }
 
 
-
-
             for (var i = 0; i < n_resis; i++) {
               var input_v_guardias_max_tot = document.createElement("input");
               input_v_guardias_max_tot.setAttribute("type", "hidden");
@@ -451,12 +545,12 @@
                 RecuentoTotGuardFest = RecuentoTotGuardFest + medicosDeGuardia_pre[i] * 1;
                 document.getElementById("dia_mes_fes_" + (i)).classList.add('table-clear-blue');
                 document.getElementById("l_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
-                document.getElementById("c_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+                document.getElementById("c_dia_mes_fes_" + (i)).classList.add('table-clear-blue'); 
 
               } else {
                 document.getElementById("dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
                 document.getElementById("l_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
-                document.getElementById("c_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+                document.getElementById("c_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');              
               }
             }
 
@@ -780,6 +874,14 @@
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "orange";
               document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "orange";
               document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "orange";
+              
+              if(imp_v_guardias_max_tot_split.length >1){
+                for (var i = 0; i < n_resis; i++) {
+                  document.getElementById("Nombre_tot_" + i).value = imp_v_guardias_max_tot_split[i];
+                  document.getElementById("Nombre_fes_" + i).value = imp_v_guardias_max_fes_split[i];
+                }
+              }
+              
             }
 
           }

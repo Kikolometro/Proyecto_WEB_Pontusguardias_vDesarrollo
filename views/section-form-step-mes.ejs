@@ -15,7 +15,7 @@
         <div class="form-group">
           <input type="hidden" name="step" value="<%= step %>">
 
-          <select class="form-control filtro" size="1" name="mes" required>
+          <select class="form-control filtro" size="1" name="mes" id="mes" required>
             <option disabled="" selected="" value="">Mes</option>
             <% for (var i = 0; i < 12 ; i++) { %>
             <option value="<%= meses[i] %>"><%= meses[i] %></option>
@@ -23,7 +23,7 @@
 
           </select>
 
-          <select class="form-control filtro" size="1" name="anyo" required>
+          <select class="form-control filtro" size="1" name="anyo" id="anyo" required>
             <option disabled="" selected="" value="">Año</option>
             <% for (var i = 0; i < anyosLength ; i++) { %>
             <option value="<%= anyos[i] %>"><%= anyos[i] %></option>
@@ -47,5 +47,17 @@
       });
 
     });
+
+    var mes = '<%= mes %>';
+    var anyo = '<%= anyo %>';
+
+    if (mes != "") {
+      document.getElementById('mes').value = mes
+    }
+
+    if (anyo != 0) {
+      document.getElementById('anyo').value =anyo
+    }
+
   </script>
 <% }  %>

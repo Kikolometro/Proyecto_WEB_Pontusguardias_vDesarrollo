@@ -95,18 +95,195 @@
 
 
   <script>
-    var medicosDeGuardia = [];
     var select_medGuardia = 1;
     var dias_mes = '<%= dias_mes %>';
+    let original_izq = 0;
+    let original_der = [];
+    let ind_situ = 0;
+    var medicosDeGuardia = []
+    var imp_medicosDeGuardia = '<%= medicosDeGuardia %>';     
+    medicosDeGuardia_split = imp_medicosDeGuardia.split(",")
+    //console.log(medicosDeGuardia_split) 
+
     document.getElementById('scroll_k').className = "";
 
-    for (let i = 0; i < dias_mes; i++) {
-      document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
-    };
+    // Muestro algo por pantalla
+        
+    
+    if(medicosDeGuardia_split.length > 1){
+      let allEqual = arr => arr.every( v => v === arr[0] )
+      //console.log(allEqual(medicosDeGuardia_split))
+
+      if(allEqual(medicosDeGuardia_split)){
+        // Situacion 2
+        ind_situ = 2;
+        original_izq = parseInt(medicosDeGuardia_split[0])
+        document.getElementById("select_medGuardia").value = original_izq;
+        
+        for (let i = 0; i < dias_mes; i++) {
+          original_der[i] = parseInt(medicosDeGuardia_split[0])
+          document.getElementById("m_guardia_dia_" + i).value = original_der[i]
+        };
+        
+        
+        document.getElementById("select_medGuardia").style.display = "block";
+        document.getElementById("table_medGuard").style.display = "none";
+        document.getElementById('scroll_k').className = ""
+        document.getElementById("toggle_med_1").value = "ON";
+
+      } else{
+        // Situacion 1
+        ind_situ = 1;
+        document.getElementById("toggle_med_1").checked = true;
+        
+        document.getElementById("select_medGuardia").style.display = "none";
+        document.getElementById("table_medGuard").style.display = "block";
+        document.getElementById('scroll_k').className = "scroll_k";
+        document.getElementById("toggle_med_1").value = "OFF";
+
+        original_izq = parseInt(medicosDeGuardia_split[0])
+        document.getElementById("select_medGuardia").value = original_izq;
+        for (let i = 0; i < dias_mes; i++) {
+          original_der[i] = parseInt(medicosDeGuardia_split[i])
+          document.getElementById("m_guardia_dia_" + i).value = original_der[i]
+        };
+
+      }
+      
+    } else{
+      // Situacion 3
+      ind_situ = 3;
+      document.getElementById("select_medGuardia").style.display = "block";
+      document.getElementById("table_medGuard").style.display = "none";
+      document.getElementById('scroll_k').className = ""
+      document.getElementById("toggle_med_1").value = "ON";
+      
+
+      for (let i = 0; i < dias_mes; i++) {
+        document.getElementById("m_guardia_dia_" + i).value = 1
+      };
+    }
+    //console.log(ind_situ)
+    
+    calcularMedGuard()
+    
+
+    function toggle_med(checkbox) {
+      //medicosDeGuardia = [];
+      
+      //Esto se ejecuta cuando le damos al toggle button
+
+      // Dejamos de mostrar una para mostrar la otra
+      if (document.getElementById("toggle_med_1").value == "OFF") {
+        document.getElementById("toggle_med_1").value = "ON";
+        document.getElementById('scroll_k').className = "";
+
+        document.getElementById("select_medGuardia").style.display = "block";
+        document.getElementById("table_medGuard").style.display = "none";
+
+        //medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
+
+        switch (ind_situ) {
+            case 1:
+              for (let i = 0; i < dias_mes; i++) {
+                document.getElementById("m_guardia_dia_" + i).value = original_der[i];
+              };
+              document.getElementById("select_medGuardia").value = original_izq;
+
+              break;
+            case 2:
+              for (let i = 0; i < dias_mes; i++) {
+                document.getElementById("m_guardia_dia_" + i).value = original_der[i];
+              };
+              document.getElementById("select_medGuardia").value = original_izq;
+
+              break;
+            case 3:
+              //console.log("giramos izquierda")
+              
 
 
-    document.getElementById("select_medGuardia").style.display = "block";
-    document.getElementById("table_medGuard").style.display = "none";
+              break;
+            default:
+              
+            ;
+          }
+
+      } else if (document.getElementById("toggle_med_1").value == "ON") {
+        document.getElementById("toggle_med_1").value = "OFF";
+        document.getElementById('scroll_k').className = "scroll_k";
+
+        document.getElementById("select_medGuardia").style.display = "none";
+        document.getElementById("table_medGuard").style.display = "block";
+        //document.getElementById("select_medGuardia").value = 1;
+
+        //for (let i = 0; i < dias_mes; i++) {
+        //  document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
+        //  medicosDeGuardia.push(parseInt(select_medGuardia))
+        //};
+
+        //console.log("giramos derecha")
+        switch (ind_situ) {
+            case 1:
+              for (let i = 0; i < dias_mes; i++) {
+                document.getElementById("m_guardia_dia_" + i).value = original_der[i];
+              };
+              document.getElementById("select_medGuardia").value = original_izq;
+
+              break;
+            case 2:
+              for (let i = 0; i < dias_mes; i++) {
+                document.getElementById("m_guardia_dia_" + i).value = original_der[i];
+              };
+              document.getElementById("select_medGuardia").value = original_izq;
+
+              break;
+            case 3:
+              if(document.getElementById("select_medGuardia").value == ""){
+                document.getElementById("select_medGuardia").value = 1
+              }
+              original_izq = Math.max(document.getElementById("select_medGuardia").value,1);
+              for (let i = 0; i < dias_mes; i++) {
+                original_der[i] = original_izq;
+                document.getElementById("m_guardia_dia_" + i).value = original_der[i];
+                
+              }; 
+
+
+              break;
+            default:
+              
+            ;
+          }
+
+      }
+      //console.log(medicosDeGuardia)
+      //document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
+
+    calcularMedGuard()
+    
+  }
+
+    function calcularMedGuard() {
+      // Meto en la variable medicosDeGuardia [] lo que se muestra por pantalla
+      
+      medicosDeGuardia = [];
+
+      if (document.getElementById("toggle_med_1").value == "OFF") {
+        
+        for (let i = 0; i < dias_mes; i++) {
+          let m_guardia_dia = document.getElementById("m_guardia_dia_" + i).value;
+          medicosDeGuardia.push(parseInt(m_guardia_dia))
+        };
+
+      } else if (document.getElementById("toggle_med_1").value == "ON") {
+        let select_medGuardia = document.getElementById("select_medGuardia").value;
+        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
+      }
+      //console.log(medicosDeGuardia)
+      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
+
+    }
 
     document.getElementById('BtnStep3').addEventListener('click', function () {
       // Call the gtag() function to send the event data
@@ -120,72 +297,11 @@
         'button_name': 'BtnStep3'
       });
     });
-
     document.getElementById('BtnReturn3').addEventListener('click', function () {
       // Call the gtag() function to send the event data
       gtag('event', 'stepForm', {
         'button_name': 'BtnReturn3'
       });
     });
-
-
-
-    function toggle_med(checkbox) {
-      medicosDeGuardia = [];
-
-      //Esto se ejecuta cuando le damos al toggle button
-      if (document.getElementById("toggle_med_1").value == "OFF") {
-        document.getElementById("toggle_med_1").value = "ON";
-        document.getElementById('scroll_k').className = "";
-
-        document.getElementById("select_medGuardia").style.display = "block";
-        document.getElementById("table_medGuard").style.display = "none";
-        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
-
-      } else if (document.getElementById("toggle_med_1").value == "ON") {
-        document.getElementById("toggle_med_1").value = "OFF";
-        document.getElementById('scroll_k').className = "scroll_k";
-
-        document.getElementById("select_medGuardia").style.display = "none";
-        document.getElementById("table_medGuard").style.display = "block";
-        document.getElementById("select_medGuardia").value = 1;
-
-        for (let i = 0; i < dias_mes; i++) {
-          document.getElementById("m_guardia_dia_" + i).value = select_medGuardia
-          medicosDeGuardia.push(parseInt(select_medGuardia))
-        };
-
-      }
-      //console.log(medicosDeGuardia)
-      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
-    }
-
-    function calcularMedGuard() {
-      //console.log("funcion activada")
-
-      select_medGuardia = document.getElementById("select_medGuardia").value;
-      medicosDeGuardia = [];
-
-      if (document.getElementById("toggle_med_1").value == "OFF") {
-        //console.log("está OFF")
-
-
-        for (let i = 0; i < dias_mes; i++) {
-          let m_guardia_dia = document.getElementById("m_guardia_dia_" + i).value;
-          medicosDeGuardia.push(parseInt(m_guardia_dia))
-        };
-
-        //console.log(medicosDeGuardia)
-
-      } else if (document.getElementById("toggle_med_1").value == "ON") {
-        //console.log("está ON")
-        let select_medGuardia = document.getElementById("select_medGuardia").value;
-        medicosDeGuardia = Array(parseInt(dias_mes)).fill(parseInt(select_medGuardia))
-        //console.log(medicosDeGuardia)
-
-      }
-      document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
-
-    }
   </script>
 <% }  %>

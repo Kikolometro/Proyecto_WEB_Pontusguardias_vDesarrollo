@@ -131,7 +131,6 @@
       </div>
 
 
-
       <% break
 
        case 10: %>
@@ -178,6 +177,18 @@
 
       <% break ;
 
+       case 50: %>
+      <div>
+        <div class="mini-filtro">
+        Lo sentimos, <strong>ese código es erróneo</strong>. Prueba a escribirnos a <a
+          href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
+
+        Gracias por confiar en PonTusGuardias.com
+      </div>
+      </div>
+
+      <% break ;
+
        default: %>
       <div class="mini-filtro">
         :)
@@ -188,7 +199,7 @@
 
        } %>
 
-      <% var arr = [10, 20]%>
+      <% var arr = [10, 20, 50]%>
       <% if (!arr.includes(cod_error)) { %>
       <button class="btn btn-ptg-naranja" onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i
           class="fa-solid fa-copy"></i> Copiar enlace</button>
@@ -199,27 +210,100 @@
       <a class="btn btn-ptg-naranja"
         href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
         <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
-
+        
       <% } %>
 
+      <div class="container-fluid-light bold">
 
+        <div class="row justify-content-md-center">
+          <% if (!arr.includes(cod_error)) { %>
+          <div class="col-lg-4">
+            
+              <form action="/reutilizar-planilla#form" method="POST">
+                <div class="form-group">
+                  <input type="hidden" name="step" value="1">
+                </div>
+                <button class="btn btn-ptg" type="submit">Reutilizar planilla</button>
+              </form>
 
+              <div class="col-md-auto">
+      
+              </div>
+            
+          </div>
+          <% } %>
+          <div class="col-lg-4">
 
-      <form action="/" method="POST">
-        <div class="form-group">
-          <input type="hidden" name="step" value="0">
+            <form action="/" method="POST">
+              <div class="form-group">
+                <input type="hidden" name="step" value="0">
+              </div>
 
+              <button class="btn btn-ptg" type="submit">Volver a empezar</button>
+            </form>
+
+          </div>
         </div>
-
-        <button class="btn btn-ptg" type="submit">Volver a empezar</button>
-
-      </form>
+      </div>
 
     </div>
   </div>
 
 </section>
+
 <script type="text/javascript">
+  var elms_blue = document.getElementsByClassName("table-clear-blue");
+  var n_blue = elms_blue.length;
+  var n = 0;
+
+  function changeColor(color) {
+    for (var i = 0; i < n; i++) {
+      elms[i].style.backgroundColor = color;
+    }
+  }
+  for (var i = 0; i < n_blue; i++) {
+    
+    elms_blue[i].onmouseover = function () {
+      elms = elms_blue
+      n = n_blue
+      changeColor("#86def7");
+    };
+    elms_blue[i].onmouseout = function () {
+      elms = elms_blue
+      changeColor("#bdeaf7");
+    };
+  }
+
+  var elms_red = document.getElementsByClassName("table-clear-red");
+  var n_red = elms_red.length;
+  
+  for (var i = 0; i < n_red; i++) {
+    elms_red[i].onmouseover = function () {
+      elms = elms_red
+      n = n_red
+      changeColor("#fa6464");
+    };
+    elms_red[i].onmouseout = function () {
+      elms = elms_red
+      changeColor("#f7cfbd");
+    };
+  }
+
+  var elms_green = document.getElementsByClassName("table-clear-green");
+  var n_green = elms_green.length;
+  
+  for (var i = 0; i < n_green; i++) {
+    elms_green[i].onmouseover = function () {
+      elms = elms_green
+      n = n_green
+      changeColor("#b5f385");
+    };
+    elms_green[i].onmouseout = function () {
+      elms = elms_green
+      changeColor("#d6f7bd");
+    };
+  }
+
   $(document).ready(function () {
     $(document).scrollTop($("#form").offset().top);
   });
@@ -242,6 +326,26 @@
   function updateFeedback(status) {
     // Make a POST request to your server with the updated status
     fetch('/update-feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          clientStatus: status
+        })
+      })
+      .then(response => {
+        // Handle the response from the server if needed
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
+  function reutilizarPlanilla() {
+
+    // Make a POST request to your server with the updated status
+    fetch('/reutilizar-planilla', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -17,7 +17,7 @@
 
 
             <input class="filtro" type="text" placeholder="Escribe tu email" name="correo" class="form-control"
-              id="exampleInputEmail1" aria-describedby="emailHelp">
+              id="correo" aria-describedby="emailHelp">
             <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.
               Sólo lo utilizaremos con fines estadísticos, para avisar de las últimas novedades y para resolver
               cualquier
@@ -54,6 +54,12 @@
           'button_name': 'BtnReturnFin'
         });
       });
+
+      let mail = '<%= mail %>';
+
+      if (mail != ""){
+        document.getElementById("correo").value = mail;
+      }
     </script>
 
 <% }  %>
