@@ -180,11 +180,11 @@
        case 50: %>
       <div>
         <div class="mini-filtro">
-        Lo sentimos, <strong>ese código es erróneo</strong>. Prueba a escribirnos a <a
-          href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
+          Lo sentimos, <strong>ese código es erróneo</strong>. Prueba a escribirnos a <a
+            href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
 
-        Gracias por confiar en PonTusGuardias.com
-      </div>
+          Gracias por confiar en PonTusGuardias.com
+        </div>
       </div>
 
       <% break ;
@@ -210,7 +210,7 @@
       <a class="btn btn-ptg-naranja"
         href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
         <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
-        
+
       <% } %>
 
       <div class="container-fluid-light bold">
@@ -218,18 +218,18 @@
         <div class="row justify-content-md-center">
           <% if (!arr.includes(cod_error)) { %>
           <div class="col-lg-4">
-            
-              <form action="/reutilizar-planilla#form" method="POST">
-                <div class="form-group">
-                  <input type="hidden" name="step" value="1">
-                </div>
-                <button class="btn btn-ptg" type="submit">Reutilizar planilla</button>
-              </form>
 
-              <div class="col-md-auto">
-      
+            <form action="/reutilizar-planilla#form" method="POST">
+              <div class="form-group">
+                <input type="hidden" name="step" value="1">
               </div>
-            
+              <button class="btn btn-ptg" type="submit">Reutilizar planilla</button>
+            </form>
+
+            <div class="col-md-auto">
+
+            </div>
+
           </div>
           <% } %>
           <div class="col-lg-4">
@@ -262,7 +262,7 @@
     }
   }
   for (var i = 0; i < n_blue; i++) {
-    
+
     elms_blue[i].onmouseover = function () {
       elms = elms_blue
       n = n_blue
@@ -276,7 +276,7 @@
 
   var elms_red = document.getElementsByClassName("table-clear-red");
   var n_red = elms_red.length;
-  
+
   for (var i = 0; i < n_red; i++) {
     elms_red[i].onmouseover = function () {
       elms = elms_red
@@ -291,7 +291,7 @@
 
   var elms_green = document.getElementsByClassName("table-clear-green");
   var n_green = elms_green.length;
-  
+
   for (var i = 0; i < n_green; i++) {
     elms_green[i].onmouseover = function () {
       elms = elms_green

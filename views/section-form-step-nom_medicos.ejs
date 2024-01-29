@@ -17,7 +17,8 @@
         <input type="hidden" name="step" value=<%= step %>>
         <input type="hidden" name="flagNMedicosFestivos" id="flagNMedicosFestivos" value="<%= flagNMedicosFestivos %>">
         <input type="hidden" name="flagNMedicosGAsig" id="flagNMedicosGAsig" value="<%= flagNMedicosGAsig %>">
-        <input type="hidden" name="flagNMedicosVacaciones" id="flagNMedicosVacaciones" value="<%= flagNMedicosVacaciones %>">
+        <input type="hidden" name="flagNMedicosVacaciones" id="flagNMedicosVacaciones"
+          value="<%= flagNMedicosVacaciones %>">
         <input type="hidden" name="flagNMedicosGrupos" id="flagNMedicosGrupos" value="<%= flagNMedicosGrupos %>">
         <input class="filtro" size="1" type="number" min="3" max="50" style="width: 12em" id="n_resis"
           onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos"
@@ -39,12 +40,12 @@
 
 <script>
   let aviso = '<%= aviso %>'
-  if(aviso == ""){
+  if (aviso == "") {
     document.getElementById('cajita_roja').style.display = "none";
   } else {
     document.getElementById('cajita_roja').style.display = "block";
   }
-  
+
   document.getElementById('BtnStepAux2').addEventListener('click', function () {
     // Call the gtag() function to send the event data
     gtag('event', 'stepForm', {
@@ -114,17 +115,17 @@
 
       }
     }
-   
-    if((n_resis_orig != n_resis) && (n_resis_orig >2)){
+
+    if ((n_resis_orig != n_resis) && (n_resis_orig > 2)) {
       document.getElementById('flagNMedicosFestivos').value = 1;
       document.getElementById('flagNMedicosGAsig').value = 1;
       document.getElementById('flagNMedicosVacaciones').value = 1;
       document.getElementById('flagNMedicosGrupos').value = 1;
-    } 
+    }
   }
 
   if (n_resis_orig > 0) {
-    
+
     document.getElementById('n_resis').value = n_resis_orig
     pregunta_nombres()
   }

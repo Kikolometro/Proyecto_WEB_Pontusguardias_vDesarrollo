@@ -1,221 +1,219 @@
+<% if (step === 5) { %>
+<div class="container-fluid" id="contenedor">
+  <div class="container-md container_k">
+    <div class="progress progress_k">
+      <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 55%"
+        aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+    </div>
 
+    <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado</h3>
+    <h5>Estas guardias se forzarán al día y médico correspondiente:</h5>
+    <div class="red-aviso" id="cajita_roja">
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+    </div>
 
-  <% if (step === 5) { %>
-  <div class="container-fluid" id="contenedor">
-    <div class="container-md container_k">
-      <div class="progress progress_k">
-        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 55%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
-      </div>
+    <form action="/generarplanilla" method="POST">
+      <div class="form-group">
+        <input type="hidden" name="step" value=<%= step %>>
+        <input type="hidden" name="flagMesAnyoGAsig" id="flagMesAnyoGAsig" value=<%= flagMesAnyoGAsig %>>
+        <input type="hidden" name="flagNMedicosGAsig" id="flagNMedicosGAsig" value=<%= flagNMedicosGAsig %>>
 
-      <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado</h3>
-      <h5>Estas guardias se forzarán al día y médico correspondiente:</h5>
-      <div class="red-aviso" id="cajita_roja">
-        <h4 id="aviso" class="aviso"><%= aviso %></h4>
-      </div>
-      
-      <form action="/generarplanilla" method="POST">
-        <div class="form-group">
-          <input type="hidden" name="step" value=<%= step %>>
-          <input type="hidden" name="flagMesAnyoGAsig" id="flagMesAnyoGAsig"  value=<%= flagMesAnyoGAsig %>>
-          <input type="hidden" name="flagNMedicosGAsig" id="flagNMedicosGAsig" value=<%= flagNMedicosGAsig %>>
+        <div class="scroll_k" id="scroll_k">
+          <!-- Pendiente de meter tabla -->
+          <table class="table table_k">
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col" id="dia_mes_fes_<%= i %>">
+                  <%= i %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
 
-          <div class="scroll_k" id="scroll_k">
-            <!-- Pendiente de meter tabla -->
-            <table class="table table_k">
-              <thead>
-                <tr>
-                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                  <% if (i > 0) { %>
-                  <th scope="col" id="dia_mes_fes_<%= i %>">
-                    <%= i %>
-                  </th>
-                  <% } else {%>
-                  <th scope="col"></th>
-                  <% }} %>
-                </tr>
-              </thead>
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col" id="l_dia_mes_fes_<%= i %>">
+                  <%= weekArray[i-1] %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
 
-              <thead>
-                <tr>
-                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                  <% if (i > 0) { %>
-                  <th scope="col" id="l_dia_mes_fes_<%= i %>">
-                    <%= weekArray[i-1] %>
-                  </th>
-                  <% } else {%>
-                  <th scope="col"></th>
-                  <% }} %>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% for (var i = 0; i < n_resis ; i++) {%>
-                <tr>
-                  <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
-                  <% for (var j = 0; j < dias_mes ; j++) { %>
-                  <td id="c_dia_mes_fes_<%= j %>_<%= i %>">
-                    <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>"
-                      onclick="actualizarColorRojo()" id="Asignado_<%=nombre[i]%>_<%=j + 1%>">
-                  </td>
-                  <% } %>
-                </tr>
+            <tbody>
+              <% for (var i = 0; i < n_resis ; i++) {%>
+              <tr>
+                <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+                <% for (var j = 0; j < dias_mes ; j++) { %>
+                <td id="c_dia_mes_fes_<%= j %>_<%= i %>">
+                  <input class="checkboxSize" type="checkbox" value=1 name="Asignado_<%=nombre[i]%>_<%=j + 1%>"
+                    onclick="actualizarColorRojo()" id="Asignado_<%=nombre[i]%>_<%=j + 1%>">
+                </td>
                 <% } %>
+              </tr>
+              <% } %>
 
-              </tbody>
-            </table>
-          </div>
-          <div class="container-fluid-light bold">
+            </tbody>
+          </table>
+        </div>
+        <div class="container-fluid-light bold">
 
-            <div class="row">
+          <div class="row">
 
-              <div class="col-lg-4">
-                <p class="table-clear-blue">Festivos</p>
-              </div>
-
-              <div class="col-lg-4">
-                <p class="table-clear-red">Guardias preasignadas</p>
-              </div>
-
+            <div class="col-lg-4">
+              <p class="table-clear-blue">Festivos</p>
             </div>
 
+            <div class="col-lg-4">
+              <p class="table-clear-red">Guardias preasignadas</p>
+            </div>
 
           </div>
+
+
         </div>
+      </div>
 
-        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux5">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn5">Anterior</button>
-        <button class="btn btn-ptg" type="submit" id="BtnStep5">Siguiente</button>
-      </form>
+      <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux5">Siguiente</button>
+      <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn5">Anterior</button>
+      <button class="btn btn-ptg" type="submit" id="BtnStep5">Siguiente</button>
+    </form>
 
-      <script>
-        let dias_mes = '<%= dias_mes %>'
-        let n_resis = '<%= n_resis %>'
-        let festivosArray = '<%= festivosArray%>'
-        let festivosArray_array = festivosArray.split(",")
-        let guardiasMatrix = '<%= guardiasMatrix %>'
-        let guardiasMatrix_array = guardiasMatrix.split(",")
-        let guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
+    <script>
+      let dias_mes = '<%= dias_mes %>'
+      let n_resis = '<%= n_resis %>'
+      let festivosArray = '<%= festivosArray%>'
+      let festivosArray_array = festivosArray.split(",")
+      let guardiasMatrix = '<%= guardiasMatrix %>'
+      let guardiasMatrix_array = guardiasMatrix.split(",")
+      let guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
 
-        let flagMesAnyoGAsig = '<%= flagMesAnyoGAsig %>';
-        let flagNMedicosGAsig = '<%= flagNMedicosGAsig %>';
+      let flagMesAnyoGAsig = '<%= flagMesAnyoGAsig %>';
+      let flagNMedicosGAsig = '<%= flagNMedicosGAsig %>';
 
-        function spliceIntoChunks(arr, chunkSize) {
-          const res = [];
-          while (arr.length > 0) {
-            const chunk = arr.splice(0, chunkSize);
-            res.push(chunk);
-          }
-          return res;
+      function spliceIntoChunks(arr, chunkSize) {
+        const res = [];
+        while (arr.length > 0) {
+          const chunk = arr.splice(0, chunkSize);
+          res.push(chunk);
         }
+        return res;
+      }
 
-        //console.log(guardiasMatrix_array_2)
+      //console.log(guardiasMatrix_array_2)
 
-        nombres = '<%= nombre %>'
-        nombres_array = nombres.split(",")
+      nombres = '<%= nombre %>'
+      nombres_array = nombres.split(",")
 
-        for (let i = 1; i <= dias_mes; i++) {
-          if (festivosArray_array[(i - 1)] == 1) {
+      for (let i = 1; i <= dias_mes; i++) {
+        if (festivosArray_array[(i - 1)] == 1) {
 
-            document.getElementById("dia_mes_fes_" + (i)).classList.add('table-clear-blue');
-            document.getElementById("l_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+          document.getElementById("dia_mes_fes_" + (i)).classList.add('table-clear-blue');
+          document.getElementById("l_dia_mes_fes_" + (i)).classList.add('table-clear-blue');
 
+        } else {
+          document.getElementById("dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+          document.getElementById("l_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+        }
+        for (let j = 0; j < n_resis; j++) {
+          if (festivosArray_array[i - 1] == 1) {
+            document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.add('table-clear-blue');
           } else {
-            document.getElementById("dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
-            document.getElementById("l_dia_mes_fes_" + (i)).classList.remove('table-clear-blue');
+            document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.remove('table-clear-blue');
           }
-          for (let j = 0; j < n_resis; j++) {
-            if (festivosArray_array[i - 1] == 1) {
-              document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.add('table-clear-blue');
+        }
+
+      }
+
+
+      if ((guardiasMatrix_array_2.length > 1) && (flagMesAnyoGAsig == 0) && (flagNMedicosGAsig == 0)) {
+
+
+        for (var j = 0; j < nombres_array.length; j++) {
+          let limit = Math.min(dias_mes, guardiasMatrix_array_2[j].length)
+
+          for (var i = 0; i < limit; i++) {
+
+            let id = "Asignado_" + nombres_array[j] + "_" + (i + 1)
+
+            if (guardiasMatrix_array_2[j][i] == '1') {
+              //console.log(id)
+              document.getElementById(id).checked = true
+            }
+
+
+          }
+        }
+
+      }
+
+
+      function actualizarColorRojo() {
+
+
+        for (var j = 0; j < nombres_array.length; j++) {
+          let limit = dias_mes
+
+          for (var i = 0; i < limit; i++) {
+
+            let id = "Asignado_" + nombres_array[j] + "_" + (i + 1)
+
+            if (document.getElementById(id).checked === true) {
+              //console.log(id)
+              document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.add('table-clear-red');
+
+
             } else {
-              document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.remove('table-clear-blue');
+              document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.remove('table-clear-red');
             }
-          }
 
+          }
         }
 
 
-        if ((guardiasMatrix_array_2.length > 1) && (flagMesAnyoGAsig == 0) && (flagNMedicosGAsig == 0)) {
 
+      }
+      actualizarColorRojo()
 
-          for (var j = 0; j < nombres_array.length; j++) {
-            let limit = Math.min(dias_mes, guardiasMatrix_array_2[j].length)
-
-            for (var i = 0; i < limit; i++) {
-
-              let id = "Asignado_" + nombres_array[j] + "_" + (i + 1)
-
-              if (guardiasMatrix_array_2[j][i] == '1') {
-                //console.log(id)
-                document.getElementById(id).checked = true
-              }
-
-
-            }
-          }
-
-        }
-
-
-        function actualizarColorRojo() {
-
-
-          for (var j = 0; j < nombres_array.length; j++) {
-            let limit = dias_mes
-
-            for (var i = 0; i < limit; i++) {
-
-              let id = "Asignado_" + nombres_array[j] + "_" + (i + 1)
-
-              if (document.getElementById(id).checked === true) {
-                //console.log(id)
-                document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.add('table-clear-red');
-
-
-              } else {
-                document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.remove('table-clear-red');
-              }
-
-            }
-          }
-
-
-
-        }
-        actualizarColorRojo()
-        
-        document.getElementById('flagMesAnyoGAsig').value = 0
-        document.getElementById('flagNMedicosGAsig').value = 0
-      </script>
-    </div>
+      document.getElementById('flagMesAnyoGAsig').value = 0
+      document.getElementById('flagNMedicosGAsig').value = 0
+    </script>
   </div>
+</div>
 
-  <script>
-    let aviso = '<%= aviso %>'
-    if(aviso == ""){
-      document.getElementById('cajita_roja').style.display = "none";
-    } else {
-      document.getElementById('cajita_roja').style.display = "block";
-    }
-    document.getElementById('BtnStep5').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnStep5'
-      });
+<script>
+  let aviso = '<%= aviso %>'
+  if (aviso == "") {
+    document.getElementById('cajita_roja').style.display = "none";
+  } else {
+    document.getElementById('cajita_roja').style.display = "block";
+  }
+  document.getElementById('BtnStep5').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep5'
     });
+  });
 
-    document.getElementById('BtnStepAux5').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnStep5'
-      });
+  document.getElementById('BtnStepAux5').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep5'
     });
+  });
 
-    document.getElementById('BtnReturn5').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnReturn5'
-      });
+  document.getElementById('BtnReturn5').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnReturn5'
     });
-  </script>
+  });
+</script>
 <% }  %>

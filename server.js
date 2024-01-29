@@ -63,7 +63,7 @@ db.conectarBD().catch(err => console.log(err));
 
 // Definimos las rutas del servidor
 app.get("/", function (req, res) {
-  req.session.userID = req.session.id 
+  req.session.userID = req.session.id
   req.session.step = 0;
   req.session.new_step = 0;
   req.session.mes = "";
@@ -212,7 +212,7 @@ app.get('/buscarSolucion', function (req, res) {
           req.session.medicosDeGuardia = unaSolucion['medicosDeGuardia']
           req.session.arrayGroups = unaSolucion['grupos']
           req.session.arrayNormas = unaSolucion['condiciones']
-          
+
           req.session.v_guardias_max_tot = unaSolucion['v_guardias_max_tot']
           req.session.v_guardias_min_tot = unaSolucion['v_guardias_min_tot']
           req.session.v_guardias_max_fes = unaSolucion['v_guardias_max_fes']
@@ -349,7 +349,7 @@ app.post('/buscarSolucion', function (req, res) {
           req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
 
           req.session.medicosDeGuardia = unaSolucion['medicosDeGuardia']
-          
+
           req.session.v_guardias_max_tot = unaSolucion['v_guardias_max_tot']
           req.session.v_guardias_min_tot = unaSolucion['v_guardias_min_tot']
           req.session.v_guardias_max_fes = unaSolucion['v_guardias_max_fes']
@@ -557,7 +557,7 @@ app.get("/mostrarSolucion", function (req, res) {
 
 app.post("/update-feedback", (req, res) => {
   // Extract the feedback status from the request body
-  
+
   db.Petition.findOneAndUpdate({
     //uniqueID: req.session.uniqueID
     idSol: req.session.idSolBuscada
@@ -573,8 +573,8 @@ app.post("/update-feedback", (req, res) => {
   });
 });
 
-app.post("/reutilizar-planilla", function(req, res) {
-  
+app.post("/reutilizar-planilla", function (req, res) {
+
   req.session.step = 1;
   req.session.reutilizandoPlanilla = 1;
   req.session.flagMesAnyoGuardias = 0;
@@ -722,7 +722,7 @@ app.post("/generarplanilla", function (req, res) {
     req.session.flagNMedicosGAsig = req.body.flagNMedicosGAsig;
     req.session.flagNMedicosVacaciones = req.body.flagNMedicosVacaciones;
     req.session.flagNMedicosGrupos = req.body.flagNMedicosGrupos;
-    
+
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
       req.session.num = req.session.i;
       req.session.id_nom = "Nombre_" + req.session.num.toString();

@@ -1,65 +1,63 @@
-
-
-    <%  if (step === 9) { %>
-    <div class="container-fluid" id="contenedor">
-      <div class="container-md container_k">
-        <div class="progress progress_k">
-          <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-            style="width: 100%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
-        </div>
-
-        <h3 class="container-text feature-title-box"> Por último, puedes indicarnos un correo<br> </h3>
-
-        <form action="/generarplanilla" method="POST">
-          <div class="form-group">
-            <input type="hidden" name="step" value="<%= step %>">
-
-
-
-            <input class="filtro" type="text" placeholder="Escribe tu email" name="correo" class="form-control"
-              id="correo" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.
-              Sólo lo utilizaremos con fines estadísticos, para avisar de las últimas novedades y para resolver
-              cualquier
-              incidencia con las planillas. <br> <br>
-              Estamos aquí para haceros las cosas sencillas, no para complicaroslas. :) </small>
-
-          </div>
-          <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAuxFin">Finalizar</button>
-          <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturnFin">Anterior</button>
-          <button class="btn btn-ptg" type="submit" id="BtnStepFin">Finalizar</button>
-        </form>
-
-      </div>
+<%  if (step === 9) { %>
+<div class="container-fluid" id="contenedor">
+  <div class="container-md container_k">
+    <div class="progress progress_k">
+      <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 100%"
+        aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
     </div>
 
-    <script>
-      document.getElementById('BtnStepFin').addEventListener('click', function () {
-        // Call the gtag() function to send the event data
-        gtag('event', 'stepForm', {
-          'button_name': 'BtnStepFin'
-        });
-      });
+    <h3 class="container-text feature-title-box"> Por último, puedes indicarnos un correo<br> </h3>
 
-      document.getElementById('BtnStepAuxFin').addEventListener('click', function () {
-        // Call the gtag() function to send the event data
-        gtag('event', 'stepForm', {
-          'button_name': 'BtnStepFin'
-        });
-      });
+    <form action="/generarplanilla" method="POST">
+      <div class="form-group">
+        <input type="hidden" name="step" value="<%= step %>">
 
-      document.getElementById('BtnReturnFin').addEventListener('click', function () {
-        // Call the gtag() function to send the event data
-        gtag('event', 'stepForm', {
-          'button_name': 'BtnReturnFin'
-        });
-      });
 
-      let mail = '<%= mail %>';
 
-      if (mail != ""){
-        document.getElementById("correo").value = mail;
-      }
-    </script>
+        <input class="filtro" type="text" placeholder="Escribe tu email" name="correo" class="form-control" id="correo"
+          aria-describedby="emailHelp">
+        <small id="emailHelp" class="form-text text-muted">No compartimos información con terceros.
+          Sólo lo utilizaremos con fines estadísticos, para avisar de las últimas novedades y para resolver
+          cualquier
+          incidencia con las planillas. <br> <br>
+          Estamos aquí para haceros las cosas sencillas, no para complicaroslas. :) </small>
+
+      </div>
+      <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAuxFin">Finalizar</button>
+      <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturnFin">Anterior</button>
+      <button class="btn btn-ptg" type="submit" id="BtnStepFin">Finalizar</button>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  document.getElementById('BtnStepFin').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStepFin'
+    });
+  });
+
+  document.getElementById('BtnStepAuxFin').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStepFin'
+    });
+  });
+
+  document.getElementById('BtnReturnFin').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnReturnFin'
+    });
+  });
+
+  let mail = '<%= mail %>';
+
+  if (mail != "") {
+    document.getElementById("correo").value = mail;
+  }
+</script>
 
 <% }  %>

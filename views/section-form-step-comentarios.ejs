@@ -1,62 +1,60 @@
-
-
-    <%  if (step === 8) { %>
-    <div class="container-fluid" id="contenedor">
-      <div class="container-md container_k">
-        <div class="progress progress_k">
-          <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-            style="width: 88%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
-        </div>
-
-        <h3 class="container-text feature-title-box">Déjanos saber si tienes alguna condición que no estemos
-          contemplando
-          o una sugerencia y lo tendremos en cuenta</h3>
-
-
-        <form action="/generarplanilla" method="POST">
-          <div class="form-group">
-            <input type="hidden" name="step" value="<%= step %>">
-          </div>
-
-          <div class="form-group">
-            <label class="filtro titulin" for="comentario">Ejemplo: En mi servicio necesitamos
-              que,...</label>
-            <textarea class="form-control filtro" name="comentario" id = "comentario" rows="3"></textarea>
-          </div>
-
-          <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux8">Siguiente</button>
-          <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn8">Anterior</button>
-          <button class="btn btn-ptg" type="submit" id="BtnStep8">Siguiente</button>
-        </form>
-      </div>
+<%  if (step === 8) { %>
+<div class="container-fluid" id="contenedor">
+  <div class="container-md container_k">
+    <div class="progress progress_k">
+      <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 88%"
+        aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
     </div>
 
-    <script>
-      document.getElementById('BtnStep8').addEventListener('click', function () {
-        // Call the gtag() function to send the event data
-        gtag('event', 'stepForm', {
-          'button_name': 'BtnStep8'
-        });
-      });
+    <h3 class="container-text feature-title-box">Déjanos saber si tienes alguna condición que no estemos
+      contemplando
+      o una sugerencia y lo tendremos en cuenta</h3>
 
-      document.getElementById('BtnStepAux8').addEventListener('click', function () {
-        // Call the gtag() function to send the event data
-        gtag('event', 'stepForm', {
-          'button_name': 'BtnStep8'
-        });
-      });
 
-      document.getElementById('BtnReturn8').addEventListener('click', function () {
-        // Call the gtag() function to send the event data
-        gtag('event', 'stepForm', {
-          'button_name': 'BtnReturn8'
-        });
-      });
+    <form action="/generarplanilla" method="POST">
+      <div class="form-group">
+        <input type="hidden" name="step" value="<%= step %>">
+      </div>
 
-      let comentario = '<%= comentario %>';
+      <div class="form-group">
+        <label class="filtro titulin" for="comentario">Ejemplo: En mi servicio necesitamos
+          que,...</label>
+        <textarea class="form-control filtro" name="comentario" id="comentario" rows="3"></textarea>
+      </div>
 
-      if (comentario != ""){
-        document.getElementById("comentario").value = comentario;
-      }
-    </script>
+      <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux8">Siguiente</button>
+      <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn8">Anterior</button>
+      <button class="btn btn-ptg" type="submit" id="BtnStep8">Siguiente</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById('BtnStep8').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep8'
+    });
+  });
+
+  document.getElementById('BtnStepAux8').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep8'
+    });
+  });
+
+  document.getElementById('BtnReturn8').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnReturn8'
+    });
+  });
+
+  let comentario = '<%= comentario %>';
+
+  if (comentario != "") {
+    document.getElementById("comentario").value = comentario;
+  }
+</script>
 <% }  %>

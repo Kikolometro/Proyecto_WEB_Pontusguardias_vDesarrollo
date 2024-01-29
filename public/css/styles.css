@@ -424,7 +424,7 @@ color-orange {
   background-color: #3AB091;
 }
 
-.happy{
+.happy {
   background-color: #52ec92;
 }
 
@@ -432,16 +432,18 @@ color-orange {
   background-color: #61f19d;
 }
 
-.medium{
+.medium {
   background-color: #f1f09b;
 }
 
 .medium:hover {
   background-color: #e9e647;
 }
-.sad{
+
+.sad {
   background-color: #eeb2a7;
 }
+
 .sad:hover {
   background-color: #ee705a;
 }
@@ -586,7 +588,7 @@ div.settings {
   color: black;
 }
 
-.red-aviso {  
+.red-aviso {
   border-radius: 15px;
   background-color: #FFF4EB;
   border: solid #ff3232 2px;
@@ -678,17 +680,18 @@ div.settings {
 }
 
 @media (max-width: 991px) {
-  
+
   .label_form {
     /* Other styling... */
     text-align: right;
-    
+
     float: none;
-    
+
     margin-bottom: 0;
     margin-left: 0;
-  
+
   }
+
   .form-control-equipo {
     float: none;
     width: max-content;
@@ -729,7 +732,7 @@ div.settings {
 
 
 /* Tablas */
-.celda{
+.celda {
   padding: 0 10px 0 0;
   vertical-align: middle;
 }
@@ -751,19 +754,19 @@ div.settings {
   min-width: 23px;
 }
 
-.table-clear-blue{
+.table-clear-blue {
   background: #bdeaf7;
-  
+
 }
 
-.table-clear-red{
+.table-clear-red {
   background: #f7cfbd;
-  
+
 }
 
-.table-clear-green{
+.table-clear-green {
   background: #d6f7bd;
-  
+
 }
 
 /* CAROUSEL */

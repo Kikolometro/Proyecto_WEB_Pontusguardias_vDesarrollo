@@ -1,235 +1,233 @@
+<% if (step === 6) { %>
+<div class="container-fluid" id="contenedor">
+  <div class="container-md container_k">
+    <div class="progress progress_k">
+      <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar" style="width: 66%"
+        aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
+    </div>
 
+    <h3 class="container-text feature-title-box">Indica los días de vacaciones</h3>
+    <h5>En estos días no asignaremos guardias:</h5>
+    <div class="red-aviso" id="cajita_roja">
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+    </div>
+    <form action="/generarplanilla" method="POST">
+      <div class="form-group">
+        <input type="hidden" name="step" value=<%= step %>>
+        <input type="hidden" name="flagMesAnyoVacaciones" id="flagMesAnyoVacaciones" value=<%= flagMesAnyoVacaciones %>>
+        <input type="hidden" name="flagNMedicosVacaciones" id="flagNMedicosVacaciones"
+          value=<%= flagNMedicosVacaciones %>>
 
-  <% if (step === 6) { %>
-  <div class="container-fluid" id="contenedor">
-    <div class="container-md container_k">
-      <div class="progress progress_k">
-        <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
-          style="width: 66%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
-      </div>
+        <!-- Pendiente de meter tabla -->
+        <div class="scroll_k" id="scroll_k">
+          <table class="table">
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col" id="dia_mes_fes_<%= i-1 %>">
+                  <%= i %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
 
-      <h3 class="container-text feature-title-box">Indica los días de vacaciones</h3>
-      <h5>En estos días no asignaremos guardias:</h5>
-      <div class="red-aviso" id="cajita_roja">
-        <h4 id="aviso" class="aviso"><%= aviso %></h4>
-      </div>
-      <form action="/generarplanilla" method="POST">
-        <div class="form-group">
-          <input type="hidden" name="step" value=<%= step %>>
-          <input type="hidden" name="flagMesAnyoVacaciones" id="flagMesAnyoVacaciones" value=<%= flagMesAnyoVacaciones %>>
-          <input type="hidden" name="flagNMedicosVacaciones" id="flagNMedicosVacaciones" value=<%= flagNMedicosVacaciones %>>
+            <thead>
+              <tr>
+                <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                <% if (i > 0) { %>
+                <th scope="col" id="l_dia_mes_fes_<%= i-1 %>">
+                  <%= weekArray[i-1] %>
+                </th>
+                <% } else {%>
+                <th scope="col"></th>
+                <% }} %>
+              </tr>
+            </thead>
 
-          <!-- Pendiente de meter tabla -->
-          <div class="scroll_k" id="scroll_k">
-            <table class="table">
-              <thead>
-                <tr>
-                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                  <% if (i > 0) { %>
-                  <th scope="col" id="dia_mes_fes_<%= i-1 %>">
-                    <%= i %>
-                  </th>
-                  <% } else {%>
-                  <th scope="col"></th>
-                  <% }} %>
-                </tr>
-              </thead>
-
-              <thead>
-                <tr>
-                  <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                  <% if (i > 0) { %>
-                  <th scope="col" id="l_dia_mes_fes_<%= i-1 %>">
-                    <%= weekArray[i-1] %>
-                  </th>
-                  <% } else {%>
-                  <th scope="col"></th>
-                  <% }} %>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% for (var i = 0; i < n_resis ; i++) {%>
-                <tr>
-                  <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
-                  <% for (var j = 0; j < dias_mes ; j++) { %>
-                  <td id="c_dia_mes_fes_<%= j %>_<%= i %>">
-                    <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>"
-                      onclick="actualizarColorVerde()" id="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
-                  </td>
-                  <% } %>
-                </tr>
+            <tbody>
+              <% for (var i = 0; i < n_resis ; i++) {%>
+              <tr>
+                <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+                <% for (var j = 0; j < dias_mes ; j++) { %>
+                <td id="c_dia_mes_fes_<%= j %>_<%= i %>">
+                  <input class="checkboxSize" type="checkbox" value=1 name="Vacaciones_<%=nombre[i]%>_<%=j + 1%>"
+                    onclick="actualizarColorVerde()" id="Vacaciones_<%=nombre[i]%>_<%=j + 1%>">
+                </td>
                 <% } %>
+              </tr>
+              <% } %>
 
-              </tbody>
-            </table>
-          </div>
+            </tbody>
+          </table>
+        </div>
 
-          <div class="container-fluid-light bold">
+        <div class="container-fluid-light bold">
 
-            <div class="row">
+          <div class="row">
 
-              <div class="col-lg-4">
-                <p class="table-clear-blue">Festivos</p>
-              </div>
-
-              <div class="col-lg-4">
-                <p class="table-clear-red">Guardias preasignadas</p>
-              </div>
-
-              <div class="col-lg-4">
-                <p class="table-clear-green">Vacaciones asignadas</p>
-              </div>
-
+            <div class="col-lg-4">
+              <p class="table-clear-blue">Festivos</p>
             </div>
 
+            <div class="col-lg-4">
+              <p class="table-clear-red">Guardias preasignadas</p>
+            </div>
+
+            <div class="col-lg-4">
+              <p class="table-clear-green">Vacaciones asignadas</p>
+            </div>
 
           </div>
+
+
         </div>
-        <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux6">Siguiente</button>
-        <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn6">Anterior</button>
-        <button class="btn btn-ptg" type="submit" id="BtnStep6">Siguiente</button>
-      </form>
-      <script>
-        let dias_mes = '<%= dias_mes %>'
-        let n_resis = '<%= n_resis %>'
-        festivosArray = '<%= festivosArray%>'
-        festivosArray_array = festivosArray.split(",")
-        guardiasMatrix = '<%= guardiasMatrix %>'
-        guardiasMatrix_array = guardiasMatrix.split(",")
-        guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
+      </div>
+      <button class="btn btn-ptg defaultsink" type="submit" id="BtnStepAux6">Siguiente</button>
+      <button class="btn btn-ptg" type="" name="botonAnterior" value="-1" id="BtnReturn6">Anterior</button>
+      <button class="btn btn-ptg" type="submit" id="BtnStep6">Siguiente</button>
+    </form>
+    <script>
+      let dias_mes = '<%= dias_mes %>'
+      let n_resis = '<%= n_resis %>'
+      festivosArray = '<%= festivosArray%>'
+      festivosArray_array = festivosArray.split(",")
+      guardiasMatrix = '<%= guardiasMatrix %>'
+      guardiasMatrix_array = guardiasMatrix.split(",")
+      guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
 
-        let dias_mes_vac = '<%= dias_mes %>'
-        let vacacionesMatrix = '<%= vacacionesMatrix %>'
-        let vacacionesMatrix_array = vacacionesMatrix.split(",")
-        let vacacionesMatrix_array_2 = spliceIntoChunks(vacacionesMatrix_array, dias_mes_vac)
-        let flagMesAnyoVacaciones = '<%= flagMesAnyoVacaciones %>';
-        let flagNMedicosVacaciones = '<%= flagNMedicosVacaciones %>';
+      let dias_mes_vac = '<%= dias_mes %>'
+      let vacacionesMatrix = '<%= vacacionesMatrix %>'
+      let vacacionesMatrix_array = vacacionesMatrix.split(",")
+      let vacacionesMatrix_array_2 = spliceIntoChunks(vacacionesMatrix_array, dias_mes_vac)
+      let flagMesAnyoVacaciones = '<%= flagMesAnyoVacaciones %>';
+      let flagNMedicosVacaciones = '<%= flagNMedicosVacaciones %>';
 
-        nombres = '<%= nombre %>'
-        nombres_array = nombres.split(",")
+      nombres = '<%= nombre %>'
+      nombres_array = nombres.split(",")
 
 
-        function spliceIntoChunks(arr, chunkSize) {
-          const res = [];
-          while (arr.length > 0) {
-            const chunk = arr.splice(0, chunkSize);
-            res.push(chunk);
-          }
-          return res;
+      function spliceIntoChunks(arr, chunkSize) {
+        const res = [];
+        while (arr.length > 0) {
+          const chunk = arr.splice(0, chunkSize);
+          res.push(chunk);
         }
+        return res;
+      }
 
-        //console.log(vacacionesMatrix_array_2)
+      //console.log(vacacionesMatrix_array_2)
 
-        if ((vacacionesMatrix_array_2.length > 1) && (flagMesAnyoVacaciones == 0) && (flagNMedicosVacaciones == 0)) {
+      if ((vacacionesMatrix_array_2.length > 1) && (flagMesAnyoVacaciones == 0) && (flagNMedicosVacaciones == 0)) {
 
-          for (var j = 0; j < nombres_array.length; j++) {
-            let limit = Math.min(dias_mes_vac, vacacionesMatrix_array_2[j].length)
+        for (var j = 0; j < nombres_array.length; j++) {
+          let limit = Math.min(dias_mes_vac, vacacionesMatrix_array_2[j].length)
 
-            for (var i = 0; i < limit; i++) {
+          for (var i = 0; i < limit; i++) {
 
-              let id = "Vacaciones_" + nombres_array[j] + "_" + (i + 1)
+            let id = "Vacaciones_" + nombres_array[j] + "_" + (i + 1)
 
-              if (vacacionesMatrix_array_2[j][i] == '1') {
-                document.getElementById(id).checked = true
-              }
-
-
+            if (vacacionesMatrix_array_2[j][i] == '1') {
+              document.getElementById(id).checked = true
             }
-          }
 
+
+          }
         }
 
+      }
 
-        for (let i = 1; i <= dias_mes; i++) {
+
+      for (let i = 1; i <= dias_mes; i++) {
+        if (festivosArray_array[(i - 1)] == "1") {
+
+          document.getElementById("dia_mes_fes_" + (i - 1)).classList.add('table-clear-blue');
+          document.getElementById("l_dia_mes_fes_" + (i - 1)).classList.add('table-clear-blue');
+
+        } else {
+          document.getElementById("dia_mes_fes_" + (i - 1)).classList.remove('table-clear-blue');
+          document.getElementById("l_dia_mes_fes_" + (i - 1)).classList.remove('table-clear-blue');
+        }
+        for (let j = 0; j < n_resis; j++) {
           if (festivosArray_array[(i - 1)] == "1") {
-
-            document.getElementById("dia_mes_fes_" + (i - 1)).classList.add('table-clear-blue');
-            document.getElementById("l_dia_mes_fes_" + (i - 1)).classList.add('table-clear-blue');
-
+            document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.add('table-clear-blue');
           } else {
-            document.getElementById("dia_mes_fes_" + (i - 1)).classList.remove('table-clear-blue');
-            document.getElementById("l_dia_mes_fes_" + (i - 1)).classList.remove('table-clear-blue');
+            document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.remove('table-clear-blue');
           }
-          for (let j = 0; j < n_resis; j++) {
-            if (festivosArray_array[(i - 1)] == "1") {
-              document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.add('table-clear-blue');
+        }
+
+      }
+
+      for (let i = 0; i < dias_mes; i++) {
+
+        for (let j = 0; j < n_resis; j++) {
+          if (guardiasMatrix_array_2[j][i] == "1") {
+            document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.add('table-clear-red');
+          } else {
+            document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.remove('table-clear-red');
+          }
+        }
+
+      }
+
+      function actualizarColorVerde() {
+
+
+        for (var j = 0; j < nombres_array.length; j++) {
+          let limit = dias_mes
+
+          for (var i = 0; i < limit; i++) {
+
+            let id = "Vacaciones_" + nombres_array[j] + "_" + (i + 1)
+
+            if (document.getElementById(id).checked === true) {
+              document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.add('table-clear-green');
             } else {
-              document.getElementById("c_dia_mes_fes_" + (i - 1) + "_" + (j)).classList.remove('table-clear-blue');
+              document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.remove('table-clear-green');
             }
-          }
 
+          }
         }
 
-        for (let i = 0; i < dias_mes; i++) {
+      }
+      actualizarColorVerde()
 
-          for (let j = 0; j < n_resis; j++) {
-            if (guardiasMatrix_array_2[j][i] == "1") {
-              document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.add('table-clear-red');
-            } else {
-              document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.remove('table-clear-red');
-            }
-          }
-
-        }
-
-        function actualizarColorVerde() {
-
-
-          for (var j = 0; j < nombres_array.length; j++) {
-            let limit = dias_mes
-
-            for (var i = 0; i < limit; i++) {
-
-              let id = "Vacaciones_" + nombres_array[j] + "_" + (i + 1)
-
-              if (document.getElementById(id).checked === true) {
-                document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.add('table-clear-green');
-              } else {
-                document.getElementById("c_dia_mes_fes_" + (i) + "_" + (j)).classList.remove('table-clear-green');
-              }
-
-            }
-          }
-
-        }
-        actualizarColorVerde()
-        
-        document.getElementById('flagMesAnyoVacaciones').value = 0
-        document.getElementById('flagNMedicosVacaciones').value = 0
-                
-      </script>
-    </div>
+      document.getElementById('flagMesAnyoVacaciones').value = 0
+      document.getElementById('flagNMedicosVacaciones').value = 0
+    </script>
   </div>
+</div>
 
 
-  <script>
-    let aviso = '<%= aviso %>'
-    if(aviso == ""){
-      document.getElementById('cajita_roja').style.display = "none";
-    } else {
-      document.getElementById('cajita_roja').style.display = "block";
-    }
-    
-    document.getElementById('BtnStep6').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnStep6'
-      });
+<script>
+  let aviso = '<%= aviso %>'
+  if (aviso == "") {
+    document.getElementById('cajita_roja').style.display = "none";
+  } else {
+    document.getElementById('cajita_roja').style.display = "block";
+  }
+
+  document.getElementById('BtnStep6').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep6'
     });
+  });
 
-    document.getElementById('BtnStepAux6').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnStep6'
-      });
+  document.getElementById('BtnStepAux6').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnStep6'
     });
+  });
 
-    document.getElementById('BtnReturn6').addEventListener('click', function () {
-      // Call the gtag() function to send the event data
-      gtag('event', 'stepForm', {
-        'button_name': 'BtnReturn6'
-      });
+  document.getElementById('BtnReturn6').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'stepForm', {
+      'button_name': 'BtnReturn6'
     });
-  </script>
-  <% }  %>
+  });
+</script>
+<% }  %>
