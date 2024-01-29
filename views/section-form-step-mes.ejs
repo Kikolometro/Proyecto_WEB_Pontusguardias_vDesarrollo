@@ -14,8 +14,12 @@
       <form action="/generarplanilla" method="post">
         <div class="form-group">
           <input type="hidden" name="step" value="<%= step %>">
+          <input type="hidden" name="flagMesAnyoGuardias" id="flagMesAnyoGuardias"  value="<%= flagMesAnyoGuardias %>">
+          <input type="hidden" name="flagMesAnyoFestivos" id="flagMesAnyoFestivos" value="<%= flagMesAnyoFestivos %>">
+          <input type="hidden" name="flagMesAnyoGAsig" id="flagMesAnyoGAsig" value="<%= flagMesAnyoGAsig %>">
+          <input type="hidden" name="flagMesAnyoVacaciones" id="flagMesAnyoVacaciones" value="<%= flagMesAnyoVacaciones %>">
 
-          <select class="form-control filtro" size="1" name="mes" id="mes" required>
+          <select class="form-control filtro" size="1" name="mes" id="mes" onchange="revisarMesAnyo()" required>
             <option disabled="" selected="" value="">Mes</option>
             <% for (var i = 0; i < 12 ; i++) { %>
             <option value="<%= meses[i] %>"><%= meses[i] %></option>
@@ -23,7 +27,7 @@
 
           </select>
 
-          <select class="form-control filtro" size="1" name="anyo" id="anyo" required>
+          <select class="form-control filtro" size="1" name="anyo" id="anyo" onchange="revisarMesAnyo()" required>
             <option disabled="" selected="" value="">Año</option>
             <% for (var i = 0; i < anyosLength ; i++) { %>
             <option value="<%= anyos[i] %>"><%= anyos[i] %></option>
@@ -48,16 +52,33 @@
 
     });
 
-    var mes = '<%= mes %>';
-    var anyo = '<%= anyo %>';
-
-    if (mes != "") {
-      document.getElementById('mes').value = mes
+    var mes_orig = '<%= mes %>';
+    var anyo_orig = '<%= anyo %>';
+    var reutilizandoPlanilla = '<%= reutilizandoPlanilla %>';
+    
+    if (mes_orig != "") {
+      document.getElementById('mes').value = mes_orig
     }
 
-    if (anyo != 0) {
-      document.getElementById('anyo').value =anyo
+    if (anyo_orig != 0) {
+      document.getElementById('anyo').value = anyo_orig
     }
 
+    function revisarMesAnyo(){
+
+      if((document.getElementById('mes').value != "") && (document.getElementById('anyo').value != 0)){
+        if((mes_orig == "") && (anyo_orig == 0)){
+        
+        } else if ((mes_orig == document.getElementById('mes').value) && (anyo_orig == document.getElementById('anyo').value)){
+
+        } else {
+          document.getElementById('flagMesAnyoGuardias').value = 1;
+          document.getElementById('flagMesAnyoFestivos').value = 1;
+          document.getElementById('flagMesAnyoGAsig').value = 1;
+          document.getElementById('flagMesAnyoVacaciones').value = 1;
+        }
+      }
+    }
+    
   </script>
 <% }  %>

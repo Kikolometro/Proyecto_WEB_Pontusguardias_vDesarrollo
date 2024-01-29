@@ -12,6 +12,8 @@
         <div class="form-group">
           <input type="hidden" name="step" value="<%= step %>">
           <input type="hidden" name="medicosDeGuardia" id="medicosDeGuardia">
+          <input type="hidden" name="flagGuardiasDiaFestivos" id="flagGuardiasDiaFestivos" value="<%= flagGuardiasDiaFestivos %>">
+          <input type="hidden" name="flagMesAnyoGuardias" id="flagMesAnyoGuardias" value="<%= flagMesAnyoGuardias %>">
           <div class="settings">
             <label>Homogéneo</label>
             <label class="toggle">
@@ -103,19 +105,19 @@
     var medicosDeGuardia = []
     var imp_medicosDeGuardia = '<%= medicosDeGuardia %>';     
     medicosDeGuardia_split = imp_medicosDeGuardia.split(",")
-    //console.log(medicosDeGuardia_split) 
+    var flagMesAnyoGuardias = '<%= flagMesAnyoGuardias %>';
 
     document.getElementById('scroll_k').className = "";
 
-    // Muestro algo por pantalla
-        
-    
-    if(medicosDeGuardia_split.length > 1){
+    // Inicializamos lo que muestro por pantalla
+    //Hay que poner filtro de que mes y año coincidan, no que coincida el largo del array
+    if((medicosDeGuardia_split.length > 1)  && (flagMesAnyoGuardias == 0)){
       let allEqual = arr => arr.every( v => v === arr[0] )
       //console.log(allEqual(medicosDeGuardia_split))
 
       if(allEqual(medicosDeGuardia_split)){
         // Situacion 2
+        // Tenemos info de mes anterior con guardias homogeneas
         ind_situ = 2;
         original_izq = parseInt(medicosDeGuardia_split[0])
         document.getElementById("select_medGuardia").value = original_izq;
@@ -125,7 +127,6 @@
           document.getElementById("m_guardia_dia_" + i).value = original_der[i]
         };
         
-        
         document.getElementById("select_medGuardia").style.display = "block";
         document.getElementById("table_medGuard").style.display = "none";
         document.getElementById('scroll_k').className = ""
@@ -133,6 +134,7 @@
 
       } else{
         // Situacion 1
+        // Tenemos info de mes anterior con guardias distintas cada día
         ind_situ = 1;
         document.getElementById("toggle_med_1").checked = true;
         
@@ -152,6 +154,7 @@
       
     } else{
       // Situacion 3
+      // Planilla nueva
       ind_situ = 3;
       document.getElementById("select_medGuardia").style.display = "block";
       document.getElementById("table_medGuard").style.display = "none";
@@ -163,10 +166,9 @@
         document.getElementById("m_guardia_dia_" + i).value = 1
       };
     }
-    //console.log(ind_situ)
     
     calcularMedGuard()
-    
+    document.getElementById('flagMesAnyoGuardias').value = 0
 
     function toggle_med(checkbox) {
       //medicosDeGuardia = [];
@@ -283,6 +285,24 @@
       //console.log(medicosDeGuardia)
       document.getElementById("medicosDeGuardia").value = medicosDeGuardia;
 
+      let flag = 0;
+      for (let i = 0; i < dias_mes; i++) {
+          if(medicosDeGuardia[i] !== parseInt(medicosDeGuardia_split[i])){
+            flag = 1;
+          }
+          
+        };
+
+      if ((medicosDeGuardia.length == medicosDeGuardia_split.length) && (flag == 0)) {
+        //console.log("coinciden")
+        document.getElementById('flagGuardiasDiaFestivos').value = 0
+      } else if(medicosDeGuardia_split ==""){
+        //console.log("nueva planilla")
+        document.getElementById('flagGuardiasDiaFestivos').value = 0
+      } else {
+        //console.log("no coinciden")
+        document.getElementById('flagGuardiasDiaFestivos').value = 1
+      }
     }
 
     document.getElementById('BtnStep3').addEventListener('click', function () {
@@ -302,6 +322,8 @@
       gtag('event', 'stepForm', {
         'button_name': 'BtnReturn3'
       });
+
+      document.getElementById('select_medGuardia').removeAttribute('required');
     });
   </script>
 <% }  %>

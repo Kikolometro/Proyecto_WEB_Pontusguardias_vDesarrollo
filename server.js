@@ -84,6 +84,16 @@ app.get("/", function (req, res) {
   req.session.v_guardias_min_tot = [];
   req.session.v_guardias_max_fes = [];
   req.session.v_guardias_min_fes = [];
+  req.session.reutilizandoPlanilla = 0;
+  req.session.flagMesAnyoGuardias = 0;
+  req.session.flagMesAnyoFestivos = 0;
+  req.session.flagMesAnyoGAsig = 0;
+  req.session.flagMesAnyoVacaciones = 0;
+  req.session.flagNMedicosFestivos = 0;
+  req.session.flagNMedicosGAsig = 0;
+  req.session.flagNMedicosVacaciones = 0;
+  req.session.flagNMedicosGrupos = 0;
+  req.session.flagGuardiasDiaFestivos = 0;
 
   res.render("landing", {
     step: 0
@@ -111,16 +121,20 @@ app.post("/", function (req, res) {
   req.session.v_guardias_min_tot = [];
   req.session.v_guardias_max_fes = [];
   req.session.v_guardias_min_fes = [];
-
+  req.session.reutilizandoPlanilla = 0;
+  req.session.flagMesAnyoGuardias = 0;
+  req.session.flagMesAnyoFestivos = 0;
+  req.session.flagMesAnyoGAsig = 0;
+  req.session.flagMesAnyoVacaciones = 0;
+  req.session.flagNMedicosFestivos = 0;
+  req.session.flagNMedicosGAsig = 0;
+  req.session.flagNMedicosVacaciones = 0;
+  req.session.flagNMedicosGrupos = 0;
+  req.session.flagGuardiasDiaFestivos = 0;
 
   res.render("landing", {
     step: 0
   });
-});
-
-app.get("/buscador", function (req, res) {
-  req.session.userID = req.session.id
-  res.render("landing-buscador");
 });
 
 app.get('/buscarSolucion', function (req, res) {
@@ -402,63 +416,6 @@ app.post('/buscarSolucion', function (req, res) {
 
 });
 
-app.post("/update-feedback", (req, res) => {
-  // Extract the feedback status from the request body
-  console.log("El cliente está: " + req.body.clientStatus);
-
-
-  db.Petition.findOneAndUpdate({
-    //uniqueID: req.session.uniqueID
-    idSol: req.session.idSolBuscada
-  }, {
-    clientStatus: parseInt(req.body.clientStatus, 10)
-  }, function (err, value) {
-    if (err) {
-      console.error(err)
-    } else {
-      //console.log("Se ha actualizado el estado del cliente. ")
-      res.send("Feedback saved successfully");
-    };
-  });
-});
-
-app.post("/reutilizar-planilla", function(req, res) {
-  
-  req.session.step = 1;
-
-  //console.log(req.session.medicosDeGuardia)
-
-  res.render("landing", {
-    step: req.session.step,
-    topStep: topStep,
-    meses: meses,
-    anyos: anyos,
-    anyosLength: anyosLength,
-    mes: req.session.mes,
-    anyo: req.session.anyo,
-    weekArray: req.session.weekArray,
-    dias_mes: req.session.dias_mes,
-    n_resis: req.session.n_resis,
-    nombre: req.session.nombre,
-    medicosDeGuardia: req.session.medicosDeGuardia,
-    aviso: req.session.aviso,
-    festivosArray: req.session.festivosArray,
-    guardiasMatrix: req.session.guardiasMatrix,
-    vacacionesMatrix: req.session.vacacionesMatrix,
-    arrayNormas: req.session.arrayNormas,
-    arrayGroups: req.session.arrayGroups,
-    v_guardias_max_tot: req.session.v_guardias_max_tot,
-    v_guardias_min_tot: req.session.v_guardias_min_tot,
-    v_guardias_max_fes: req.session.v_guardias_max_fes,
-    v_guardias_min_fes: req.session.v_guardias_min_fes,
-    comentario: req.session.comentario,
-    mail: req.session.correo
-  });
-
-  
-
-});
-
 app.get("/mostrarSolucion", function (req, res) {
 
   // Hay que cambiar el request timeout
@@ -598,6 +555,76 @@ app.get("/mostrarSolucion", function (req, res) {
 
 });
 
+app.post("/update-feedback", (req, res) => {
+  // Extract the feedback status from the request body
+  
+  db.Petition.findOneAndUpdate({
+    //uniqueID: req.session.uniqueID
+    idSol: req.session.idSolBuscada
+  }, {
+    clientStatus: parseInt(req.body.clientStatus, 10)
+  }, function (err, value) {
+    if (err) {
+      console.error(err)
+    } else {
+      //console.log("Se ha actualizado el estado del cliente. ")
+      res.send("Feedback saved successfully");
+    };
+  });
+});
+
+app.post("/reutilizar-planilla", function(req, res) {
+  
+  req.session.step = 1;
+  req.session.reutilizandoPlanilla = 1;
+  req.session.flagMesAnyoGuardias = 0;
+  req.session.flagMesAnyoFestivos = 0;
+  req.session.flagMesAnyoGAsig = 0;
+  req.session.flagMesAnyoVacaciones = 0;
+  req.session.flagNMedicosFestivos = 0;
+  req.session.flagNMedicosGAsig = 0;
+  req.session.flagNMedicosVacaciones = 0;
+  req.session.flagNMedicosGrupos = 0;
+  req.session.flagGuardiasDiaFestivos = 0;
+
+  res.render("landing", {
+    step: req.session.step,
+    reutilizandoPlanilla: req.session.reutilizandoPlanilla,
+    flagMesAnyoGuardias: req.session.flagMesAnyoGuardias,
+    flagMesAnyoFestivos: req.session.flagMesAnyoFestivos,
+    flagMesAnyoGAsig: req.session.flagMesAnyoGAsig,
+    flagMesAnyoVacaciones: req.session.flagMesAnyoVacaciones,
+    flagNMedicosFestivos: req.session.flagNMedicosFestivos,
+    flagNMedicosGAsig: req.session.flagNMedicosGAsig,
+    flagNMedicosVacaciones: req.session.flagNMedicosVacaciones,
+    flagNMedicosGrupos: req.session.flagNMedicosGrupos,
+    flagGuardiasDiaFestivos: req.session.flagGuardiasDiaFestivos,
+    topStep: topStep,
+    meses: meses,
+    anyos: anyos,
+    anyosLength: anyosLength,
+    mes: req.session.mes,
+    anyo: req.session.anyo,
+    weekArray: req.session.weekArray,
+    dias_mes: req.session.dias_mes,
+    n_resis: req.session.n_resis,
+    nombre: req.session.nombre,
+    medicosDeGuardia: req.session.medicosDeGuardia,
+    aviso: req.session.aviso,
+    festivosArray: req.session.festivosArray,
+    guardiasMatrix: req.session.guardiasMatrix,
+    vacacionesMatrix: req.session.vacacionesMatrix,
+    arrayNormas: req.session.arrayNormas,
+    arrayGroups: req.session.arrayGroups,
+    v_guardias_max_tot: req.session.v_guardias_max_tot,
+    v_guardias_min_tot: req.session.v_guardias_min_tot,
+    v_guardias_max_fes: req.session.v_guardias_max_fes,
+    v_guardias_min_fes: req.session.v_guardias_min_fes,
+    comentario: req.session.comentario,
+    mail: req.session.correo
+  });
+});
+
 app.get("/generarplanilla", function (req, res) {
   req.session.completefilepath = filepath + req.session.filename;
   req.session.userID = req.session.id;
@@ -605,6 +632,16 @@ app.get("/generarplanilla", function (req, res) {
 
   if (req.session.step == null) {
     req.session.step = 0;
+    req.session.reutilizandoPlanilla = 0;
+    req.session.flagMesAnyoGuardias = 0;
+    req.session.flagMesAnyoFestivos = 0;
+    req.session.flagMesAnyoGAsig = 0;
+    req.session.flagMesAnyoVacaciones = 0;
+    req.session.flagNMedicosFestivos = 0;
+    req.session.flagNMedicosGAsig = 0;
+    req.session.flagNMedicosVacaciones = 0;
+    req.session.flagNMedicosGrupos = 0;
+    req.session.flagGuardiasDiaFestivos = 0;
 
     res.render("landing", {
       step: 0
@@ -612,6 +649,16 @@ app.get("/generarplanilla", function (req, res) {
   } else {
     res.render("landing", {
       step: req.session.new_step,
+      reutilizandoPlanilla: req.session.reutilizandoPlanilla,
+      flagMesAnyoGuardias: req.session.flagMesAnyoGuardias,
+      flagMesAnyoFestivos: req.session.flagMesAnyoFestivos,
+      flagMesAnyoGAsig: req.session.flagMesAnyoGAsig,
+      flagMesAnyoVacaciones: req.session.flagMesAnyoVacaciones,
+      flagNMedicosFestivos: req.session.flagNMedicosFestivos,
+      flagNMedicosGAsig: req.session.flagNMedicosGAsig,
+      flagNMedicosVacaciones: req.session.flagNMedicosVacaciones,
+      flagNMedicosGrupos: req.session.flagNMedicosGrupos,
+      flagGuardiasDiaFestivos: req.session.flagGuardiasDiaFestivos,
       topStep: topStep,
       meses: meses,
       anyos: anyos,
@@ -646,7 +693,6 @@ app.post("/generarplanilla", function (req, res) {
     req.session.aviso = "";
   } else req.session.step = req.body.step;
 
-
   if (req.session.step == 1 && req.body.botonAnterior != "-1") {
 
     req.session.mes = req.body.mes;
@@ -661,13 +707,10 @@ app.post("/generarplanilla", function (req, res) {
     req.session.solucion = []
     req.session.idSolBuscada = ""
     req.session.aviso = ""
-
-    // req.session.medicosDeGuardia = []
-    // req.session.guardiasMatrix = []
-    // req.session.vacacionesMatrix = []
-    // req.session.arrayGroups = []
-    // req.session.arrayNormas = []
-    // req.session.festivosArray = []
+    req.session.flagMesAnyoGuardias = req.body.flagMesAnyoGuardias;
+    req.session.flagMesAnyoFestivos = req.body.flagMesAnyoFestivos;
+    req.session.flagMesAnyoGAsig = req.body.flagMesAnyoGAsig;
+    req.session.flagMesAnyoVacaciones = req.body.flagMesAnyoVacaciones;
   };
 
   if (req.session.step == 2 && req.body.botonAnterior != "-1") {
@@ -675,6 +718,10 @@ app.post("/generarplanilla", function (req, res) {
     req.session.n_resis = req.body.n_resis;
     req.session.aviso = "";
     req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
+    req.session.flagNMedicosFestivos = req.body.flagNMedicosFestivos;
+    req.session.flagNMedicosGAsig = req.body.flagNMedicosGAsig;
+    req.session.flagNMedicosVacaciones = req.body.flagNMedicosVacaciones;
+    req.session.flagNMedicosGrupos = req.body.flagNMedicosGrupos;
     
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
       req.session.num = req.session.i;
@@ -691,7 +738,7 @@ app.post("/generarplanilla", function (req, res) {
         if (value in valuesSoFar) {
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Por favor, que no se repitan los nombres."
+          req.session.aviso = "¡Atención! Por favor, que no se repitan los nombres."
 
           return true;
         }
@@ -718,12 +765,14 @@ app.post("/generarplanilla", function (req, res) {
 
     if (hasSpecialChars(req.session.nombre)) {
       req.session.step = req.body.step - 1
-      req.session.aviso = "Por favor, que los nombres no contengan carácteres especiales ni espacios."
+      req.session.aviso = "¡Atención! Por favor, que los nombres no contengan carácteres especiales ni espacios."
     }
   }
 
   if (req.session.step == 3 && req.body.botonAnterior != "-1") {
     req.session.medicosDeGuardia = req.body.medicosDeGuardia.split(',');
+    req.session.flagGuardiasDiaFestivos = req.body.flagGuardiasDiaFestivos;
+    req.session.flagMesAnyoGuardias = req.body.flagMesAnyoGuardias;
     req.session.aviso = "";
 
     for (let i = 0; i < req.session.medicosDeGuardia.length; i++) {
@@ -734,6 +783,9 @@ app.post("/generarplanilla", function (req, res) {
   if (req.session.step == 4 && req.body.botonAnterior != "-1") {
     req.session.festivosArray = [];
     req.session.aviso = "";
+    req.session.flagMesAnyoFestivos = req.body.flagMesAnyoFestivos;
+    req.session.flagNMedicosFestivos = req.body.flagNMedicosFestivos;
+    req.session.flagGuardiasDiaFestivos = req.body.flagGuardiasDiaFestivos;
 
     req.session.v_guardias_max_tot = [];
     req.session.v_guardias_min_tot = [];
@@ -766,21 +818,21 @@ app.post("/generarplanilla", function (req, res) {
     if (prueba) {
 
       req.session.step = req.body.step - 1
-      req.session.aviso = "No puedes asignar 0 guardias a un médico"
+      req.session.aviso = "¡Atención! No puedes asignar 0 guardias a un médico"
 
     }
     prueba = req.session.v_guardias_max_fes.some(v => ((parseInt(v) < 0) | (v == "")));
     if (prueba) {
 
       req.session.step = req.body.step - 1
-      req.session.aviso = "Por favor, revisa que todos tienen guardias en festivo (0 o superior)"
+      req.session.aviso = "¡Atención! Por favor, revisa que todos tienen guardias en festivo (0 o superior)"
     }
 
     for (req.session.i = 0; req.session.i < req.session.n_resis; req.session.i++) {
 
       if (parseInt(req.session.v_guardias_max_tot[req.session.i]) < parseInt(req.session.v_guardias_max_fes[req.session.i])) {
         req.session.step = req.body.step - 1
-        req.session.aviso = "Por favor, revisa las guardias de " + req.session.nombre[req.session.i] + ", le has asignado " + req.session.v_guardias_max_fes[req.session.i] + " guardias de festivo y " + req.session.v_guardias_max_tot[req.session.i] + " en total."
+        req.session.aviso = "¡Atención! Por favor, revisa las guardias de " + req.session.nombre[req.session.i] + ", le has asignado " + req.session.v_guardias_max_fes[req.session.i] + " guardias de festivo y " + req.session.v_guardias_max_tot[req.session.i] + " en total."
       }
 
     }
@@ -789,6 +841,8 @@ app.post("/generarplanilla", function (req, res) {
   if (req.session.step == 5 && req.body.botonAnterior != "-1") {
     req.session.guardiasMatrix = [];
     req.session.aviso = "";
+    req.session.flagMesAnyoGAsig = req.body.flagMesAnyoGAsig;
+    req.session.flagNMedicosGAsig = req.body.flagNMedicosGAsig;
 
     for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
       req.session.asignacion = [];
@@ -822,9 +876,9 @@ app.post("/generarplanilla", function (req, res) {
           req.session.step = req.body.step - 1
 
           if (req.session.medicosDeGuardia[req.session.i] > 1) {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día)."
+            req.session.aviso = "¡Atención! Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día)."
+            req.session.aviso = "¡Atención! Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de guardia. Por favor, revísalo (en un paso anterior has indicado que debe haber " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día)."
           }
           return true, dia, subtotal;
         }
@@ -857,7 +911,7 @@ app.post("/generarplanilla", function (req, res) {
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias y su máximo eran " + v_guardias_max_tot[req.session.i] + ". Por favor, revísalo."
+          req.session.aviso = "¡Atención! Le has asignado a " + nombre + " " + subtotal + " guardias y su máximo eran " + v_guardias_max_tot[req.session.i] + ". Por favor, revísalo."
           return true, dia, subtotal;
         }
 
@@ -881,7 +935,7 @@ app.post("/generarplanilla", function (req, res) {
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias en festivo y su máximo era " + v_guardias_max_fes[req.session.i] + ". Por favor, revísalo."
+          req.session.aviso = "¡Atención! Le has asignado a " + nombre + " " + subtotal + " guardias en festivo y su máximo era " + v_guardias_max_fes[req.session.i] + ". Por favor, revísalo."
           return true, dia, subtotal;
         }
 
@@ -908,7 +962,7 @@ app.post("/generarplanilla", function (req, res) {
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " guardias en ''no festivo''. No va a poder cubrir las guardias mínimas en festivo. Por favor, revísalo."
+          req.session.aviso = "¡Atención! Le has asignado a " + nombre + " " + subtotal + " guardias en ''no festivo''. No va a poder cubrir las guardias mínimas en festivo. Por favor, revísalo."
           return true;
         }
 
@@ -924,6 +978,8 @@ app.post("/generarplanilla", function (req, res) {
   if (req.session.step == 6 && req.body.botonAnterior != "-1") {
     req.session.vacacionesMatrix = [];
     req.session.aviso = "";
+    req.session.flagMesAnyoVacaciones = req.body.flagMesAnyoVacaciones;
+    req.session.flagNMedicosVacaciones = req.body.flagNMedicosVacaciones;
 
     for (req.session.j = 0; req.session.j < req.session.n_resis; req.session.j++) {
       req.session.asignacion = [];
@@ -960,9 +1016,9 @@ app.post("/generarplanilla", function (req, res) {
           req.session.step = req.body.step - 1
           //console.log("Has indicado " + req.session.medicosDeGuardia + " médicos de guardia, y has asignado "+subtotal+" médicos de libranza el día "+dia+". Por favor, revísalo."   )
           if (req.session.medicosDeGuardia[req.session.i] > 1) {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de vacaciones. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día y no hay médicos suficientes)."
+            req.session.aviso = "¡Atención! Has asignado a la guardia del día " + dia + " " + subtotal + " médicos de vacaciones. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médicos de guardia cada día y no hay médicos suficientes)."
           } else {
-            req.session.aviso = "Has asignado a la guardia del día " + dia + ": " + subtotal + " médicos de vacaciones. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día y no hay médicos suficientes)."
+            req.session.aviso = "¡Atención! Has asignado a la guardia del día " + dia + " " + subtotal + " médicos de vacaciones. Por favor, revísalo (en un paso anterior has indicado que debe haber  " + req.session.medicosDeGuardia[req.session.i] + " médico de guardia cada día y no hay médicos suficientes)."
           }
           return true, dia, subtotal;
         }
@@ -991,7 +1047,7 @@ app.post("/generarplanilla", function (req, res) {
               nombre = req.session.nombre[req.session.i];
               req.session.step = req.body.step - 1
 
-              req.session.aviso = "Le has asignado a " + nombre + ": guardia y libranza el mismo día " + dia + ". Por favor, revísalo."
+              req.session.aviso = "¡Atención! Le has asignado a " + nombre + " guardia y libranza el mismo día " + dia + ". Por favor, revísalo."
               return true, dia, subtotal;
             }
           }
@@ -1026,7 +1082,7 @@ app.post("/generarplanilla", function (req, res) {
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " días de vacaciones. No podrá hacer las " + v_guardias_min_tot[req.session.i] + " guardias mínimas que le has asignado en el paso anterior. Por favor, revísalo."
+          req.session.aviso = "¡Atención! Le has asignado a " + nombre + " " + subtotal + " días de vacaciones. No podrá hacer las " + v_guardias_min_tot[req.session.i] + " guardias mínimas que le has asignado en el paso anterior. Por favor, revísalo."
           return true, dia, subtotal;
         }
 
@@ -1064,7 +1120,7 @@ app.post("/generarplanilla", function (req, res) {
           nombre = req.session.nombre[req.session.i];
           req.session.step = req.body.step - 1
 
-          req.session.aviso = "Le has asignado a " + nombre + ": " + subtotal + " días de vacaciones en festivo. No podrá hacer las " + v_guardias_min_fes[req.session.i] + " guardias mínimas en festivo que le has asignado en el paso anterior. Por favor, revísalo."
+          req.session.aviso = "¡Atención! Le has asignado a " + nombre + ": " + subtotal + " días de vacaciones en festivo. No podrá hacer las " + v_guardias_min_fes[req.session.i] + " guardias mínimas en festivo que le has asignado en el paso anterior. Por favor, revísalo."
           return true, dia, subtotal;
         }
 
@@ -1085,6 +1141,7 @@ app.post("/generarplanilla", function (req, res) {
     req.session.arrayGroups_pre = []
     req.session.arrayGroups_pre = req.body.arrayGroups.split(/[\s, ]+/);
     req.session.arrayNormas = req.body.arrayNormas.split(',');
+    req.session.flagNMedicosGrupos = req.body.flagNMedicosGrupos;
 
 
     //console.log(req.session.arrayGroups_pre)
@@ -1109,7 +1166,7 @@ app.post("/generarplanilla", function (req, res) {
       if (min < 2 && ((secretMessage.includes(1)) || (secretMessage.includes(3)))) {
         // Primer aviso: si hay menos de un médico de guardia, no puede funcionar la regla 1 o la regla 3
         req.session.step = req.body.step - 1
-        req.session.aviso = "En un paso previo, has forzado que haya, al menos un día, " + min + " médico de guardia. Por favor, elimina la condición que fuerza que haya 2 médicos de guardia (regla 1 o regla 3)."
+        req.session.aviso = "¡Atención! En un paso previo, has forzado que haya, al menos un día, " + min + " médico de guardia. Por favor, elimina la condición que fuerza que haya 2 médicos de guardia (regla 1 o regla 3)."
 
         return true;
       }
@@ -1127,7 +1184,7 @@ app.post("/generarplanilla", function (req, res) {
             if (subarray[0] == subarray[1]) {
               flag = 1;
               req.session.step = req.body.step - 1
-              req.session.aviso = "Has impuesto una condición en la que prohibes que coincidan médicos de un mismo equipo consigo mismo. Por favor, revisa las condiciones (regla 2)."
+              req.session.aviso = "¡Atención! Has impuesto una condición en la que prohibes que coincidan médicos de un mismo equipo consigo mismo. Por favor, revisa las condiciones (regla 2)."
 
 
             } else {
@@ -1155,7 +1212,7 @@ app.post("/generarplanilla", function (req, res) {
           for (let j = 0; j < subarray.length; j++) {
             if (arrayGroups.includes(subarray[j])) {} else {
               req.session.step = req.body.step - 1
-              req.session.aviso = "Has impuesto una condición sobre el equipo " + subarray[j] + " pero no has asignado ese equipo a ningún médico. Por favor, revísalo."
+              req.session.aviso = "¡Atención! Has impuesto una condición sobre el equipo " + subarray[j] + " pero no has asignado ese equipo a ningún médico. Por favor, revísalo."
             };
           }
         }
@@ -1197,7 +1254,7 @@ app.post("/generarplanilla", function (req, res) {
 
           if (guardias_min_med_D <= max_G) {} else {
             req.session.step = req.body.step - 1
-            req.session.aviso = "Has impuesto que los médicos no hagan más de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
+            req.session.aviso = "¡Atención! Has impuesto que los médicos no hagan más de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
           };
 
 
@@ -1218,7 +1275,6 @@ app.post("/generarplanilla", function (req, res) {
     req.session.comentario = req.body.comentario;
     req.session.aviso = "";
   };
-
 
   if (req.session.step == 9 && req.body.botonAnterior != "-1") {
     //console.log("User Id:")
@@ -1363,7 +1419,6 @@ app.post("/generarplanilla", function (req, res) {
       req.session.step = 8
     }
   };
-
 
   req.session.new_step = ++req.session.step;
 

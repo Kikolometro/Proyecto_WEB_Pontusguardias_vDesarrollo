@@ -10,10 +10,15 @@
 
       <h3 class="container-text feature-title-box">Indica las guardias que ya habéis asignado</h3>
       <h5>Estas guardias se forzarán al día y médico correspondiente:</h5>
-      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      <div class="red-aviso" id="cajita_roja">
+        <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      </div>
+      
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
           <input type="hidden" name="step" value=<%= step %>>
+          <input type="hidden" name="flagMesAnyoGAsig" id="flagMesAnyoGAsig"  value=<%= flagMesAnyoGAsig %>>
+          <input type="hidden" name="flagNMedicosGAsig" id="flagNMedicosGAsig" value=<%= flagNMedicosGAsig %>>
 
           <div class="scroll_k" id="scroll_k">
             <!-- Pendiente de meter tabla -->
@@ -92,6 +97,9 @@
         let guardiasMatrix_array = guardiasMatrix.split(",")
         let guardiasMatrix_array_2 = spliceIntoChunks(guardiasMatrix_array, dias_mes)
 
+        let flagMesAnyoGAsig = '<%= flagMesAnyoGAsig %>';
+        let flagNMedicosGAsig = '<%= flagNMedicosGAsig %>';
+
         function spliceIntoChunks(arr, chunkSize) {
           const res = [];
           while (arr.length > 0) {
@@ -127,7 +135,7 @@
         }
 
 
-        if (guardiasMatrix_array_2.length > 1) {
+        if ((guardiasMatrix_array_2.length > 1) && (flagMesAnyoGAsig == 0) && (flagNMedicosGAsig == 0)) {
 
 
           for (var j = 0; j < nombres_array.length; j++) {
@@ -175,11 +183,20 @@
 
         }
         actualizarColorRojo()
+        
+        document.getElementById('flagMesAnyoGAsig').value = 0
+        document.getElementById('flagNMedicosGAsig').value = 0
       </script>
     </div>
   </div>
 
   <script>
+    let aviso = '<%= aviso %>'
+    if(aviso == ""){
+      document.getElementById('cajita_roja').style.display = "none";
+    } else {
+      document.getElementById('cajita_roja').style.display = "block";
+    }
     document.getElementById('BtnStep5').addEventListener('click', function () {
       // Call the gtag() function to send the event data
       gtag('event', 'stepForm', {

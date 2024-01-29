@@ -8,13 +8,18 @@
 
 
     <h3 class="container-text feature-title-box">Indica el nº de médicos y sus nombres</h3>
-    <h4 id="aviso" class="aviso"><%= aviso %></h4>
+    <div class="red-aviso" id="cajita_roja">
+      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+    </div>
 
     <form action="/generarplanilla" method="post">
       <div class="form-group" id="divi">
         <input type="hidden" name="step" value=<%= step %>>
-
-        <input class="filtro" size="1" type="number" min="3" max="85" style="width: 12em" id="n_resis"
+        <input type="hidden" name="flagNMedicosFestivos" id="flagNMedicosFestivos" value="<%= flagNMedicosFestivos %>">
+        <input type="hidden" name="flagNMedicosGAsig" id="flagNMedicosGAsig" value="<%= flagNMedicosGAsig %>">
+        <input type="hidden" name="flagNMedicosVacaciones" id="flagNMedicosVacaciones" value="<%= flagNMedicosVacaciones %>">
+        <input type="hidden" name="flagNMedicosGrupos" id="flagNMedicosGrupos" value="<%= flagNMedicosGrupos %>">
+        <input class="filtro" size="1" type="number" min="3" max="50" style="width: 12em" id="n_resis"
           onchange="pregunta_nombres()" autocomplete="off" class="form-control" name="n_resis" placeholder="Nº médicos"
           required>
 
@@ -33,6 +38,13 @@
 
 
 <script>
+  let aviso = '<%= aviso %>'
+  if(aviso == ""){
+    document.getElementById('cajita_roja').style.display = "none";
+  } else {
+    document.getElementById('cajita_roja').style.display = "block";
+  }
+  
   document.getElementById('BtnStepAux2').addEventListener('click', function () {
     // Call the gtag() function to send the event data
     gtag('event', 'stepForm', {
@@ -52,11 +64,18 @@
     gtag('event', 'stepForm', {
       'button_name': 'BtnReturn2'
     });
+
+    document.getElementById('n_resis').removeAttribute('required');
+
+    for (var i = 0; i <= 50; i++) {
+      while (document.contains(document.getElementById("Nombre_" + i))) {
+        document.getElementById("Nombre_" + i).remove();
+      }
+
+    }
   });
 
-
-  var n_resis = '<%= n_resis %>';
-
+  var n_resis_orig = '<%= n_resis %>';
 
   function pregunta_nombres() {
     let nombres = '<%= nombre %>'
@@ -70,12 +89,12 @@
 
     }
 
-    var n_resis = document.getElementById("n_resis");
+    var n_resis = document.getElementById("n_resis").value;
     var n_resis_value = n_resis.value;
     var divi = document.getElementById("divi");
 
     // Crea las celdas
-    for (var i = 0; i < n_resis_value; i++) {
+    for (var i = 0; i < n_resis; i++) {
       var input = document.createElement("input");
       input.setAttribute("type", "text");
       input.setAttribute("name", "Nombre_" + i);
@@ -88,18 +107,25 @@
     }
 
     if (nombres_array.length > 1) {
-      limit = Math.min(nombres_array.length, n_resis_value)
+      limit = Math.min(nombres_array.length, n_resis)
       for (var i = 0; i < limit; i++) {
         let id = "Nombre_" + i
         document.getElementById(id).value = nombres_array[i]
 
       }
     }
+   
+    if((n_resis_orig != n_resis) && (n_resis_orig >2)){
+      document.getElementById('flagNMedicosFestivos').value = 1;
+      document.getElementById('flagNMedicosGAsig').value = 1;
+      document.getElementById('flagNMedicosVacaciones').value = 1;
+      document.getElementById('flagNMedicosGrupos').value = 1;
+    } 
   }
 
-  if (n_resis > 0) {
+  if (n_resis_orig > 0) {
     
-    document.getElementById('n_resis').value = n_resis
+    document.getElementById('n_resis').value = n_resis_orig
     pregunta_nombres()
   }
 </script>

@@ -10,10 +10,14 @@
 
       <h3 class="container-text feature-title-box">Indica los días de vacaciones</h3>
       <h5>En estos días no asignaremos guardias:</h5>
-      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      <div class="red-aviso" id="cajita_roja">
+        <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      </div>
       <form action="/generarplanilla" method="POST">
         <div class="form-group">
           <input type="hidden" name="step" value=<%= step %>>
+          <input type="hidden" name="flagMesAnyoVacaciones" id="flagMesAnyoVacaciones" value=<%= flagMesAnyoVacaciones %>>
+          <input type="hidden" name="flagNMedicosVacaciones" id="flagNMedicosVacaciones" value=<%= flagNMedicosVacaciones %>>
 
           <!-- Pendiente de meter tabla -->
           <div class="scroll_k" id="scroll_k">
@@ -99,7 +103,8 @@
         let vacacionesMatrix = '<%= vacacionesMatrix %>'
         let vacacionesMatrix_array = vacacionesMatrix.split(",")
         let vacacionesMatrix_array_2 = spliceIntoChunks(vacacionesMatrix_array, dias_mes_vac)
-
+        let flagMesAnyoVacaciones = '<%= flagMesAnyoVacaciones %>';
+        let flagNMedicosVacaciones = '<%= flagNMedicosVacaciones %>';
 
         nombres = '<%= nombre %>'
         nombres_array = nombres.split(",")
@@ -114,14 +119,9 @@
           return res;
         }
 
-
-
         //console.log(vacacionesMatrix_array_2)
 
-
-
-        if (vacacionesMatrix_array_2.length > 1) {
-
+        if ((vacacionesMatrix_array_2.length > 1) && (flagMesAnyoVacaciones == 0) && (flagNMedicosVacaciones == 0)) {
 
           for (var j = 0; j < nombres_array.length; j++) {
             let limit = Math.min(dias_mes_vac, vacacionesMatrix_array_2[j].length)
@@ -194,12 +194,23 @@
 
         }
         actualizarColorVerde()
+        
+        document.getElementById('flagMesAnyoVacaciones').value = 0
+        document.getElementById('flagNMedicosVacaciones').value = 0
+                
       </script>
     </div>
   </div>
 
 
   <script>
+    let aviso = '<%= aviso %>'
+    if(aviso == ""){
+      document.getElementById('cajita_roja').style.display = "none";
+    } else {
+      document.getElementById('cajita_roja').style.display = "block";
+    }
+    
     document.getElementById('BtnStep6').addEventListener('click', function () {
       // Call the gtag() function to send the event data
       gtag('event', 'stepForm', {

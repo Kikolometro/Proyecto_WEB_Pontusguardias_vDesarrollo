@@ -10,13 +10,18 @@
 
       <h3 class="container-text feature-title-box">Indica los días festivos / especiales del mes</h3>
       Por defecto, se marcan los viernes, sábados y domingos, pero modifícalos a tu conveniencia:
-      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      <div class="red-aviso" id="cajita_roja">
+        <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      </div>
 
       <form action="/generarplanilla" method="post">
         <div class="form-group" id="reparto">
 
           <input type="hidden" name="step" value=<%= step %>>
           <input type="hidden" id="nombresArray" name="nombresArray" value=<%= nombre %>>
+          <input type="hidden" name="flagMesAnyoFestivos" id="flagMesAnyoFestivos" value=<%= flagMesAnyoFestivos %>>
+          <input type="hidden" name="flagNMedicosFestivos" id="flagNMedicosFestivos" value=<%= flagNMedicosFestivos %>>
+          <input type="hidden" name="flagGuardiasDiaFestivos" id="flagGuardiasDiaFestivos" value=<%= flagGuardiasDiaFestivos %>>
 
           <div class="scroll_k" id="scroll_k">
             <!-- Pendiente de meter tabla -->
@@ -123,6 +128,8 @@
 
 
         <script type="text/javascript">
+          // Iniciamos variables
+
           var dias_mes_element = document.querySelectorAll('input[type="checkbox"]').length - 1;
           //var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length;
           var n_resis = '<%= n_resis %>';
@@ -133,12 +140,16 @@
           var RecuentoTotGuardFest = 0;
           let festivosArray = '<%= festivosArray%>'
           let festivosArray_array = festivosArray.split(",")
-
+          let flagMesAnyoFestivos = '<%= flagMesAnyoFestivos %>';
+          let flagNMedicosFestivos = '<%= flagNMedicosFestivos %>';
+          let flagGuardiasDiaFestivos = '<%= flagGuardiasDiaFestivos %>';
+          
           for (let x of medicosDeGuardia_pre) {
             medicosDeGuardia += parseInt(x);
           }
-          
-          if (festivosArray_array.length > 1) {
+
+          // Vector de festivos  
+          if ((festivosArray_array.length > 1) && (flagMesAnyoFestivos == 0)) {
  
             for (var i = 0; i < dias_mes; i++) {
 
@@ -150,10 +161,9 @@
               } else {
                 document.getElementById(id).checked = false
               }
-
             }
           }
-
+          
           for (let i = 0; i < medicosDeGuardia_pre.length; i++) {
             medicosDeGuardia_pre[i] = parseInt(medicosDeGuardia_pre[i]);
 
@@ -171,7 +181,7 @@
             }
           }
 
-          //Esto se ejecuta cada vez que hagas click en un checkbox de Festivos
+          // Inicializamos vectores de guardias por médico que luego se pasarán como input
 
           var reparto = document.getElementById("reparto");
 
@@ -180,34 +190,34 @@
           var v_guardias_max_fes = []
           var v_guardias_min_fes = []
 
+          // Reviso los valores de los vectores existentes
           let imp_v_guardias_max_tot = '<%= v_guardias_max_tot %>'
           let imp_v_guardias_max_tot_split = imp_v_guardias_max_tot.split(",")
-          
 
           let imp_v_guardias_min_tot = '<%= v_guardias_min_tot %>'
           let imp_v_guardias_min_tot_split = imp_v_guardias_min_tot.split(",")
-          
 
           let imp_v_guardias_max_fes = '<%= v_guardias_max_fes %>'
-          let imp_v_guardias_max_fes_split = imp_v_guardias_max_fes.split(",")
-          
+          let imp_v_guardias_max_fes_split = imp_v_guardias_max_fes.split(",") 
 
           let imp_v_guardias_min_fes = '<%= v_guardias_min_fes %>'
           let imp_v_guardias_min_fes_split = imp_v_guardias_min_fes.split(",")
           
-          
           for(i=0; i < imp_v_guardias_max_tot_split.length; i++){
-            imp_v_guardias_max_tot_split[i]= parseInt(imp_v_guardias_max_tot_split[i])
-            imp_v_guardias_min_tot_split[i]= parseInt(imp_v_guardias_min_tot_split[i])
-            imp_v_guardias_max_fes_split[i]= parseInt(imp_v_guardias_max_fes_split[i])
-            imp_v_guardias_min_fes_split[i]= parseInt(imp_v_guardias_min_fes_split[i])    
+            imp_v_guardias_max_tot_split[i] = parseInt(imp_v_guardias_max_tot_split[i])
+            imp_v_guardias_min_tot_split[i] = parseInt(imp_v_guardias_min_tot_split[i])
+            imp_v_guardias_max_fes_split[i] = parseInt(imp_v_guardias_max_fes_split[i])
+            imp_v_guardias_min_fes_split[i] = parseInt(imp_v_guardias_min_fes_split[i])    
           }
           imp_v_guardias_max_tot_split.splice(imp_v_guardias_max_tot.length)
           imp_v_guardias_min_tot_split.splice(imp_v_guardias_max_tot.length)
           imp_v_guardias_max_fes_split.splice(imp_v_guardias_max_tot.length)
           imp_v_guardias_min_fes_split.splice(imp_v_guardias_max_tot.length)
-          
 
+          let ind_planilla_nueva = 1;
+          if(imp_v_guardias_max_tot_split.length >1){
+            ind_planilla_nueva = 0; 
+          }
 
           if (document.getElementById("toggle_1").value == "OFF") {
             var dias_mes_festivos = document.querySelectorAll('input[type="checkbox"]:checked').length - 1;
@@ -243,38 +253,12 @@
               " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
           }
 
-
-
           v_guardias_max_tot = Array(parseInt(n_resis)).fill(dg_max)
           v_guardias_min_tot = Array(parseInt(n_resis)).fill(dg_min)
           v_guardias_max_fes = Array(parseInt(n_resis)).fill(fg_max)
           v_guardias_min_fes = Array(parseInt(n_resis)).fill(fg_min)
-
-          let flag = 0;
-          for(i=0; i < imp_v_guardias_max_tot_split.length; i++){
-            if ((v_guardias_max_tot[i] === imp_v_guardias_max_tot_split[i]) && (v_guardias_min_tot[i] === imp_v_guardias_min_tot_split[i]) && (v_guardias_max_fes[i] === imp_v_guardias_max_fes_split[i]) && (v_guardias_min_fes[i] === imp_v_guardias_min_fes_split[i])){
-                      
-            } else {
-              flag = 1;
-              
-            }
-
-          }
-
-          //console.log(v_guardias_max_tot)
-          //console.log(imp_v_guardias_max_tot_split)
-
-          //console.log(v_guardias_min_tot)
-          //console.log(imp_v_guardias_min_tot_split)
-
-          //console.log(v_guardias_max_fes)
-          //console.log(imp_v_guardias_max_fes_split)
-
-          //console.log(v_guardias_min_fes)
-          //console.log(imp_v_guardias_min_fes_split)
-
-          
-
+     
+          //Creamos los inputs
           var reparto = document.getElementById("reparto");
 
           for (var i = 0; i < n_resis; i++) {
@@ -317,6 +301,32 @@
 
           }
 
+          //Revisamos el vector anterior
+          let flag = 0; //No hacemos nada
+          
+          if((flagMesAnyoFestivos == 0) && (flagNMedicosFestivos == 0) && (flagGuardiasDiaFestivos == 0) && (ind_planilla_nueva == 0)){
+            // Podemos cambiar los datos por pantalla si no es una planilla nueva
+            flag = 1; //Cambiamos, pero son guardias personalizadas
+            let flag_control = [];
+            for(i=0; i < imp_v_guardias_max_tot_split.length; i++){
+              
+              if ((v_guardias_max_tot.length === imp_v_guardias_max_tot_split.length) && (v_guardias_max_tot[i] === imp_v_guardias_max_tot_split[i]) && (v_guardias_min_tot[i] === imp_v_guardias_min_tot_split[i]) && (v_guardias_max_fes[i] === imp_v_guardias_max_fes_split[i]) && (v_guardias_min_fes[i] === imp_v_guardias_min_fes_split[i])){
+                //los vectores originales coinciden con el vector calculado (de manera equitativa)
+                flag_control.push(0); // Es el vector equivalente
+                
+              } else {
+                flag_control.push(1)
+              }
+              i
+            }
+
+            if(Math.max.apply(Math, flag_control) ==1){
+              flag = 1
+              } else {
+                flag = 0
+              }
+          }
+
           if (flag == 0){
             //console.log("son iguales, no hacemos nada")
           } else {
@@ -331,16 +341,17 @@
               document.getElementById("Nombre_fes_" + i).value = imp_v_guardias_max_fes_split[i];
               
               v_guardias_max_tot[i] = document.getElementById("Nombre_tot_" + i).value
-              v_guardias_max_fes[i] = document.getElementById("Nombre_fes_" + i).value
-              
-
-              
+              v_guardias_max_fes[i] = document.getElementById("Nombre_fes_" + i).value  
             }
             v_guardias_min_tot = v_guardias_max_tot
             v_guardias_min_fes = v_guardias_max_fes
-
-
-            }
+          }
+          
+          // Cambiamos los flags
+          
+          document.getElementById('flagMesAnyoFestivos').value = 0
+          document.getElementById('flagNMedicosFestivos').value = 0
+          document.getElementById('flagGuardiasDiaFestivos').value = 0
 
           function recalcular_tot() {
             var guardias_asignadas = 0
@@ -873,17 +884,8 @@
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.color = "orange";
               document.getElementById("Nombre_tot_" + (n_resis - 1)).style.borderColor = "orange";
               document.getElementById("Nombre_fes_" + (n_resis - 1)).style.color = "orange";
-              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "orange";
-              
-              if(imp_v_guardias_max_tot_split.length >1){
-                for (var i = 0; i < n_resis; i++) {
-                  document.getElementById("Nombre_tot_" + i).value = imp_v_guardias_max_tot_split[i];
-                  document.getElementById("Nombre_fes_" + i).value = imp_v_guardias_max_fes_split[i];
-                }
-              }
-              
+              document.getElementById("Nombre_fes_" + (n_resis - 1)).style.borderColor = "orange";                            
             }
-
           }
         </script>
 
@@ -896,6 +898,13 @@
   </div>
 
   <script>
+    let aviso = '<%= aviso %>'
+    if(aviso == ""){
+      document.getElementById('cajita_roja').style.display = "none";
+    } else {
+      document.getElementById('cajita_roja').style.display = "block";
+    }
+    
     document.getElementById('BtnStep4').addEventListener('click', function () {
       // Call the gtag() function to send the event data
       gtag('event', 'stepForm', {

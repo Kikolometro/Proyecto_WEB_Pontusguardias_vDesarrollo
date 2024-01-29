@@ -6,7 +6,9 @@
         <div class="progress-bar progress-bar-striped bg-ptg progress-bar-animated" role="progressbar"
           style="width: 77%" aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
       </div>
-      <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      <div class="red-aviso" id="cajita_roja">
+        <h4 id="aviso" class="aviso"><%= aviso %></h4>
+      </div>
 
       <h3 class="container-text feature-title-box">Reparte en equipos a los médicos</h3>
       <label class="filtro">Si no deseas aplicar esta configuración, sólo dale al
@@ -263,6 +265,7 @@
             <input type="hidden" name="step" value="<%= step %>">
             <input type="hidden" name="arrayGroups" id="arrayGroups">
             <input type="hidden" name="arrayNormas" id="arrayNormas">
+            <input type="hidden" name="flagNMedicosGrupos" id="flagNMedicosGrupos"  value="<%= flagNMedicosGrupos %>">
 
           </div>
 
@@ -283,12 +286,13 @@
         let n_resis = '<%= n_resis%>';
         let arrayNormas_pre = '<%= arrayNormas %>';
         let arrayNormas = arrayNormas_pre.split(',');
+        let flagNMedicosGrupos = '<%= flagNMedicosGrupos %>';
 
         if (arrayNormas[0] == '') {
           arrayNormas = []
         }
 
-        if(imp_arrayGroups_split.length > 1){
+        if((imp_arrayGroups_split.length > 1) && (flagNMedicosGrupos == 0)){
           //console.log("Esto es tamaño arrayGroups: " + imp_arrayGroups_split.length)
           for (var i = 0; i < parseInt(n_resis); i++) {
             // Generamos un array con los grupos de los médicos nada más empezar
@@ -309,6 +313,8 @@
         document.getElementById("arrayGroups").value = arrayGroups
         //console.log(document.getElementById("arrayGroups").value)
         actualizarNormas()
+
+        document.getElementById('flagNMedicosGrupos').value = 0     
 
         function cambiarArray() {
 
@@ -537,6 +543,12 @@
     </div>
 
     <script>
+      let aviso = '<%= aviso %>'
+      if(aviso == ""){
+        document.getElementById('cajita_roja').style.display = "none";
+      } else {
+        document.getElementById('cajita_roja').style.display = "block";
+      }
       document.getElementById('BtnStep7').addEventListener('click', function () {
         // Call the gtag() function to send the event data
         gtag('event', 'stepForm', {
