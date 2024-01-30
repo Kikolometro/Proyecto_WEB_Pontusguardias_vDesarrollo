@@ -234,6 +234,33 @@
               </div>
               <br>
               <!-- End of item 6 -->
+              <!-- Start of item 7 -->
+              <div class="item list-group-item">
+                <div class="item-left">
+                  <b>
+
+                    Si a
+                    <select class="form-control-normas filtro" size="1" name="Norma_7_A" id="Norma_7_A">
+
+                      <% for (var j = 0; j < n_resis ; j++) { %>
+                      <option value="<%= j +1%>">Equipo <%= j+1 %></option>
+                      <% } %>
+                      <option value="T">Todos</option>
+                    </select>
+
+                    les toca la guardia del viernes, también harán el domingo (si no hacen el V-D, podrían hacer el
+                    sábado).
+
+                  </b>
+                  <color-orange>(Ej: Todos harán guardias viernes-domingo o sábados)</color-orange>
+                </div>
+                <div class="item-right">
+                  <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('7')"><i class="fa-solid fa-plus"
+                      style="color: #ffffff;"></i></button>
+                </div>
+              </div>
+              <br>
+              <!-- End of item 7 -->
             </div>
           </div>
         </div>
@@ -399,6 +426,12 @@
               .getElementById(codigo_b).value
 
             break;
+          case '7':
+            codigo_a = 'Norma_' + norma + '_A'
+
+            codigo = norma + '_' + document.getElementById(codigo_a).value
+
+            break;
           default:
             //console.log(`Sorry, we are out of ${norma}.`);
         }
@@ -501,6 +534,14 @@
               }
               newItemLeft.innerHTML = '...nadie hará más de ' + arrayNormas_split[1] +
                 ' guardia/s los ' + dia
+              break;
+            case '7':
+              if (arrayNormas_split[1] == "Grupo T") {
+                newItemLeft.innerHTML = 'El que haga guardia un viernes, hará el domingo.'
+              } else {
+                newItemLeft.innerHTML = 'El que haga guardia del ' + arrayNormas_split[1] + ' un viernes, hará el domingo.'
+              }
+
               break;
             default:
               //console.log('Ha habido un error');
