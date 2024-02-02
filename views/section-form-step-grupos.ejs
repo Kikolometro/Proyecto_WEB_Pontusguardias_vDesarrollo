@@ -10,7 +10,7 @@
     </div>
 
     <h3 class="container-text feature-title-box">Reparte en equipos a los médicos</h3>
-    <label class="filtro">Si no deseas aplicar esta configuración, sólo dale al
+    <label class="filtro">Si no deseas establecer relaciones entre los equipos, sólo dale al
       botón "Siguiente"</label>
 
     <div id="formContainer">
@@ -156,9 +156,9 @@
                       <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
-                    </select>
+                    </select>.
                   </b>
-                  <color-orange>. (Ej: Siempre habrá un R4 de guardia)</color-orange>
+                  <color-orange> (Ej: Siempre habrá un R4 de guardia)</color-orange>
                 </div>
                 <div class="item-right">
                   <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('3')"><i class="fa-solid fa-plus"
@@ -187,9 +187,9 @@
                       <option value="Grupo <%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
 
-                    </select>
+                    </select>.
                   </b>
-                  <color-orange>. (Ej: Nunca habrá más de un R4 de guardia)</color-orange>
+                  <color-orange> (Ej: Nunca habrá más de un R4 de guardia)</color-orange>
                 </div>
                 <div class="item-right">
                   <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('4')"><i class="fa-solid fa-plus"
@@ -198,6 +198,9 @@
               </div>
               <br>
               <!-- End of item 4 -->
+              <b class="float_izq">Otras condiciones: </b>
+              <br>
+              <br>
               <!-- Start of item 6 -->
               <div class="item list-group-item">
                 <div class="item-left">
@@ -223,9 +226,9 @@
                       <option value="D">domingo</option>
 
 
-                    </select>
+                    </select>.
                   </b>
-                  <color-orange>. (Ej: Nadie hará más de un viernes)</color-orange>
+                  <color-orange> (Ej: Nadie hará más de un viernes)</color-orange>
                 </div>
                 <div class="item-right">
                   <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('6')"><i class="fa-solid fa-plus"
@@ -239,20 +242,20 @@
                 <div class="item-left">
                   <b>
 
-                    Si a
+                    Las guardias en fin de semana de
                     <select class="form-control-normas filtro" size="1" name="Norma_7_A" id="Norma_7_A">
 
                       <% for (var j = 0; j < n_resis ; j++) { %>
                       <option value="<%= j +1%>">Equipo <%= j+1 %></option>
                       <% } %>
-                      <option value="T">Todos</option>
+                      <option value="T">Cualquier médico</option>
                     </select>
 
-                    les toca la guardia del viernes, también harán el domingo (si no hacen el V-D, podrían hacer el
-                    sábado).
+                    serán dobletes (viernes y domingo), sólo sábados o sin guardias.
 
                   </b>
-                  <color-orange>(Ej: Todos harán guardias viernes-domingo o sábados)</color-orange>
+                  <color-orange>(Ej: Las guardias en fin de semana de todo el servicio serán dobletes (viernes y
+                    domingo), sólo sábados o sin guardias</color-orange>
                 </div>
                 <div class="item-right">
                   <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('7')"><i class="fa-solid fa-plus"
@@ -271,7 +274,7 @@
       <div class="guardias-box-clear-green-max col-lg-8 container-fluid" id="cajita_naranja">
 
 
-        <div id="texto_fin" class="ali_izq">Estas son las condiciones que has solicitado: <br><br><b> En la misma
+        <div id="texto_fin" class="ali_izq ">Estas son las condiciones que has solicitado: <br><br><b> En la misma
             guardia...</b></div>
 
         <br>
@@ -459,7 +462,8 @@
             "No es obligatorio, pero que sepas que... <b>¡¡¡No has incluido ninguna condición!!!!</b><br> <br>Recuerda hacer click en el botón <button class='btn btn-ptg-naranja-no-margin'><i class='fa-solid fa-plus' style='color: #ffffff'></i></button> para añadir las normas"
         } else {
 
-          texto_fin.innerHTML = "Estas son las normas que has solicitado: <br><br><b> En la misma guardia...</b>"
+          //texto_fin.innerHTML = "Estas son las normas que has solicitado: <br><br><b> En la misma guardia...</b>"
+          texto_fin.innerHTML = "<b>Estas son las normas que has solicitado: </b><br>"
         }
 
         while (listado_normas.hasChildNodes()) {
@@ -482,27 +486,34 @@
           //console.log(arrayNormas_split)
           switch (arrayNormas_split[0]) {
             case '1':
-              newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
+              newItemLeft.innerHTML = 'En la misma guardia: si hay alguien del Equipo ' + arrayNormas_split[1] +
                 ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', pero no al revés'
               break;
 
             case '2':
-              newItemLeft.innerHTML = '...si hay algún médico del Equipo ' + arrayNormas_split[1] +
+              newItemLeft.innerHTML = 'En la misma guardia: si hay algún médico del Equipo ' + arrayNormas_split[1] +
                 ', nunca coincidirá con nadie del Equipo ' + arrayNormas_split[2] + ' y viceversa'
               break;
 
             case '3':
-              newItemLeft.innerHTML = '...siempre habrá algún médico del Equipo ' + arrayNormas_split[1]
+              newItemLeft.innerHTML = 'En la misma guardia: siempre habrá algún médico del Equipo ' + arrayNormas_split[
+                1]
               break;
 
             case '4':
-              newItemLeft.innerHTML = '...nunca coincidirá/n más de ' + arrayNormas_split[1] +
-                ' médico/s del Equipo ' +
-                arrayNormas_split[2]
+              if (arrayNormas_split[1] == "1") {
+                newItemLeft.innerHTML = 'En la misma guardia: nunca coincidirá más de ' + arrayNormas_split[1] +
+                  ' médico del Equipo ' +
+                  arrayNormas_split[2]
+              } else {
+                newItemLeft.innerHTML = 'En la misma guardia: nunca coincidirán más de ' + arrayNormas_split[1] +
+                  ' médicos del Equipo ' +
+                  arrayNormas_split[2]
+              }
               break;
 
             case '5':
-              newItemLeft.innerHTML = '...si hay alguien del Equipo ' + arrayNormas_split[1] +
+              newItemLeft.innerHTML = 'En la misma guardia: si hay alguien del Equipo ' + arrayNormas_split[1] +
                 ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', y viceversa'
               break;
             case '6':
@@ -532,14 +543,16 @@
                 default:
                   dia = "";
               }
-              newItemLeft.innerHTML = '...nadie hará más de ' + arrayNormas_split[1] +
-                ' guardia/s los ' + dia
+              newItemLeft.innerHTML = 'Nadie hará más de ' + arrayNormas_split[1] +
+                ' guardia/s en ' + dia
               break;
             case '7':
-              if (arrayNormas_split[1] == "Grupo T") {
-                newItemLeft.innerHTML = 'El que haga guardia un viernes, hará el domingo.'
+              if (arrayNormas_split[1] == "T") {
+                newItemLeft.innerHTML =
+                  'Las guardias en fin de semana de todos los equipos serán dobletes (viernes y domingo), sólo sábados o sin guardias'
               } else {
-                newItemLeft.innerHTML = 'El que haga guardia del ' + arrayNormas_split[1] + ' un viernes, hará el domingo.'
+                newItemLeft.innerHTML = 'Las guardias en fin de semana del equipo ' + arrayNormas_split[1] +
+                  ' serán dobletes (viernes y domingo), sólo sábados, o sin guardias'
               }
 
               break;
@@ -553,7 +566,7 @@
 
           var newItemRightButton = document.createElement('button');
           newItemRightButton.classList.add('btn');
-          newItemRightButton.classList.add('btn-ptg-naranja-no-margin');
+          newItemRightButton.classList.add('btn-ptg-rojo-no-margin');
           newItemRightButton.setAttribute('onclick', 'eliminarNorma(' + i + ')');
           newItemRightButton.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
 

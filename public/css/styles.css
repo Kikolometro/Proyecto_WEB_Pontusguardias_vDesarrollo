@@ -139,6 +139,10 @@ color-orange {
   text-align: left;
 }
 
+.float_izq {
+  float: left;
+}
+
 .aviso {
   color: red;
   margin: 0;
@@ -404,7 +408,16 @@ color-orange {
 .btn-ptg-naranja-no-margin:hover {
   color: #fff;
   background-color: #3AB091;
+}
 
+.btn-ptg-rojo-no-margin {
+  color: #fff;
+  background-color: #f06e6e;
+}
+
+.btn-ptg-rojo-no-margin:hover {
+  color: #fff;
+  background-color: #ff2d2d;
 }
 
 .btn-ptg-naranja {
