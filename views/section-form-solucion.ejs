@@ -108,144 +108,352 @@
 
         </div>
 
+      </div>
+
+      <div class="container-text-light">
+        <button class="btn btn-ptg-naranja-claro click collapsed pswp__button" type="button" data-toggle="collapse"
+          data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="changename()"
+          id="collapsedButton">
+          <div class="bold" id="collapsedButtontext">Mostrar detalle</div>
+          <div class="coll-icon"><i class="arrow up "></i></div>
+        </button>
+
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body scroll_k">
+
+            <div id="detalle_1">
+              <div class="linea_abajo">
+                <p class="delimitador ">Médicos de guardia por día</p>
+              </div>
+              <table class="table tabla">
+                <thead>
+                  <tr>
+                    <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                    <% if (i > 0 && festivosArray[i-1]==1) { %>
+                    <th scope="col" class="table-clear-blue">
+                      <%= i %>
+                    </th>
+                    <% } else if(i > 0) {%>
+                    <th scope="col">
+                      <%= i %>
+                    </th>
+                    <% } else {%>
+                    <th scope="col"></th>
+                    <% }} %>
+                  </tr>
+                </thead>
+
+                <thead>
+                  <tr>
+                    <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                    <% if (i > 0 && festivosArray[i-1]==1) { %>
+                    <th scope="col" class="table-clear-blue">
+                      <%= weekArray[i-1] %>
+                    </th>
+                    <%  } else if (i > 0) { %>
+                    <th scope="col">
+                      <%= weekArray[i-1] %>
+                    </th>
+                    <% } else {%>
+                    <th scope="col"></th>
+                    <% }} %>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <tr>
+                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;">Festivos: </th>
+                    <% for (var j = 0; j < dias_mes ; j++) { %>
+                    <%  if (festivosArray[j]===1){ %>
+                    <td class="table-clear-blue"><%=  medicosDeGuardia[j]%> </td>
+                    <% } else {%>
+                    <td class=""> <%=  medicosDeGuardia[j]%> </td>
+                    <% } %>
+                    <% } %>
+
+
+
+
+                  </tr>
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <br>
+
+            <div id="detalle_2">
+              <div class="linea_abajo">
+                <p class="delimitador ">Guardias totales</p>
+              </div>
+
+
+              <table class="table tabla">
+
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th style="vertical-align: middle;" scope="col">Festivos</th>
+                    <th style="vertical-align: middle;" scope="col">No Festivos</th>
+                    <th style="vertical-align: middle;" scope="col">Total</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% for (var i = 0; i < n_resis ; i++) {%>
+                  <tr>
+                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+
+                    <td class="table-clear-blue" id="cell_resi_<%= i %>_Fes"> - </td>
+                    <td class="" id="cell_resi_<%= i %>_NoFes"> - </td>
+                    <td class="table-clear-grey bold" id="cell_resi_<%= i %>_Tot"> - </td>
+
+
+                  </tr>
+                  <% } %>
+                  <tr>
+                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"> </th>
+                    <td class=""></td>
+                    <td class=""></td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <br>
+
+            <div id="detalle_3">
+              <div class="linea_abajo">
+                <p class="delimitador ">Guardias por día de la semana</p>
+              </div>
+              <table class="table tabla">
+
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">L</th>
+                    <th scope="col">M</th>
+                    <th scope="col">X</th>
+                    <th scope="col">J</th>
+                    <th scope="col">V</th>
+                    <th scope="col">S</th>
+                    <th scope="col">D</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <% for (var i = 0; i < n_resis ; i++) {%>
+                  <tr>
+                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+                    <% for (var j = 0; j < 7 ; j++) { %>
+                    <td class="" id="cell_resi_<%= i %>_dia_<%= j %>"> - </td>
+                    <%}%>
+                    </tr>
+                    
+                  <% } %>
+                  <tr>
+                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"></th>
+                    <% for (var j = 0; j < 7 ; j++) { %>
+                    <td class=""> </td>
+                    <%}%>
+                    
+                    </tr>
+                </tbody>
+                </table>
+              </div>
+            
+
+            <br>
+
+            <div id="detalle_4">
+              <div class="linea_abajo">
+                <p class="delimitador ">Normas y grupos</p>
+              </div>
+
+              <div id="formContainer">
+                <div class="container-fluid-light">
+
+                  <% for (var i = 0; i < n_resis ; i++) { %>
+
+                    <div class="row">
+
+                      <div class="col-lg-6">
+                        <label class="label_form filtro bold" for="Grupo_<%=nombre[i]%>"><%=nombre[i]%>: </label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control-equipo filtro" type="text" value="Equipo <%= i+1 %>" readonly>
+                      </div>
+
+                    </div>
+                    <% } %>
+
+            </div>
+          </div>
+
+          <div class="guardias-box-clear-green-max col-lg-8 container-fluid" id="cajita_naranja">
+
+
+            <div id="texto_fin" class="ali_izq ">Estas son las condiciones que has solicitado: <br><br></div>
+
+            <br>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-12" id='listado_normas'>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
 
       </div>
+    </div>
+  </div>
+
+  <% } %>
+  <div class="container-text-light">
+    <% var arr = [10, 20, 50]%>
+    <% if (!arr.includes(cod_error)) { %>
+    <div class="recuadro container-text-light">
       <h4> La clave para buscar la solución es: </h4>
       <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-      <% } %>
-
-      <% var arr = [10, 20, 50]%>
-      <% if (!arr.includes(cod_error)) { %>
-        <div ><h5 class ="bold">¡Compártelo!</h5></div>
-      <button class="btn btn-ptg-naranja" onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i
-          class="fa-solid fa-copy"></i> Copiar link</button>
-      <a class="btn btn-ptg-naranja"
+      <div>
+        <h5 class="bold">¡Compártela!</h5>
+      </div>
+      <button class="btn btn-ptg-naranja-margin-top-lateral pswp__button"
+        onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i class="fa-solid fa-copy"></i> Copiar
+        link</button>
+      <a class="btn btn-ptg-naranja-margin-top-lateral pswp__button"
         href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>"
         data-action="share/whatsapp/share" target="_blank">
         <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
-      <a class="btn btn-ptg-naranja"
+      <a class="btn btn-ptg-naranja-margin-top-lateral pswp__button"
         href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
         <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
+    </div>
 
-      <% } %>
 
-      <% switch (cod_error) {
-        case 0: %>
-      <div class="mini-filtro">
-        <br>
+    <% } %>
+    <% if (cod_error === 0) { %>
+
+    <div class="recuadro">
+
+      <div class="mini-filtro ">
         Por favor, dinos qué te ha parecido la solución:
       </div>
 
       <div id="feedback-buttons">
-        <button id="happy-btn" class="btn happy" onclick="updateFeedback(2)"><i
+        <button id="happy-btn" class="btn happy pswp__button" onclick="updateFeedback(2)"><i
             class="fa-regular fa-face-smile"></i></button>
-        <button id="medium-btn" class="btn medium" onclick="updateFeedback(1)"><i
+        <button id="medium-btn" class="btn medium pswp__button" onclick="updateFeedback(1)"><i
             class="fa-regular fa-face-meh-blank"></i></button>
-        <button id="sad-btn" class="btn sad" onclick="updateFeedback(-1)"><i
+        <button id="sad-btn" class="btn sad pswp__button" onclick="updateFeedback(-1)"><i
             class="fa-regular fa-face-sad-tear"></i></button>
 
       </div>
+    </div>
 
 
-      <% break
 
-       case 10: %>
-      <div>
-        <h4> La clave para buscar la solución es: </h4>
-        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-        <div class="mini-filtro">
-          Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto.
-          Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que
-          busquemos una solución
-          alternativa.
-
-          Gracias por confiar en PonTusGuardias.com
-        </div>
-
-      </div>
-
-
-      <% break ;
-
-       case 20: %>
+    <%  } else if (cod_error === 10){ %>
+    <div>
+      <h4> La clave para buscar la solución es: </h4>
+      <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
       <div class="mini-filtro">
-        Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a
-          href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución alternativa.
+        Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto.
+        Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que
+        busquemos una solución
+        alternativa.
 
         Gracias por confiar en PonTusGuardias.com
       </div>
 
-      <% break ;
+    </div>
 
-       case 30: %>
-      <div>
-        <h4> Tu código para recuperar la solución es: </h4>
-        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-        <div class="mini-filtro">
-          Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto. Tambien
-          puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos
-          una solución
-          alternativa.
 
-          Gracias por confiar en PonTusGuardias.com
-        </div>
+    <%  } else if (cod_error === 200){ %>
+    <div class="mini-filtro">
+      Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a
+        href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
+      alternativa.
+
+      Gracias por confiar en PonTusGuardias.com
+    </div>
+
+    <%  } else if (cod_error === 30){ %>
+    <div>
+
+      <div class="mini-filtro">
+        Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto.
+        Tambien
+        puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos
+        una solución
+        alternativa.
+
+        Gracias por confiar en PonTusGuardias.com
       </div>
+    </div>
 
-      <% break ;
+    <%  } else if (cod_error === 50){ %>
+    <div>
+      <div class="mini-filtro">
+        Lo sentimos, <strong>esa clave no existe</strong>. Prueba a escribirnos a <a
+          href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
 
-       case 50: %>
-      <div>
-        <div class="mini-filtro">
-          Lo sentimos, <strong>ese código es erróneo</strong>. Prueba a escribirnos a <a
-            href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
-
-          Gracias por confiar en PonTusGuardias.com
-        </div>
+        Gracias por confiar en PonTusGuardias.com
       </div>
+    </div>
 
-      <% break ;
 
-       default: %>
+    <%  } %>
 
-      <% break ;} %>
-            
 
-      <div class="container-fluid-light bold">
 
-        <div class="row justify-content-md-center">
-          <% if (!arr.includes(cod_error)) { %>
-          <div class="col-lg-4">
+    <div class="container-fluid-light bold">
 
-            <form action="/reutilizar-planilla#form" method="POST">
-              <div class="form-group">
-                <input type="hidden" name="step" value="1">
-              </div>
-              <button class="btn btn-ptg bold" type="submit">Reutilizar planilla</button>
-            </form>
+      <div class="row justify-content-md-center">
+        <% if (!arr.includes(cod_error)) { %>
+        <div class="col-lg-4">
 
-            <div class="col-md-auto">
+          <form action="/reutilizar-planilla#form" method="POST">
+            <div class="form-group">
+              <input type="hidden" name="step" value="1">
+            </div>
+            <button class="btn btn-ptg bold" type="submit">Reutilizar planilla</button>
+          </form>
 
+          <div class="col-md-auto">
+
+          </div>
+
+        </div>
+        <% } %>
+        <div class="col-lg-4">
+
+          <form action="/" method="POST">
+            <div class="form-group">
+              <input type="hidden" name="step" value="0">
             </div>
 
-          </div>
-          <% } %>
-          <div class="col-lg-4">
+            <button class="btn btn-ptg bold" type="submit">Volver a empezar</button>
+          </form>
 
-            <form action="/" method="POST">
-              <div class="form-group">
-                <input type="hidden" name="step" value="0">
-              </div>
-
-              <button class="btn btn-ptg bold" type="submit">Volver a empezar</button>
-            </form>
-
-          </div>
         </div>
       </div>
-
     </div>
+
   </div>
 
+
+  </div>
+  </div>
 </section>
 
 <script type="text/javascript">
@@ -305,6 +513,118 @@
     $(document).scrollTop($("#form").offset().top);
   });
 
+  let cod_error = '<%= cod_error %>';
+
+  if (cod_error == 0) {
+    actualizarNormas()
+    actualizarGuardias()
+  }
+
+  function actualizarGuardias() {
+    let n_resis = '<%= n_resis %>'
+    let dias_mes = '<%= dias_mes%>'
+    dias_mes = parseInt(dias_mes)
+    let solucion_v = '<%= solucion %>'
+    let festivosArray_v = '<%= festivosArray%>'
+    let weekArray_v = '<%= weekArray%>'
+
+
+
+    let solucion_split = solucion_v.split(",")
+    let festivosArray_v_split = festivosArray_v.split(",")
+    let weekArray_v_split = weekArray_v.split(",")
+
+    var solucion_split_num = solucion_split.map(function (x) {
+      return parseInt(x, 10);
+    });
+
+    const chunkSize = dias_mes;
+    const chunks = [];
+    for (let i = 0; i < solucion_split_num.length; i += chunkSize) {
+      const chunk = solucion_split_num.slice(i, i + chunkSize);
+      chunks.push(chunk);
+    }
+    console.log(chunks)
+
+    // Festivos del mes
+    for (let i = 0; i < n_resis; i++) {
+
+      let id_Fes_nom = "cell_resi_" + i + "_Fes"
+      let id_NoFes_nom = "cell_resi_" + i + "_NoFes"
+      let id_Tot_nom = "cell_resi_" + i + "_Tot"
+
+      let id_Fes = document.getElementById(id_Fes_nom)
+      let id_NoFes = document.getElementById(id_NoFes_nom)
+      let id_Tot = document.getElementById(id_Tot_nom)
+
+      let total = 0
+      let festivos = 0
+      let Nofestivos = 0
+
+      for (let j = 0; j < dias_mes; j++) {
+        total += chunks[i][j]
+
+        if (festivosArray_v_split[j] == '1') {
+          festivos += chunks[i][j]
+        } else Nofestivos += chunks[i][j]
+
+      }
+
+      id_Fes.innerText = festivos
+      id_NoFes.innerText = Nofestivos
+      id_Tot.innerText = total
+    }
+
+    // Dias de la semana
+    for (let i = 0; i < n_resis; i++) {
+      for (let j = 0; j < 7; j++) {
+
+        let id_resi_dia_nom = "cell_resi_" + i + "_dia_" + j
+        let id_resi_dia = document.getElementById(id_resi_dia_nom)
+        let dia = 'A'
+
+        if (j === 0) {
+          dia = 'L'
+        } else if (j === 1) {
+          dia = 'M'
+        } else if (j === 2) {
+          dia = 'X'
+        } else if (j === 3) {
+          dia = 'J'
+        } else if (j === 4) {
+          dia = 'V'
+        } else if (j === 5) {
+          dia = 'S'
+        } else if (j === 6) {
+          dia = 'D'
+        }
+
+        let tot_dia = 0;
+        for (let k = 0; k < dias_mes; k++) {
+          if (weekArray_v_split[k] === dia) {
+            tot_dia += chunks[i][k]
+          }
+        }
+
+        id_resi_dia.innerText = tot_dia;
+      }
+    }
+
+  }
+
+  function changename() {
+    let collapsedButton = document.getElementById("collapsedButton")
+    let collapsedButtontext = document.getElementById("collapsedButtontext")
+
+    if (collapsedButton.getAttribute('aria-expanded') === 'true') {
+      collapsedButtontext.innerHTML = "Mostrar detalle"
+
+    } else if (collapsedButton.getAttribute('aria-expanded') === 'false') {
+      collapsedButtontext.innerHTML = "Ocultar detalle"
+
+    }
+  }
+
   function copiarEnlacePortapapeles(idsolucion) {
     // Get the text field
     var idSolu = idsolucion;
@@ -358,4 +678,128 @@
         console.error('Error:', error);
       });
   }
+
+  function actualizarNormas() {
+
+    let arrayNormas_pre = '<%= arrayNormas %>';
+    let arrayNormas = arrayNormas_pre.split(',');
+
+    //document.getElementById("arrayNormas").value = arrayNormas
+    let bucle = arrayNormas.length
+    //console.log(bucle)
+
+    var listado_normas = document.getElementById('listado_normas')
+    var texto_fin = document.getElementById('texto_fin')
+    if (bucle < 2) {
+      texto_fin.innerHTML =
+        "<b>No has establecido ninguna condición. </b>"
+    } else {
+
+      //texto_fin.innerHTML = "Estas son las normas que has solicitado: <br><br><b> En la misma guardia...</b>"
+      texto_fin.innerHTML = "<b>Estas son las normas que has solicitado: </b><br>"
+
+
+      while (listado_normas.hasChildNodes()) {
+        listado_normas.removeChild(listado_normas.firstChild)
+      }
+
+      for (let i = 0; i < bucle; i++) {
+        // Create a new item
+        var newItem = document.createElement('div');
+        newItem.setAttribute('class', 'item list-group-item');
+
+
+        var newItemLeft = document.createElement('div');
+        newItemLeft.setAttribute('class', 'titulin');
+        newItemLeft.classList.add('item-left');
+
+
+
+        let arrayNormas_split = arrayNormas[i].split('_')
+        //console.log(arrayNormas_split)
+        switch (arrayNormas_split[0]) {
+          case '1':
+            newItemLeft.innerHTML = 'En la misma guardia: si hay alguien del Equipo ' + arrayNormas_split[1] +
+              ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', pero no al revés'
+            break;
+
+          case '2':
+            newItemLeft.innerHTML = 'En la misma guardia: si hay algún médico del Equipo ' + arrayNormas_split[1] +
+              ', nunca coincidirá con nadie del Equipo ' + arrayNormas_split[2] + ' y viceversa'
+            break;
+
+          case '3':
+            newItemLeft.innerHTML = 'En la misma guardia: siempre habrá algún médico del Equipo ' + arrayNormas_split[
+              1]
+            break;
+
+          case '4':
+            if (arrayNormas_split[1] == "1") {
+              newItemLeft.innerHTML = 'En la misma guardia: nunca coincidirá más de ' + arrayNormas_split[1] +
+                ' médico del Equipo ' +
+                arrayNormas_split[2]
+            } else {
+              newItemLeft.innerHTML = 'En la misma guardia: nunca coincidirán más de ' + arrayNormas_split[1] +
+                ' médicos del Equipo ' +
+                arrayNormas_split[2]
+            }
+            break;
+
+          case '5':
+            newItemLeft.innerHTML = 'En la misma guardia: si hay alguien del Equipo ' + arrayNormas_split[1] +
+              ', se forzará que siempre haya alguien del Equipo ' + arrayNormas_split[2] + ', y viceversa'
+            break;
+          case '6':
+            let dia = "";
+            switch (arrayNormas_split[2]) {
+              case 'L':
+                dia = 'lunes'
+                break;
+              case 'M':
+                dia = 'martes'
+                break;
+              case 'X':
+                dia = 'miércoles'
+                break;
+              case 'J':
+                dia = 'jueves'
+                break;
+              case 'V':
+                dia = 'viernes'
+                break;
+              case 'S':
+                dia = 'sábado'
+                break;
+              case 'D':
+                dia = 'domingo'
+                break;
+              default:
+                dia = "";
+            }
+            newItemLeft.innerHTML = 'Nadie hará más de ' + arrayNormas_split[1] +
+              ' guardia/s en ' + dia
+            break;
+          case '7':
+            if (arrayNormas_split[1] == "T") {
+              newItemLeft.innerHTML =
+                'Las guardias en fin de semana de todos los equipos serán dobletes (viernes y domingo), sólo sábados o sin guardias'
+            } else {
+              newItemLeft.innerHTML = 'Las guardias en fin de semana del equipo ' + arrayNormas_split[1] +
+                ' serán dobletes (viernes y domingo), sólo sábados, o sin guardias'
+            }
+
+            break;
+          default:
+            //console.log('Ha habido un error');
+        }
+
+
+        newItem.appendChild(newItemLeft);
+
+        // Add the new item to the item list
+
+        listado_normas.appendChild(newItem)
+      }
+    }
+  };
 </script>

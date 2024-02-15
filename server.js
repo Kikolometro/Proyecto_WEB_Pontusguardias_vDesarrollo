@@ -146,6 +146,7 @@ app.get('/buscarSolucion', function (req, res) {
   req.session.mes = ""
   req.session.anyo = 2020
   req.session.idSolBuscada = req.query.idSol
+  req.session.arrayNormas = []
 
   db.Petition.findOne({
     //idSol: req.params.idSol
@@ -171,7 +172,8 @@ app.get('/buscarSolucion', function (req, res) {
         mes: req.session.mes,
         anyo: req.session.anyo,
         cod_error: req.session.cod_error,
-        idSolBuscada: req.session.idSolBuscada
+        idSolBuscada: req.session.idSolBuscada,
+        arrayNormas: req.session.arrayNormas
       });
     } else {
 
@@ -191,7 +193,8 @@ app.get('/buscarSolucion', function (req, res) {
           mes: req.session.mes,
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
+          idSolBuscada: req.session.idSolBuscada,
+          arrayNormas: req.session.arrayNormas
         });
 
       } else if (unaSolucion['ind_sol'] == 1) {
@@ -248,7 +251,16 @@ app.get('/buscarSolucion', function (req, res) {
           idSolBuscada: req.session.idSolBuscada,
           festivosArray: req.session.festivosArray,
           guardiasMatrix: req.session.guardiasMatrix,
-          vacacionesMatrix: req.session.vacacionesMatrix
+          vacacionesMatrix: req.session.vacacionesMatrix,
+          medicosDeGuardia: req.session.medicosDeGuardia,
+          arrayNormas: req.session.arrayNormas,
+          arrayGroups: req.session.arrayGroups,
+          v_guardias_max_tot: req.session.v_guardias_max_tot,
+          v_guardias_min_tot: req.session.v_guardias_min_tot,
+          v_guardias_max_fes: req.session.v_guardias_max_fes,
+          v_guardias_min_fes: req.session.v_guardias_min_fes,
+          comentario: req.session.comentario,
+          mail: req.session.correo
         });
 
       } else {
@@ -267,7 +279,8 @@ app.get('/buscarSolucion', function (req, res) {
           mes: req.session.mes,
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
+          idSolBuscada: req.session.idSolBuscada,
+          arrayNormas: req.session.arrayNormas
         });
       }
 
@@ -285,6 +298,7 @@ app.post('/buscarSolucion', function (req, res) {
   req.session.mes = ""
   req.session.anyo = 2020
   req.session.idSolBuscada = req.query.idSol
+  req.session.arrayNormas = []
 
   db.Petition.findOne({
     //idSol: req.params.idSol
@@ -310,7 +324,8 @@ app.post('/buscarSolucion', function (req, res) {
         mes: req.session.mes,
         anyo: req.session.anyo,
         cod_error: req.session.cod_error,
-        idSolBuscada: req.session.idSolBuscada
+        idSolBuscada: req.session.idSolBuscada,
+        arrayNormas: req.session.arrayNormas
       });
     } else {
 
@@ -330,7 +345,8 @@ app.post('/buscarSolucion', function (req, res) {
           mes: req.session.mes,
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
+          idSolBuscada: req.session.idSolBuscada,
+          arrayNormas: req.session.arrayNormas
         });
 
       } else if (unaSolucion['ind_sol'] == 1) {
@@ -386,7 +402,16 @@ app.post('/buscarSolucion', function (req, res) {
           idSolBuscada: req.session.idSolBuscada,
           festivosArray: req.session.festivosArray,
           guardiasMatrix: req.session.guardiasMatrix,
-          vacacionesMatrix: req.session.vacacionesMatrix
+          vacacionesMatrix: req.session.vacacionesMatrix,
+          medicosDeGuardia: req.session.medicosDeGuardia,
+          arrayNormas: req.session.arrayNormas,
+          arrayGroups: req.session.arrayGroups,
+          v_guardias_max_tot: req.session.v_guardias_max_tot,
+          v_guardias_min_tot: req.session.v_guardias_min_tot,
+          v_guardias_max_fes: req.session.v_guardias_max_fes,
+          v_guardias_min_fes: req.session.v_guardias_min_fes,
+          comentario: req.session.comentario,
+          mail: req.session.correo
         });
 
       } else {
@@ -405,7 +430,8 @@ app.post('/buscarSolucion', function (req, res) {
           mes: req.session.mes,
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
-          idSolBuscada: req.session.idSolBuscada
+          idSolBuscada: req.session.idSolBuscada,
+          arrayNormas: req.session.arrayNormas
         });
       }
 
@@ -544,7 +570,16 @@ app.get("/mostrarSolucion", function (req, res) {
         idSolBuscada: req.session.idSolBuscada,
         festivosArray: req.session.festivosArray,
         guardiasMatrix: req.session.guardiasMatrix,
-        vacacionesMatrix: req.session.vacacionesMatrix
+        vacacionesMatrix: req.session.vacacionesMatrix,
+        medicosDeGuardia: req.session.medicosDeGuardia,
+        arrayNormas: req.session.arrayNormas,
+        arrayGroups: req.session.arrayGroups,
+        v_guardias_max_tot: req.session.v_guardias_max_tot,
+        v_guardias_min_tot: req.session.v_guardias_min_tot,
+        v_guardias_max_fes: req.session.v_guardias_max_fes,
+        v_guardias_min_fes: req.session.v_guardias_min_fes,
+        comentario: req.session.comentario,
+        mail: req.session.correo
       });
     }
 

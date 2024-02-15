@@ -135,6 +135,13 @@ color-orange {
 
 }
 
+.delimitador {
+  color: #226856;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0%;
+}
+
 .ali_izq {
   text-align: left;
 }
@@ -213,6 +220,9 @@ color-orange {
   margin-bottom: 3%;
 }
 
+.container-text-light {
+  margin-bottom: 1%;
+}
 
 .container_k {
   border-style: solid;
@@ -263,6 +273,18 @@ color-orange {
 .margen-texto {
   box-sizing: border-box;
   padding: 100px;
+}
+
+.recuadro {
+  border: 1px solid rgb(218, 218, 218);
+  border-radius: 5px;
+  padding: 3%;
+}
+
+.linea_abajo {
+  border-bottom: 2px solid #FF8C32;
+  padding: 0%;
+  margin-bottom: 1%;
 }
 
 /* EL CONTAINER DE Cómo son las planillas*/
@@ -400,6 +422,18 @@ color-orange {
 
 }
 
+.btn-ptg-naranja-margin-top-lateral {
+  color: #fff;
+  background-color: #FF8C32;
+  margin: 1rem 1rem 0;
+}
+
+.btn-ptg-naranja-no-margin-top-lateral:hover {
+  color: #fff;
+  background-color: #3AB091;
+  margin: 1rem 1rem 0;
+}
+
 .btn-ptg-naranja-no-margin {
   color: #fff;
   background-color: #FF8C32;
@@ -432,6 +466,20 @@ color-orange {
 
 }
 
+.btn-ptg-naranja-claro {
+  background-color: #ffffff;
+  margin: 1rem 1rem;
+  border-color: #FF8C32;
+  color: #12362D;
+
+}
+
+.btn-ptg-naranja-claro:hover {
+  color: #fff;
+  background-color: #FF8C32;
+
+}
+
 /* Formulario */
 .bg-ptg {
   background-color: #3AB091;
@@ -442,7 +490,7 @@ color-orange {
 }
 
 .happy:hover {
-  background-color: #61f19d;
+  background-color: #2aee7c;
 }
 
 .medium {
@@ -563,6 +611,29 @@ div.settings {
 
 .toggle input:checked~.labels::before {
   opacity: 1;
+}
+
+/* Collapsible Button */
+
+.click.collapsed .coll-icon {
+  transform: rotate(180deg);
+  transition: .3s ease-in-out;
+}
+
+.arrow {
+  border: solid #12362D;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.btn.pswp__button {
+	box-shadow: none;
 }
 
 /* RESPONSIVE FEATURES */
@@ -779,6 +850,11 @@ div.settings {
 
 .table-clear-green {
   background: #d6f7bd;
+
+}
+
+.table-clear-grey{
+  background: #f4f5f4;
 
 }
 
