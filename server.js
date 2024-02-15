@@ -173,7 +173,8 @@ app.get('/buscarSolucion', function (req, res) {
         anyo: req.session.anyo,
         cod_error: req.session.cod_error,
         idSolBuscada: req.session.idSolBuscada,
-        arrayNormas: req.session.arrayNormas
+        arrayNormas: req.session.arrayNormas,
+        festivosArray: req.session.festivosArray
       });
     } else {
 
@@ -194,7 +195,8 @@ app.get('/buscarSolucion', function (req, res) {
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
           idSolBuscada: req.session.idSolBuscada,
-          arrayNormas: req.session.arrayNormas
+          arrayNormas: req.session.arrayNormas,
+          festivosArray: req.session.festivosArray
         });
 
       } else if (unaSolucion['ind_sol'] == 1) {
@@ -280,7 +282,8 @@ app.get('/buscarSolucion', function (req, res) {
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
           idSolBuscada: req.session.idSolBuscada,
-          arrayNormas: req.session.arrayNormas
+          arrayNormas: req.session.arrayNormas,
+          festivosArray: req.session.festivosArray
         });
       }
 
@@ -325,7 +328,8 @@ app.post('/buscarSolucion', function (req, res) {
         anyo: req.session.anyo,
         cod_error: req.session.cod_error,
         idSolBuscada: req.session.idSolBuscada,
-        arrayNormas: req.session.arrayNormas
+        arrayNormas: req.session.arrayNormas,
+        festivosArray: req.session.festivosArray
       });
     } else {
 
@@ -346,7 +350,8 @@ app.post('/buscarSolucion', function (req, res) {
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
           idSolBuscada: req.session.idSolBuscada,
-          arrayNormas: req.session.arrayNormas
+          arrayNormas: req.session.arrayNormas,
+          festivosArray: req.session.festivosArray
         });
 
       } else if (unaSolucion['ind_sol'] == 1) {
@@ -431,7 +436,8 @@ app.post('/buscarSolucion', function (req, res) {
           anyo: req.session.anyo,
           cod_error: req.session.cod_error,
           idSolBuscada: req.session.idSolBuscada,
-          arrayNormas: req.session.arrayNormas
+          arrayNormas: req.session.arrayNormas,
+          festivosArray: req.session.festivosArray
         });
       }
 
