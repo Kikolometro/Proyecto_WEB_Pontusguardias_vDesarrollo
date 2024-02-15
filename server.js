@@ -61,7 +61,6 @@ const email = inputs.email;
 //Desconectar si estamos offline
 db.conectarBD().catch(err => console.log(err));
 
-
 // Definimos las rutas del servidor
 app.get("/", function (req, res) {
   req.session.userID = req.session.id
