@@ -5,24 +5,7 @@ Aquí hay que ir añadiendo las novedades del proyecto.
 ## Siguientes Pasos
 
 Prioridades:
-- Implementar el Optimizador considerando las casuísticas
-- Implementar las agrupaciones
-    - A y B siempre juntos: A+B = 2
-    - A y B nunca juntos: A+B <= 1
-    - Siempre que A esté que esté B: A->B
-    - Siempre que A no esté que esté B: A+B =1
-
-Otros To-Do's:
-Front:
-- Revisar el modo móvil
-
-Back:
-- Que puedan solicitar varios meses a la vez
-- Seguridad y contraseñas
-
-Marketing:
-- Plantear nuevas frases
-- Crear las imágenes
+- Solicitar video 
 
 ## Estrategia
 Versión alpha: Gratuita. Les ofrecemos el resultado al instante. Les dejamos el cuadro de texto para que nos dejen sus comentarios y en cuanto tengamos las restricciones, se las hacemos llegar.
@@ -43,4 +26,3 @@ Internacionalización, Diversificación de sectores
 
 ## Otras ideas
 - Cobrar solamente cuando hagamos una combinación de meses
-

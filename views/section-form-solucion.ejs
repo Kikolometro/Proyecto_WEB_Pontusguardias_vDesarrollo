@@ -125,61 +125,55 @@
               <div class="linea_abajo">
                 <p class="delimitador ">Médicos de guardia por día</p>
               </div>
-              <table class="table tabla">
-                <thead>
-                  <tr>
-                    <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                    <% if (i > 0 && festivosArray[i-1]==1) { %>
-                    <th scope="col" class="table-clear-blue">
-                      <%= i %>
-                    </th>
-                    <% } else if(i > 0) {%>
-                    <th scope="col">
-                      <%= i %>
-                    </th>
-                    <% } else {%>
-                    <th scope="col"></th>
-                    <% }} %>
-                  </tr>
-                </thead>
+              <div class="scroll_k" id="scroll_k">
+                <table class="table tabla">
+                  <thead>
+                    <tr>
+                      <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                      <% if (i > 0 && festivosArray[i-1]==1) { %>
+                      <th scope="col" class="table-clear-blue">
+                        <%= i %>
+                      </th>
+                      <% } else if(i > 0) {%>
+                      <th scope="col">
+                        <%= i %>
+                      </th>
+                      <% } %>
+                      <% }%>
+                    </tr>
+                  </thead>
 
-                <thead>
-                  <tr>
-                    <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
-                    <% if (i > 0 && festivosArray[i-1]==1) { %>
-                    <th scope="col" class="table-clear-blue">
-                      <%= weekArray[i-1] %>
-                    </th>
-                    <%  } else if (i > 0) { %>
-                    <th scope="col">
-                      <%= weekArray[i-1] %>
-                    </th>
-                    <% } else {%>
-                    <th scope="col"></th>
-                    <% }} %>
-                  </tr>
-                </thead>
+                  <thead>
+                    <tr>
+                      <% for (var i = 0; i < dias_mes + 1 ; i++) { %>
+                      <% if (i > 0 && festivosArray[i-1]==1) { %>
+                      <th scope="col" class="table-clear-blue">
+                        <%= weekArray[i-1] %>
+                      </th>
+                      <%  } else if (i > 0) { %>
+                      <th scope="col">
+                        <%= weekArray[i-1] %>
+                      </th>
+                      <% } %>
+                      <% } %>
+                    </tr>
+                  </thead>
 
-                <tbody>
+                  <tbody>
 
-                  <tr>
-                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;">Festivos: </th>
-                    <% for (var j = 0; j < dias_mes ; j++) { %>
-                    <%  if (festivosArray[j]===1){ %>
-                    <td class="table-clear-blue"><%=  medicosDeGuardia[j]%> </td>
-                    <% } else {%>
-                    <td class=""> <%=  medicosDeGuardia[j]%> </td>
-                    <% } %>
-                    <% } %>
+                    <tr>                    
+                      <% for (var j = 0; j < dias_mes ; j++) { %>
+                      <%  if (festivosArray[j]===1){ %>
+                      <td class="table-clear-blue"><%=  medicosDeGuardia[j]%> </td>
+                      <% } else {%>
+                      <td class=""> <%=  medicosDeGuardia[j]%> </td>
+                      <% } %>
+                      <% } %>
+                    </tr>
 
-
-
-
-                  </tr>
-
-                </tbody>
-              </table>
-
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <br>
@@ -189,15 +183,15 @@
                 <p class="delimitador ">Guardias totales</p>
               </div>
 
-
+              <div class="scroll_k" id="scroll_k">
               <table class="table tabla">
 
                 <thead>
                   <tr>
                     <th scope="col"></th>
-                    <th style="vertical-align: middle;" scope="col">Festivos</th>
-                    <th style="vertical-align: middle;" scope="col">No Festivos</th>
-                    <th style="vertical-align: middle;" scope="col">Total</th>
+                    <th style="vertical-align: middle; padding: 5px;" scope="col">Festivos</th>
+                    <th style="vertical-align: middle; padding: 5px;" scope="col">No Festivos</th>
+                    <th style="vertical-align: middle; padding: 5px;" scope="col">Total</th>
                   </tr>
                 </thead>
 
@@ -221,6 +215,7 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
 
             <br>
@@ -229,41 +224,43 @@
               <div class="linea_abajo">
                 <p class="delimitador ">Guardias por día de la semana</p>
               </div>
-              <table class="table tabla">
+              <div class="scroll_k" id="scroll_k">
+                <table class="table tabla">
 
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col">L</th>
-                    <th scope="col">M</th>
-                    <th scope="col">X</th>
-                    <th scope="col">J</th>
-                    <th scope="col">V</th>
-                    <th scope="col">S</th>
-                    <th scope="col">D</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <% for (var i = 0; i < n_resis ; i++) {%>
-                  <tr>
-                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
-                    <% for (var j = 0; j < 7 ; j++) { %>
-                    <td class="" id="cell_resi_<%= i %>_dia_<%= j %>"> - </td>
-                    <%}%>
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">L</th>
+                      <th scope="col">M</th>
+                      <th scope="col">X</th>
+                      <th scope="col">J</th>
+                      <th scope="col">V</th>
+                      <th scope="col">S</th>
+                      <th scope="col">D</th>
                     </tr>
-                    
-                  <% } %>
-                  <tr>
-                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"></th>
-                    <% for (var j = 0; j < 7 ; j++) { %>
-                    <td class=""> </td>
-                    <%}%>
-                    
-                    </tr>
-                </tbody>
-                </table>
+                  </thead>
+
+                  <tbody>
+
+                      <% for (var i = 0; i < n_resis ; i++) {%>
+                      <tr>
+                        <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+                        <% for (var j = 0; j < 7 ; j++) { %>
+                        <td class="" id="cell_resi_<%= i %>_dia_<%= j %>"> - </td>
+                        <%}%>
+                        </tr>
+                        
+                      <% } %>
+                      <tr>
+                        <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"></th>
+                        <% for (var j = 0; j < 7 ; j++) { %>
+                        <td class=""> </td>
+                        <%}%>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             
 

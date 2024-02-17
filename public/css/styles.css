@@ -824,6 +824,7 @@ div.settings {
 .table th {
   padding: 0;
   width: 2rem;
+  min-width: 35px;
 }
 
 .table tbody th {
