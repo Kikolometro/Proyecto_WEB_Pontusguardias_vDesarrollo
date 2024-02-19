@@ -824,7 +824,7 @@ div.settings {
 .table th {
   padding: 0;
   width: 2rem;
-  min-width: 35px;
+  min-width: 20px;
 }
 
 .table tbody th {
@@ -1046,6 +1046,10 @@ input[type=checkbox]:hover {
 
   .tabla {
     font-size: 1.3rem;
+  }
+
+  .table th {
+    min-width: 35px;
   }
 
   .checkboxSize {
