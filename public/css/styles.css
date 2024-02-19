@@ -241,6 +241,7 @@ color-orange {
 .scroll_k {
   overflow-x: scroll;
   overflow-y: hidden;
+  overflow: auto;
 }
 
 .container_k::-webkit-scrollbar {
