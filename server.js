@@ -1468,41 +1468,7 @@ app.post("/generarplanilla", function (req, res) {
 });
 
 app.get('*', function (req, res) {
-  req.session.userID = req.session.id
-  req.session.step = 0;
-  req.session.new_step = 0;
-  req.session.mes = "";
-  req.session.anyo = 0;
-  req.session.n_resis = 0;
-  req.session.nombre = [];
-  req.session.festivosArray = [];
-  req.session.guardiasMatrix = [];
-  req.session.vacacionesMatrix = [];
-  req.session.medicosDeGuardia = [];
-  req.session.comentario = "";
-  req.session.correo = "";
-  req.session.weekArray = [];
-  req.session.solucion = [];
-  req.session.arrayGroups = [];
-  req.session.arrayNormas = [];
-  req.session.v_guardias_max_tot = [];
-  req.session.v_guardias_min_tot = [];
-  req.session.v_guardias_max_fes = [];
-  req.session.v_guardias_min_fes = [];
-  req.session.reutilizandoPlanilla = 0;
-  req.session.flagMesAnyoGuardias = 0;
-  req.session.flagMesAnyoFestivos = 0;
-  req.session.flagMesAnyoGAsig = 0;
-  req.session.flagMesAnyoVacaciones = 0;
-  req.session.flagNMedicosFestivos = 0;
-  req.session.flagNMedicosGAsig = 0;
-  req.session.flagNMedicosVacaciones = 0;
-  req.session.flagNMedicosGrupos = 0;
-  req.session.flagGuardiasDiaFestivos = 0;
-
-  res.render("landing", {
-    step: 0
-  });
+  res.redirect('/');
 });
 
 app.listen(process.env.PORT || 3000, function () {
