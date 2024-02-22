@@ -205,13 +205,17 @@
               <div class="item list-group-item">
                 <div class="item-left">
                   <b>
-                    Nadie hará más de
+                    Todos harán
+
+                    <select class="form-control-normas filtro" size="1" name="Norma_6_C" id="Norma_6_C">
+                      <option value="+">más de</option>
+                      <option value="-">menos de</option>
+                    </select>
 
                     <select class="form-control-normas filtro" size="1" name="Norma_6_A" id="Norma_6_A">
-                      <% for (var j = 0; j < 4 ; j++) { %>
-                      <option value="<%= j +1%>"><%= j+1 %></option>
+                      <% for (var j = 0; j < 5 ; j++) { %>
+                      <option value="<%= j %>"><%= j %></option>
                       <% } %>
-
                     </select>
 
                     guardia/s en
@@ -225,10 +229,10 @@
                       <option value="S">sábado</option>
                       <option value="D">domingo</option>
 
-
                     </select>.
                   </b>
-                  <color-orange> (Ej: Nadie hará más de un viernes)</color-orange>
+                  <color-orange> (Ej: Todos harán menos de dos guardias en viernes. Es decir, una o ninguna)
+                  </color-orange>
                 </div>
                 <div class="item-right">
                   <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('6')"><i class="fa-solid fa-plus"
@@ -424,9 +428,10 @@
           case '6':
             codigo_a = 'Norma_' + norma + '_A'
             codigo_b = 'Norma_' + norma + '_B'
+            codigo_c = 'Norma_' + norma + '_C'
 
-            codigo = norma + '_' + document.getElementById(codigo_a).value + '_' + document
-              .getElementById(codigo_b).value
+            codigo = norma + '_' + document.getElementById(codigo_a).value + '_' + document.getElementById(codigo_b)
+              .value + '_' + document.getElementById(codigo_c).value
 
             break;
           case '7':
@@ -543,7 +548,18 @@
                 default:
                   dia = "";
               }
-              newItemLeft.innerHTML = 'Nadie hará más de ' + arrayNormas_split[1] +
+              let mayormenor = "";
+              switch (arrayNormas_split[3]) {
+                case '+':
+                  mayormenor = 'más de '
+                  break;
+                case '-':
+                  mayormenor = 'menos de '
+                  break;
+                default:
+                  mayormenor = "";
+              }
+              newItemLeft.innerHTML = 'Todos harán ' + mayormenor + arrayNormas_split[1] +
                 ' guardia/s en ' + dia
               break;
             case '7':

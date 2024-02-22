@@ -264,7 +264,19 @@ color-orange {
 
 .download-button {
   margin: 5% 3% 5% 0;
+  
+  color: #fff;
+  background-color: #ff8c35;
+  box-shadow: 10px 10px 15px #36322fb5;
 }
+
+
+.download-button:hover {
+  color: #fff;
+  box-shadow: 10px 10px 15px #ffa764b5;
+  
+}
+
 
 .defaultsink {
   position: absolute;
@@ -291,6 +303,10 @@ color-orange {
 /* EL CONTAINER DE Cómo son las planillas*/
 
 
+
+.shadow{
+  box-shadow: 10px 10px 15px #cf9a72ab;
+}
 
 .wrapper {
   display: grid;
@@ -406,14 +422,22 @@ color-orange {
   padding: 0 18px;
 }
 
+.white-color{
+  color: whitesmoke
+}
+
+.white-color:hover{
+  color: white
+}
 
 /* Buttons */
 
 /* Pricing */
 .btn-ptg {
-  color: #12362D;
+  color: #000000;
   background-color: #5ECAAE;
   margin: 1rem 1rem;
+  box-shadow: 6px 6px 10px #36322f8e;
 }
 
 
@@ -427,12 +451,14 @@ color-orange {
   color: #fff;
   background-color: #FF8C32;
   margin: 1rem 1rem 0;
+  box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.13);
 }
 
-.btn-ptg-naranja-no-margin-top-lateral:hover {
+.btn-ptg-naranja-margin-top-lateral:hover {
   color: #fff;
   background-color: #3AB091;
   margin: 1rem 1rem 0;
+  box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
 .btn-ptg-naranja-no-margin {
@@ -459,12 +485,17 @@ color-orange {
   color: #fff;
   background-color: #FF8C32;
   margin: 1rem 1rem;
+  box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
 .btn-ptg-naranja:hover {
   color: #fff;
-  background-color: #3AB091;
-
+  /*background-color: #3AB091;
+  /*box-shadow: 15px 15px 20px rgba(46, 229, 157, 0.4);*/
+  background-color: #ff8c35;
+  box-shadow: 10px 10px 15px #ffa764b5;
+  transform: translateY(-5px);
+  font-weight: bold;
 }
 
 .btn-ptg-naranja-claro {

@@ -1185,7 +1185,7 @@ app.post("/generarplanilla", function (req, res) {
     req.session.flagNMedicosGrupos = req.body.flagNMedicosGrupos;
 
 
-    //console.log(req.session.arrayGroups_pre)
+    //console.log(req.session.arrayNormas)
     for (let i = 0; i < req.session.arrayGroups_pre.length; i++) {
 
       if (i % 2 != 0) {
@@ -1275,7 +1275,8 @@ app.post("/generarplanilla", function (req, res) {
         if (revisarNormas.includes(subarray_norma[0])) {
 
           let dia_D = subarray_norma[2]
-          let max_G = subarray_norma[1]
+          let num_G = subarray_norma[1]
+          let max_min = subarray_norma[3]
 
           let weekArray = req.session.weekArray
           let medicosDeGuardia = req.session.medicosDeGuardia
@@ -1283,6 +1284,7 @@ app.post("/generarplanilla", function (req, res) {
 
           let guardias_Tot_D = 0
           let guardias_min_med_D = 0
+
 
           for (let j = 0; j < weekArray.length; j++) {
             if (weekArray[j] == dia_D) {
@@ -1292,12 +1294,22 @@ app.post("/generarplanilla", function (req, res) {
 
           guardias_min_med_D = Math.ceil(guardias_Tot_D / n_resis);
 
+          if (max_min === '+') {
+            if (guardias_min_med_D > num_G) {} else {
+              req.session.step = req.body.step - 1
+              req.session.aviso = "¡Atención! Has impuesto que cada médico haga más de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero son demasiadas. Por favor, redúcelo.";
+            };
 
-          if (guardias_min_med_D <= max_G) {} else {
-            req.session.step = req.body.step - 1
-            req.session.aviso = "¡Atención! Has impuesto que los médicos no hagan más de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
-          };
+          }
 
+          if (max_min === '-') {
+
+            if (guardias_min_med_D < num_G) {} else {
+              req.session.step = req.body.step - 1
+              req.session.aviso = "¡Atención! Has impuesto que cada médico hagan menos de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
+            };
+
+          }
 
         }
       }

@@ -282,7 +282,7 @@
                         <label class="label_form filtro bold" for="Grupo_<%=nombre[i]%>"><%=nombre[i]%>: </label>
                       </div>
                       <div class="col-lg-6">
-                        <input class="form-control-equipo filtro" type="text" value="Equipo <%= i+1 %>" readonly>
+                        <input class="form-control-equipo filtro" type="text" value="Equipo <%= arrayGroups[i] %>" readonly>
                       </div>
 
                     </div>
@@ -324,14 +324,14 @@
       <div>
         <h5 class="bold">¡Compártela!</h5>
       </div>
-      <button class="btn btn-ptg-naranja-margin-top-lateral pswp__button"
+      <button class="btn btn-ptg-naranja-margin-top-lateral"
         onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i class="fa-solid fa-copy"></i> Copiar
         link</button>
-      <a class="btn btn-ptg-naranja-margin-top-lateral pswp__button"
+      <a class="btn btn-ptg-naranja-margin-top-lateral "
         href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>"
         data-action="share/whatsapp/share" target="_blank">
         <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
-      <a class="btn btn-ptg-naranja-margin-top-lateral pswp__button"
+      <a class="btn btn-ptg-naranja-margin-top-lateral "
         href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
         <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
     </div>
