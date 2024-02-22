@@ -319,7 +319,7 @@
     <% var arr = [10, 20, 50]%>
     <% if (!arr.includes(cod_error)) { %>
     <div class="recuadro container-text-light">
-      <h4> La clave para buscar la solución es: </h4>
+      <h4> La clave para recuperar la solución es: </h4>
       <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
       <div>
         <h5 class="bold">¡Compártela!</h5>
@@ -758,34 +758,45 @@
             break;
           case '6':
             let dia = "";
-            switch (arrayNormas_split[2]) {
-              case 'L':
-                dia = 'lunes'
-                break;
-              case 'M':
-                dia = 'martes'
-                break;
-              case 'X':
-                dia = 'miércoles'
-                break;
-              case 'J':
-                dia = 'jueves'
-                break;
-              case 'V':
-                dia = 'viernes'
-                break;
-              case 'S':
-                dia = 'sábado'
-                break;
-              case 'D':
-                dia = 'domingo'
-                break;
-              default:
-                dia = "";
-            }
-            newItemLeft.innerHTML = 'Nadie hará más de ' + arrayNormas_split[1] +
-              ' guardia/s en ' + dia
-            break;
+              switch (arrayNormas_split[2]) {
+                case 'L':
+                  dia = 'lunes'
+                  break;
+                case 'M':
+                  dia = 'martes'
+                  break;
+                case 'X':
+                  dia = 'miércoles'
+                  break;
+                case 'J':
+                  dia = 'jueves'
+                  break;
+                case 'V':
+                  dia = 'viernes'
+                  break;
+                case 'S':
+                  dia = 'sábado'
+                  break;
+                case 'D':
+                  dia = 'domingo'
+                  break;
+                default:
+                  dia = "";
+              }
+              let mayormenor = "";
+              switch (arrayNormas_split[3]) {
+                case '+':
+                  mayormenor = 'más de '
+                  break;
+                case '-':
+                  mayormenor = 'menos de '
+                  break;
+                default:
+                  mayormenor = "";
+              }
+              newItemLeft.innerHTML = 'Todos harán ' + mayormenor + arrayNormas_split[1] +
+                ' guardia/s en ' + dia
+              break;
           case '7':
             if (arrayNormas_split[1] == "T") {
               newItemLeft.innerHTML =
