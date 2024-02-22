@@ -234,6 +234,29 @@ app.get('/buscarSolucion', function (req, res) {
         } else { // No hay solución
           req.session.solucion = []
           req.session.cod_error = 20
+          req.session.n_resis = unaSolucion['n_medicos']
+          req.session.nombre = unaSolucion['nombres_medicos']
+          req.session.mes = unaSolucion['mes']
+          req.session.anyo = unaSolucion['anio']
+          req.session.festivosArray = unaSolucion['festivos']
+          req.session.guardiasMatrix = unaSolucion['guardias_asignadas']
+          req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
+
+          req.session.medicosDeGuardia = unaSolucion['medicosDeGuardia']
+          req.session.arrayGroups = unaSolucion['grupos']
+          req.session.arrayNormas = unaSolucion['condiciones']
+
+          req.session.v_guardias_max_tot = unaSolucion['v_guardias_max_tot']
+          req.session.v_guardias_min_tot = unaSolucion['v_guardias_min_tot']
+          req.session.v_guardias_max_fes = unaSolucion['v_guardias_max_fes']
+          req.session.v_guardias_min_fes = unaSolucion['v_guardias_min_fes']
+          req.session.comentario = unaSolucion['comentario']
+          req.session.correo = unaSolucion['mail']
+
+          req.session.mes_num = formLogic.mes_num(req.session.mes);
+          req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
+          req.session.dia_1_mes = formLogic.daysOfWeek(req.session.mes_num, req.session.anyo);
+          req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
         }
 
         console.log("Hay solucion: ")
@@ -388,6 +411,29 @@ app.post('/buscarSolucion', function (req, res) {
         } else { //No hay solución
           req.session.solucion = []
           req.session.cod_error = 20
+          req.session.n_resis = unaSolucion['n_medicos']
+          req.session.nombre = unaSolucion['nombres_medicos']
+          req.session.mes = unaSolucion['mes']
+          req.session.anyo = unaSolucion['anio']
+          req.session.festivosArray = unaSolucion['festivos']
+          req.session.guardiasMatrix = unaSolucion['guardias_asignadas']
+          req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
+
+          req.session.medicosDeGuardia = unaSolucion['medicosDeGuardia']
+          req.session.arrayGroups = unaSolucion['grupos']
+          req.session.arrayNormas = unaSolucion['condiciones']
+
+          req.session.v_guardias_max_tot = unaSolucion['v_guardias_max_tot']
+          req.session.v_guardias_min_tot = unaSolucion['v_guardias_min_tot']
+          req.session.v_guardias_max_fes = unaSolucion['v_guardias_max_fes']
+          req.session.v_guardias_min_fes = unaSolucion['v_guardias_min_fes']
+          req.session.comentario = unaSolucion['comentario']
+          req.session.correo = unaSolucion['mail']
+
+          req.session.mes_num = formLogic.mes_num(req.session.mes);
+          req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
+          req.session.dia_1_mes = formLogic.daysOfWeek(req.session.mes_num, req.session.anyo);
+          req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
         }
 
         console.log("Hay solucion: ")
@@ -460,6 +506,7 @@ app.get("/mostrarSolucion", function (req, res) {
 
   req.session.contador_24s = 0;
   req.session.tiempoAlcanzadoVuelta = 0;
+  req.session.encontrado = 0;
 
 
   function buscarSolucion() {
@@ -501,10 +548,37 @@ app.get("/mostrarSolucion", function (req, res) {
             req.session.arrayNormas = unaSolucion['condiciones']
             req.session.comentario = unaSolucion['comentario']
             req.session.correo = unaSolucion['mail']
+            req.session.mes_num = formLogic.mes_num(req.session.mes);
+            req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
+            req.session.dia_1_mes = formLogic.daysOfWeek(req.session.mes_num, req.session.anyo);
+            req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
 
           } else { //No hay solución
             req.session.solucion = []
             req.session.cod_error = 20
+            req.session.n_resis = unaSolucion['n_medicos']
+            req.session.nombre = unaSolucion['nombres_medicos']
+            req.session.mes = unaSolucion['mes']
+            req.session.anyo = unaSolucion['anio']
+            req.session.festivosArray = unaSolucion['festivos']
+            req.session.guardiasMatrix = unaSolucion['guardias_asignadas']
+            req.session.vacacionesMatrix = unaSolucion['vacaciones_asignadas']
+
+            req.session.medicosDeGuardia = unaSolucion['medicosDeGuardia']
+            req.session.arrayGroups = unaSolucion['grupos']
+            req.session.arrayNormas = unaSolucion['condiciones']
+
+            req.session.v_guardias_max_tot = unaSolucion['v_guardias_max_tot']
+            req.session.v_guardias_min_tot = unaSolucion['v_guardias_min_tot']
+            req.session.v_guardias_max_fes = unaSolucion['v_guardias_max_fes']
+            req.session.v_guardias_min_fes = unaSolucion['v_guardias_min_fes']
+            req.session.comentario = unaSolucion['comentario']
+            req.session.correo = unaSolucion['mail']
+
+            req.session.mes_num = formLogic.mes_num(req.session.mes);
+            req.session.dias_mes = formLogic.daysInMonth(req.session.mes_num, req.session.anyo);
+            req.session.dia_1_mes = formLogic.daysOfWeek(req.session.mes_num, req.session.anyo);
+            req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
           }
 
           console.log("Hay solucion: ")
@@ -547,8 +621,8 @@ app.get("/mostrarSolucion", function (req, res) {
       console.log("Muestro la solución")
       clearInterval(req.session.refresh);
 
-      console.log("La solución.length es: ")
-      console.log(req.session.solucion.length)
+      //console.log("La solución.length es: ")
+      //console.log(req.session.solucion.length)
 
       if (req.session.solucion.length > 0) {
         req.session.ind_sol = 1
@@ -558,9 +632,9 @@ app.get("/mostrarSolucion", function (req, res) {
         req.session.cod_error = 20;
       }
 
-      console.log("el código de error es: ")
-      console.log(req.session.cod_error)
-      console.log(req.session.ind_sol)
+      //console.log("el código de error es: ")
+      //console.log(req.session.cod_error)
+      //console.log(req.session.ind_sol)
 
       res.render("landing-solucion", {
         ind_sol: req.session.ind_sol,

@@ -375,13 +375,21 @@
     </div>
 
 
-    <%  } else if (cod_error === 200){ %>
+    <%  } else if (cod_error === 20){ %>
     <div class="mini-filtro">
-      Lo sentimos, no hemos encontrado una solución para la planilla que planteas. Prueba a escribirnos a <a
+      Lo sentimos, no hemos encontrado una solución para la planilla que planteas. 
+      <br><br>
+      <strong>Puedes hacer cambios en la solicitud haciendo click en "Reutilizar planilla" </strong> o puedes escribirnos a <a
         href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
       alternativa.
-
-      Gracias por confiar en PonTusGuardias.com
+      <br><br>
+      <color-orange>Gracias por confiar en PonTusGuardias.com</color-orange> 
+    </div>
+  <br>
+    <div class="recuadro container-text-light">
+      <h4> Apúntate la clave para recuperar la solicitud más adelante: </h4>
+      <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+      
     </div>
 
     <%  } else if (cod_error === 30){ %>
@@ -416,6 +424,7 @@
     <div class="container-fluid-light bold">
 
       <div class="row justify-content-md-center">
+        <% arr = [10, 50]%>
         <% if (!arr.includes(cod_error)) { %>
         <div class="col-lg-4">
 
@@ -511,8 +520,8 @@
   });
 
   let cod_error = '<%= cod_error %>';
-
-  if (cod_error == 0) {
+  
+  if (cod_error == 0 || cod_error == 20) {
     actualizarNormas()
     actualizarGuardias()
   }
@@ -683,11 +692,12 @@
 
     //document.getElementById("arrayNormas").value = arrayNormas
     let bucle = arrayNormas.length
-    //console.log(bucle)
+    let array_pos_0 = arrayNormas[0]
+    //console.log(arrayNormas)
 
     var listado_normas = document.getElementById('listado_normas')
     var texto_fin = document.getElementById('texto_fin')
-    if (bucle < 2) {
+    if (array_pos_0== "") {
       texto_fin.innerHTML =
         "<b>No has establecido ninguna condición. </b>"
     } else {
