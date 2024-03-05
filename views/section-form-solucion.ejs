@@ -328,6 +328,7 @@
         <button class="btn btn-ptg-naranja-margin-top-lateral"
           onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i class="fa-solid fa-copy"></i> Copiar
           link</button>
+
         <a class="btn btn-ptg-naranja-margin-top-lateral "
           href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>"
           data-action="share/whatsapp/share" target="_blank">
@@ -434,7 +435,12 @@
               <div class="form-group">
                 <input type="hidden" name="step" value="1">
               </div>
-              <button class="btn btn-ptg bold" type="submit">Reutilizar planilla</button>
+
+              <div class="popup" id="myPopupDiv"><button class="btn btn-ptg bold" type="submit">Reutilizar
+                  planilla</button>
+                <span class="popuptext" id="myPopup">Empezarás el formulario autocompletado con los nombres de los
+                  médicos y el resto de información de esta misma planilla.</span>
+              </div>
             </form>
 
             <div class="col-md-auto">
@@ -449,10 +455,11 @@
               <div class="form-group">
                 <input type="hidden" name="step" value="0">
               </div>
-
-              <button class="btn btn-ptg bold" type="submit">Volver a empezar</button>
+              <div class="popup" id="myPopupDiv_2"><button class="btn btn-ptg bold" type="submit">Volver a
+                  empezar</button>
+                <span class="popuptext_2" id="myPopup_2">Empezarás el formulario de cero.</span>
+              </div>
             </form>
-
           </div>
         </div>
       </div>
@@ -468,6 +475,27 @@
   var elms_blue = document.getElementsByClassName("table-clear-blue");
   var n_blue = elms_blue.length;
   var n = 0;
+
+  popupelement = document.getElementById("myPopupDiv");
+  popupelement_2 = document.getElementById("myPopupDiv_2");
+
+  popupelement.onmouseover = function popupShow() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+  }
+  popupelement.onmouseout = function popupShow() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+  }
+
+  popupelement_2.onmouseover = function popupShow() {
+    var popup = document.getElementById("myPopup_2");
+    popup.classList.toggle("show");
+  }
+  popupelement_2.onmouseout = function popupShow() {
+    var popup = document.getElementById("myPopup_2");
+    popup.classList.toggle("show");
+  }
 
   function changeColor(color) {
     for (var i = 0; i < n; i++) {
@@ -638,27 +666,24 @@
     var idSolu = idsolucion;
     //var copyText = "https://PonTusGuardias.com//buscarSolucion?idSol="+ idSolBuscada;
     //    var copyText = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
-    var copyText = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
-    copyText = copyText.split(" ").join("");
+    var textoenlace = "http://localhost:3000/buscarSolucion?idSol=" + idSolu;
+    textoenlace = textoenlace.split(" ").join("");
 
     // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText);
+
+    const el = document.createElement(`textarea`)
+    el.value = textoenlace
+    el.setAttribute(`readonly`, ``)
+    el.style.position = `absolute`
+    el.style.left = `-9999px`
+    document.body.appendChild(el)
+    el.select()
+    el.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand(`copy`)
+    document.body.removeChild(el)
 
     // Alert the copied text
     alert("¡Enlace copiado! Ahora compártelo");
-
-    //V_nueva
-    //var copyText = document.getElementById("myInput");
-    //copyText.select();
-    //copyText.setSelectionRange(0, 99999);
-    //navigator.clipboard
-    //  .writeText(copyText)
-    //  .then(() => {
-    //    alert("successfully copied");
-    //  })
-    //  .catch(() => {
-    //    alert("something went wrong");
-    //  });
 
   }
 
@@ -815,7 +840,7 @@
                 ' guardia/s en ' + dia
             } else {
               newItemLeft.innerHTML = 'El equipo ' + arrayNormas_split[4] + ' hará ' + mayormenor + arrayNormas_split[
-                1] +
+                  1] +
                 ' guardia/s en ' + dia
             }
             break;
