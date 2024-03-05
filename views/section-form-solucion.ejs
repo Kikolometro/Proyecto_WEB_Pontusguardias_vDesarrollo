@@ -161,7 +161,7 @@
 
                   <tbody>
 
-                    <tr>                    
+                    <tr>
                       <% for (var j = 0; j < dias_mes ; j++) { %>
                       <%  if (festivosArray[j]===1){ %>
                       <td class="table-clear-blue"><%=  medicosDeGuardia[j]%> </td>
@@ -184,37 +184,37 @@
               </div>
 
               <div class="scroll_k" id="scroll_k">
-              <table class="table tabla">
+                <table class="table tabla">
 
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th style="vertical-align: middle; padding: 5px;" scope="col">Festivos</th>
-                    <th style="vertical-align: middle; padding: 5px;" scope="col">No Festivos</th>
-                    <th style="vertical-align: middle; padding: 5px;" scope="col">Total</th>
-                  </tr>
-                </thead>
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th style="vertical-align: middle; padding: 5px;" scope="col">Festivos</th>
+                      <th style="vertical-align: middle; padding: 5px;" scope="col">No Festivos</th>
+                      <th style="vertical-align: middle; padding: 5px;" scope="col">Total</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <% for (var i = 0; i < n_resis ; i++) {%>
-                  <tr>
-                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+                  <tbody>
+                    <% for (var i = 0; i < n_resis ; i++) {%>
+                    <tr>
+                      <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
 
-                    <td class="table-clear-blue" id="cell_resi_<%= i %>_Fes"> - </td>
-                    <td class="" id="cell_resi_<%= i %>_NoFes"> - </td>
-                    <td class="table-clear-grey bold" id="cell_resi_<%= i %>_Tot"> - </td>
+                      <td class="table-clear-blue" id="cell_resi_<%= i %>_Fes"> - </td>
+                      <td class="" id="cell_resi_<%= i %>_NoFes"> - </td>
+                      <td class="table-clear-grey bold" id="cell_resi_<%= i %>_Tot"> - </td>
 
 
-                  </tr>
-                  <% } %>
-                  <tr>
-                    <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"> </th>
-                    <td class=""></td>
-                    <td class=""></td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                      <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"> </th>
+                      <td class=""></td>
+                      <td class=""></td>
 
-                  </tr>
-                </tbody>
-              </table>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
 
@@ -242,20 +242,20 @@
 
                   <tbody>
 
-                      <% for (var i = 0; i < n_resis ; i++) {%>
-                      <tr>
-                        <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
-                        <% for (var j = 0; j < 7 ; j++) { %>
-                        <td class="" id="cell_resi_<%= i %>_dia_<%= j %>"> - </td>
-                        <%}%>
+                    <% for (var i = 0; i < n_resis ; i++) {%>
+                    <tr>
+                      <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"><%= nombre[i] %> </th>
+                      <% for (var j = 0; j < 7 ; j++) { %>
+                      <td class="" id="cell_resi_<%= i %>_dia_<%= j %>"> - </td>
+                      <%}%>
                         </tr>
                         
                       <% } %>
-                      <tr>
-                        <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"></th>
-                        <% for (var j = 0; j < 7 ; j++) { %>
-                        <td class=""> </td>
-                        <%}%>
+                    <tr>
+                      <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;"></th>
+                      <% for (var j = 0; j < 7 ; j++) { %>
+                      <td class=""> </td>
+                      <%}%>
                         
                       </tr>
                     </tbody>
@@ -276,186 +276,188 @@
 
                   <% for (var i = 0; i < n_resis ; i++) { %>
 
-                    <div class="row">
+                      <div class="row">
 
-                      <div class="col-lg-6">
-                        <label class="label_form filtro bold" for="Grupo_<%=nombre[i]%>"><%=nombre[i]%>: </label>
+                        <div class="col-lg-6">
+                          <label class="label_form filtro bold" for="Grupo_<%=nombre[i]%>"><%=nombre[i]%>: </label>
+                        </div>
+                        <div class="col-lg-6">
+                          <input class="form-control-equipo filtro" type="text" value="Equipo <%= arrayGroups[i] %>"
+                            readonly>
+                        </div>
+
                       </div>
-                      <div class="col-lg-6">
-                        <input class="form-control-equipo filtro" type="text" value="Equipo <%= arrayGroups[i] %>" readonly>
-                      </div>
+                      <% } %>
 
-                    </div>
-                    <% } %>
-
-            </div>
-          </div>
-
-          <div class="guardias-box-clear-green-max col-lg-8 container-fluid" id="cajita_naranja">
-
-
-            <div id="texto_fin" class="ali_izq ">Estas son las condiciones que has solicitado: <br><br></div>
-
-            <br>
-
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12" id='listado_normas'>
-                </div>
               </div>
             </div>
 
+            <div class="guardias-box-clear-green-max col-lg-8 container-fluid" id="cajita_naranja">
+
+
+              <div id="texto_fin" class="ali_izq ">Estas son las condiciones que has solicitado: <br><br></div>
+
+              <br>
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-12" id='listado_normas'>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
           </div>
 
+
         </div>
-
-
       </div>
     </div>
-  </div>
-
-  <% } %>
-  <div class="container-text-light">
-    <% var arr = [10, 20, 50]%>
-    <% if (!arr.includes(cod_error)) { %>
-    <div class="recuadro container-text-light">
-      <h4> La clave para recuperar la solución es: </h4>
-      <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-      <div>
-        <h5 class="bold">¡Compártela!</h5>
-      </div>
-      <button class="btn btn-ptg-naranja-margin-top-lateral"
-        onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i class="fa-solid fa-copy"></i> Copiar
-        link</button>
-      <a class="btn btn-ptg-naranja-margin-top-lateral "
-        href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>"
-        data-action="share/whatsapp/share" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
-      <a class="btn btn-ptg-naranja-margin-top-lateral "
-        href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
-        <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
-    </div>
-
 
     <% } %>
-    <% if (cod_error === 0) { %>
-
-    <div class="recuadro">
-
-      <div class="mini-filtro ">
-        Por favor, dinos qué te ha parecido la solución:
+    <div class="container-text-light">
+      <% var arr = [10, 20, 50]%>
+      <% if (!arr.includes(cod_error)) { %>
+      <div class="recuadro container-text-light">
+        <h4> La clave para recuperar la solución es: </h4>
+        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+        <div>
+          <h5 class="bold">¡Compártela!</h5>
+        </div>
+        <button class="btn btn-ptg-naranja-margin-top-lateral"
+          onclick="copiarEnlacePortapapeles(' <%= idSolBuscada%>')"><i class="fa-solid fa-copy"></i> Copiar
+          link</button>
+        <a class="btn btn-ptg-naranja-margin-top-lateral "
+          href="whatsapp://send?text=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>"
+          data-action="share/whatsapp/share" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i> Enviar por Whatsapp</a>
+        <a class="btn btn-ptg-naranja-margin-top-lateral "
+          href="mailto:?subject=Planilla de <%= mes%> <%= anyo%>&body=Adjunto la planilla de <%= mes%> <%= anyo%>: http://localhost:3000/buscarSolucion?idSol=<%= idSolBuscada%>">
+          <i class="fa-solid fa-envelope"></i> Enviar por mail </a>
       </div>
 
-      <div id="feedback-buttons">
-        <button id="happy-btn" class="btn happy pswp__button" onclick="updateFeedback(2)"><i
-            class="fa-regular fa-face-smile"></i></button>
-        <button id="medium-btn" class="btn medium pswp__button" onclick="updateFeedback(1)"><i
-            class="fa-regular fa-face-meh-blank"></i></button>
-        <button id="sad-btn" class="btn sad pswp__button" onclick="updateFeedback(-1)"><i
-            class="fa-regular fa-face-sad-tear"></i></button>
+
+      <% } %>
+      <% if (cod_error === 0) { %>
+
+      <div class="recuadro">
+
+        <div class="mini-filtro ">
+          Por favor, dinos qué te ha parecido la solución:
+        </div>
+
+        <div id="feedback-buttons">
+          <button id="happy-btn" class="btn happy pswp__button" onclick="updateFeedback(2)"><i
+              class="fa-regular fa-face-smile"></i></button>
+          <button id="medium-btn" class="btn medium pswp__button" onclick="updateFeedback(1)"><i
+              class="fa-regular fa-face-meh-blank"></i></button>
+          <button id="sad-btn" class="btn sad pswp__button" onclick="updateFeedback(-1)"><i
+              class="fa-regular fa-face-sad-tear"></i></button>
+
+        </div>
+      </div>
+
+
+
+      <%  } else if (cod_error === 10){ %>
+      <div>
+        <h4> La clave para buscar la solución es: </h4>
+        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+        <div class="mini-filtro">
+          Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto.
+          Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que
+          busquemos una solución
+          alternativa.
+
+          Gracias por confiar en PonTusGuardias.com
+        </div>
 
       </div>
-    </div>
 
 
-
-    <%  } else if (cod_error === 10){ %>
-    <div>
-      <h4> La clave para buscar la solución es: </h4>
-      <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
+      <%  } else if (cod_error === 20){ %>
       <div class="mini-filtro">
-        Lo sentimos, algo no ha ido bien al buscar la solución. Puedes probar en unos minutos con el código adjunto.
-        Tambien puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que
-        busquemos una solución
+        Lo sentimos, no hemos encontrado una solución para la planilla que planteas.
+        <br><br>
+        <strong>Puedes hacer cambios en la solicitud haciendo click en "Reutilizar planilla" </strong> o puedes
+        escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una
+        solución
         alternativa.
+        <br><br>
+        <color-orange>Gracias por confiar en PonTusGuardias.com</color-orange>
+      </div>
+      <br>
+      <div class="recuadro container-text-light">
+        <h4> Apúntate la clave para recuperar la solicitud más adelante: </h4>
+        <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
 
-        Gracias por confiar en PonTusGuardias.com
       </div>
 
-    </div>
+      <%  } else if (cod_error === 30){ %>
+      <div>
 
+        <div class="mini-filtro">
+          Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto.
+          Tambien
+          puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos
+          una solución
+          alternativa.
 
-    <%  } else if (cod_error === 20){ %>
-    <div class="mini-filtro">
-      Lo sentimos, no hemos encontrado una solución para la planilla que planteas. 
-      <br><br>
-      <strong>Puedes hacer cambios en la solicitud haciendo click en "Reutilizar planilla" </strong> o puedes escribirnos a <a
-        href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución
-      alternativa.
-      <br><br>
-      <color-orange>Gracias por confiar en PonTusGuardias.com</color-orange> 
-    </div>
-  <br>
-    <div class="recuadro container-text-light">
-      <h4> Apúntate la clave para recuperar la solicitud más adelante: </h4>
-      <h3 class="container-text feature-title-box"> <%= idSolBuscada%></h3>
-      
-    </div>
-
-    <%  } else if (cod_error === 30){ %>
-    <div>
-
-      <div class="mini-filtro">
-        Lo sentimos, se ha agotado el tiempo de búsqueda. Puedes probar en unos minutos con el código adjunto.
-        Tambien
-        puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos
-        una solución
-        alternativa.
-
-        Gracias por confiar en PonTusGuardias.com
+          Gracias por confiar en PonTusGuardias.com
+        </div>
       </div>
-    </div>
 
-    <%  } else if (cod_error === 50){ %>
-    <div>
-      <div class="mini-filtro">
-        Lo sentimos, <strong>esa clave no existe</strong>. Prueba a escribirnos a <a
-          href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
+      <%  } else if (cod_error === 50){ %>
+      <div>
+        <div class="mini-filtro">
+          Lo sentimos, <strong>esa clave no existe</strong>. Prueba a escribirnos a <a
+            href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para ayudarte a encontrar tu planilla.
 
-        Gracias por confiar en PonTusGuardias.com
+          Gracias por confiar en PonTusGuardias.com
+        </div>
       </div>
-    </div>
 
 
-    <%  } %>
+      <%  } %>
 
 
 
-    <div class="container-fluid-light bold">
+      <div class="container-fluid-light bold">
 
-      <div class="row justify-content-md-center">
-        <% arr = [10, 50]%>
-        <% if (!arr.includes(cod_error)) { %>
-        <div class="col-lg-4">
+        <div class="row justify-content-md-center">
+          <% arr = [10, 50]%>
+          <% if (!arr.includes(cod_error)) { %>
+          <div class="col-lg-4">
 
-          <form action="/reutilizar-planilla#form" method="POST">
-            <div class="form-group">
-              <input type="hidden" name="step" value="1">
+            <form action="/reutilizar-planilla#form" method="POST">
+              <div class="form-group">
+                <input type="hidden" name="step" value="1">
+              </div>
+              <button class="btn btn-ptg bold" type="submit">Reutilizar planilla</button>
+            </form>
+
+            <div class="col-md-auto">
+
             </div>
-            <button class="btn btn-ptg bold" type="submit">Reutilizar planilla</button>
-          </form>
-
-          <div class="col-md-auto">
 
           </div>
+          <% } %>
+          <div class="col-lg-4">
 
-        </div>
-        <% } %>
-        <div class="col-lg-4">
+            <form action="/" method="POST">
+              <div class="form-group">
+                <input type="hidden" name="step" value="0">
+              </div>
 
-          <form action="/" method="POST">
-            <div class="form-group">
-              <input type="hidden" name="step" value="0">
-            </div>
+              <button class="btn btn-ptg bold" type="submit">Volver a empezar</button>
+            </form>
 
-            <button class="btn btn-ptg bold" type="submit">Volver a empezar</button>
-          </form>
-
+          </div>
         </div>
       </div>
-    </div>
 
-  </div>
+    </div>
 
 
   </div>
@@ -520,7 +522,7 @@
   });
 
   let cod_error = '<%= cod_error %>';
-  
+
   if (cod_error == 0 || cod_error == 20) {
     actualizarNormas()
     actualizarGuardias()
@@ -644,6 +646,20 @@
 
     // Alert the copied text
     alert("¡Enlace copiado! Ahora compártelo");
+
+    //V_nueva
+    //var copyText = document.getElementById("myInput");
+    //copyText.select();
+    //copyText.setSelectionRange(0, 99999);
+    //navigator.clipboard
+    //  .writeText(copyText)
+    //  .then(() => {
+    //    alert("successfully copied");
+    //  })
+    //  .catch(() => {
+    //    alert("something went wrong");
+    //  });
+
   }
 
   function updateFeedback(status) {
@@ -697,7 +713,7 @@
 
     var listado_normas = document.getElementById('listado_normas')
     var texto_fin = document.getElementById('texto_fin')
-    if (array_pos_0== "") {
+    if (array_pos_0 == "") {
       texto_fin.innerHTML =
         "<b>No has establecido ninguna condición. </b>"
     } else {
@@ -758,45 +774,51 @@
             break;
           case '6':
             let dia = "";
-              switch (arrayNormas_split[2]) {
-                case 'L':
-                  dia = 'lunes'
-                  break;
-                case 'M':
-                  dia = 'martes'
-                  break;
-                case 'X':
-                  dia = 'miércoles'
-                  break;
-                case 'J':
-                  dia = 'jueves'
-                  break;
-                case 'V':
-                  dia = 'viernes'
-                  break;
-                case 'S':
-                  dia = 'sábado'
-                  break;
-                case 'D':
-                  dia = 'domingo'
-                  break;
-                default:
-                  dia = "";
-              }
-              let mayormenor = "";
-              switch (arrayNormas_split[3]) {
-                case '+':
-                  mayormenor = 'más de '
-                  break;
-                case '-':
-                  mayormenor = 'menos de '
-                  break;
-                default:
-                  mayormenor = "";
-              }
+            switch (arrayNormas_split[2]) {
+              case 'L':
+                dia = 'lunes'
+                break;
+              case 'M':
+                dia = 'martes'
+                break;
+              case 'X':
+                dia = 'miércoles'
+                break;
+              case 'J':
+                dia = 'jueves'
+                break;
+              case 'V':
+                dia = 'viernes'
+                break;
+              case 'S':
+                dia = 'sábado'
+                break;
+              case 'D':
+                dia = 'domingo'
+                break;
+              default:
+                dia = "";
+            }
+            let mayormenor = "";
+            switch (arrayNormas_split[3]) {
+              case '+':
+                mayormenor = 'al menos '
+                break;
+              case '-':
+                mayormenor = 'como máximo '
+                break;
+              default:
+                mayormenor = "";
+            }
+            if (arrayNormas_split[4] == "T") {
               newItemLeft.innerHTML = 'Todos harán ' + mayormenor + arrayNormas_split[1] +
                 ' guardia/s en ' + dia
-              break;
+            } else {
+              newItemLeft.innerHTML = 'El equipo ' + arrayNormas_split[4] + ' hará ' + mayormenor + arrayNormas_split[
+                1] +
+                ' guardia/s en ' + dia
+            }
+            break;
           case '7':
             if (arrayNormas_split[1] == "T") {
               newItemLeft.innerHTML =
