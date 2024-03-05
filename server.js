@@ -1369,23 +1369,48 @@ app.post("/generarplanilla", function (req, res) {
           guardias_min_med_D = Math.ceil(guardias_Tot_D / n_resis);
 
           if (max_min === '+') {
-            if (guardias_min_med_D > num_G) {} else {
-              req.session.step = req.body.step - 1
-              req.session.aviso = "¡Atención! Has impuesto que cada médico haga más de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero son demasiadas. Por favor, redúcelo.";
-            };
+
+            if (subarray_norma[4] == 'T') {
+
+              if (guardias_min_med_D < num_G) {
+                req.session.step = req.body.step - 1
+                req.session.aviso = "¡Atención! Has impuesto que cada médico haga al menos  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero son demasiadas. Por favor, redúcelo.";
+              };
+            } else {
+              if (guardias_min_med_D < num_G) {
+
+                req.session.step = req.body.step - 1
+                req.session.aviso = "¡Atención! Has impuesto que cada médico del equipo " + subarray_norma[4] + " haga al menos  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero son demasiadas. Por favor, redúcelo.";
+              };
+
+            }
 
           }
 
           if (max_min === '-') {
 
-            if (guardias_min_med_D < num_G) {} else {
+            if (guardias_min_med_D > num_G) {
               req.session.step = req.body.step - 1
-              req.session.aviso = "¡Atención! Has impuesto que cada médico hagan menos de  " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
+
+              if (subarray_norma[4] == 'T') {
+                req.session.aviso = "¡Atención! Has impuesto que cada médico haga como máximo " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
+              } else {
+                req.session.aviso = "¡Atención! Has impuesto que cada médico del equipo " + subarray_norma[4] + " haga como máximo " + subarray_norma[1] + " " + formLogic.v_Viernes(subarray_norma[2]) + ", pero no hay suficientes médicos de guardia para cubrir todos los " + formLogic.v_Viernes(subarray_norma[2]);
+              }
+
             };
 
           }
 
+          if (subarray_norma[4] != 'T') {
+            if (!req.session.arrayGroups_pre.includes(subarray_norma[4])) {
+              req.session.step = req.body.step - 1
+              req.session.aviso = "¡Atención! Has impuesto un máximo/mínimo de guardias en " + formLogic.v_Viernes(subarray_norma[2]) + " para el grupo " + subarray_norma[4] + ", pero no hay ningún médico en ese equipo";
+            }
+          }
+
         }
+
       }
 
       return false;
