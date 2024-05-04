@@ -581,7 +581,7 @@ app.get("/mostrarSolucion", function (req, res) {
             req.session.weekArray = formLogic.weekArray(req.session.dias_mes, req.session.dia_1_mes);
           }
 
-          console.log("Hay solucion: ")
+          console.log("Hay solucion, la descargo de la BD: ")
           console.log(req.session.solucion)
 
         } else {
@@ -618,7 +618,7 @@ app.get("/mostrarSolucion", function (req, res) {
     }
 
     if ((req.session.encontrado == 1) | (req.session.cod_error == 20) | (req.session.tiempoAlcanzado == 1)) {
-      console.log("Muestro la solución")
+      console.log("Muestro la solución en la landing")
       clearInterval(req.session.refresh);
 
       //console.log("La solución.length es: ")

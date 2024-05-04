@@ -6,9 +6,11 @@
         aria-valuenow="<%= step %>" aria-valuemin="0" aria-valuemax="<%= topStep %>"></div>
     </div>
 
-    <h3 class="container-text feature-title-box">Indica los días festivos / especiales del mes</h3>
-    <strong>Podrás elegir cuántas guardias en días festivos y en "no festivos"</strong> hace cada médico.
-    <br>Por defecto, se marcan los viernes, sábados y domingos, pero modifícalos a tu conveniencia:
+    <h3 class="container-text feature-title-box">Indica los días festivos del mes </h3>
+    <!--<strong> <color-orange>(Ej: ¡Es que a ella siempre le toca guardia los jueves, y a mi me toca los sábados!) </color-orange></strong> -->
+    
+    En este paso podrás elegir <strong>cuántas guardias en total hará cada médico y cuántas hará </strong><color-orange>en los días festivos que indiques ahora.</color-orange>
+    <br><br>Por defecto, se marcan los viernes, sábados y domingos, pero modifícalos a tu conveniencia:
     <br><br>
     <div class="red-aviso" id="cajita_roja">
       <h4 id="aviso" class="aviso"><%= aviso %></h4>
@@ -34,9 +36,9 @@
                 <th scope="col" id="dia_mes_fes_<%= i-1 %>">
                   <%= i %>
                 </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
+                <% } %>
+                
+                <% } %>
               </tr>
             </thead>
 
@@ -47,15 +49,15 @@
                 <th scope="col" id="l_dia_mes_fes_<%= i-1 %>">
                   <%= weekArray[i-1] %>
                 </th>
-                <% } else {%>
-                <th scope="col"></th>
-                <% }} %>
+                <% } %>
+                
+                <% } %>
               </tr>
             </thead>
 
             <tbody>
               <tr>
-                <th scope="row" style="padding: 0 5px 0 0; vertical-align: middle;">Festivos:</th>
+                
                 <% for (var j = 0; j < dias_mes ; j++) { %>
                 <% var vsd = ['V','S','D'] %>
 
@@ -247,11 +249,11 @@
         if (fg_max != fg_min) {
           document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
           document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o " + fg_max +
-            " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+            " estarán repartidas entre en los días festivos</b> que has indicado.";
         } else {
           document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
           document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min +
-            " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+            " estarán repartidas entre en los días festivos</b> que has indicado.";
         }
 
         v_guardias_max_tot = Array(parseInt(n_resis)).fill(dg_max)
@@ -640,7 +642,7 @@
             document.getElementById("texto_2").innerHTML =
               "<b>El número de guardias en total </b>que debe hacer cada médico en el mes.";
             document.getElementById("texto_3").innerHTML =
-              "Cuántas de esas <b>guardias deben ser en los días festivos / especiales</b> que has indicado arriba.";
+              "Cuántas de esas <b>guardias deben ser en los días festivos</b> que has indicado arriba.";
 
 
             form.appendChild(document.createElement("br"));
@@ -716,7 +718,7 @@
             form.appendChild(document.createElement("br"));
             let tit_fes = document.createElement("p");
             tit_fes.setAttribute("class", "titulin");
-            tit_fes.innerHTML = '2. Guardias en días festivos / especiales: ';
+            tit_fes.innerHTML = '2. Guardias en días festivos: ';
 
             form.appendChild(tit_fes);
 
@@ -825,11 +827,11 @@
             if (fg_max != fg_min) {
               document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
               document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min + " o " + fg_max +
-                " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+                " estarán repartidas entre en los días festivos</b> que has indicado.";
             } else {
               document.getElementById("texto_1").innerHTML = "<b>Cada médico cubrirá:</b>"
               document.getElementById("texto_3").innerHTML = "De las cuales, <b>" + fg_min +
-                " estarán repartidas entre en los días festivos / especiales</b> que has indicado.";
+                " estarán repartidas entre en los días festivos</b> que has indicado.";
             }
 
 
