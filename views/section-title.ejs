@@ -28,6 +28,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/#pricing" id="BtnPricingNav">Precios</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#sobrelaweb" id="BtnSobreLaWebNav">Sobre la web</a>
+          </li>
         </ul>
 
       </div>
@@ -62,6 +65,14 @@
       // Call the gtag() function to send the event data
       gtag('event', 'Pricing', {
         'button_name': 'BtnPricingNav'
+      });
+    });
+
+    // Add an event listener to the button
+    document.getElementById('BtnSobreLaWebNav').addEventListener('click', function () {
+      // Call the gtag() function to send the event data
+      gtag('event', 'SobreLaWeb', {
+        'button_name': 'BtnSobreLaWebNav'
       });
     });
   </script>

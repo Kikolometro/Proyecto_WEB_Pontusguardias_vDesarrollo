@@ -1,0 +1,20 @@
+<!-- Call to Action -->
+
+<section class="colored-section" id="cta">
+  <div class="container-fluid">
+    <h2 class="section-heading-white container-text">Porque no habéis estudiado para perder el tiempo en organizar guardias</h3>
+    <button type="button" class="btn btn-ptg-naranja" onClick="document.getElementById('form').scrollIntoView();"
+      id="BtnPruebameCTA">¡Pruébame gratis!</button>
+  </div>
+</section>
+
+
+<script>
+  // Add an event listener to the button
+  document.getElementById('BtnPruebameCTA').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'Pruebame', {
+      'button_name': 'BtnPruebameCTA'
+    });
+  });
+</script>

@@ -22,6 +22,9 @@
         <div></div>
       </div>
 
+      <color-orange>
+        <div class="container-text" id="frases"></div>
+      </color-orange>
       <form action="/mostrarSolucion" method="GET" id="formulario_final" name="formulario_final">
 
         <button class="btn btn-ptg defaultsink" type="">Mostrar resultado</button>
@@ -44,4 +47,22 @@
   $(document).ready(function () {
     $(document).scrollTop($("#form").offset().top);
   });
+
+  let frases = ["Seguimos trabajando en tu planilla, no cierres la pestaña",
+    "Estamos revisando hasta 3.000 soluciones y hay que elegir la mejor",
+    "Muchas gracias por tu paciencia, ya casi lo tenemos",
+    "La espera valdrá la pena :)",
+    "Estamos manos a la obra, aprovecha y descansa estos segundos",
+    "Si no hubiera ninguna solución, ya te lo hubiéramos avisado"
+  ]
+
+  function getRandomInt(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) +
+      minCeiled); // The maximum is exclusive and the minimum is inclusive
+  }
+  let aleat = getRandomInt(0, frases.length)
+
+  document.getElementById("frases").innerHTML = frases[aleat]
 </script>

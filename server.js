@@ -1333,13 +1333,33 @@ app.post("/generarplanilla", function (req, res) {
         }
       }
 
+
+      // Lo mismo que antes, pero ahora sólo miramos la 3ra posición vector para comprobar que el equipo está seleccionado
+      revisarNormas = ['9']
+
+      for (let i = 0; i < bucle; i++) {
+        let subarray_norma = []
+
+        subarray = arrayNormas[i].substring(2).split('_')
+        subarray_norma = arrayNormas[i].substring(0).split('_')
+
+        if (revisarNormas.includes(subarray_norma[0])) {
+
+          if (arrayGroups.includes(subarray[1])) {} else {
+            req.session.step = req.body.step - 1
+            req.session.aviso = "¡Atención! Has impuesto una condición sobre el equipo " + subarray[1] + " pero no has asignado ese equipo a ningún médico. Por favor, revísalo."
+          };
+
+        }
+      }
+
       // Cuarto aviso: Para la norma 6, debe haber más lunes que médicos x guardias mínimas
 
 
       // Normas a las que aplica esta revisión:
       revisarNormas = ['6']
 
-      // Revisamos cada norma  
+      // Revisamos norma 6 
       for (let i = 0; i < bucle; i++) {
         let subarray_norma = []
         subarray_norma = arrayNormas[i].substring(0).split('_')
@@ -1411,6 +1431,99 @@ app.post("/generarplanilla", function (req, res) {
 
         }
 
+      }
+
+      // Norma 8: 
+      // 1- Si esta norma existe, no puede estar la norma 7
+      // 2- Revisar que no haya forzado guardia Jueves, por ejemplo y luego otra guardia impuesta. 
+
+
+      revisarNormas = ['8']
+
+      for (let i = 0; i < bucle; i++) {
+        let subarray_norma = []
+
+        subarray = arrayNormas[i].substring(2).split('_')
+        subarray_norma = arrayNormas[i].substring(0).split('_')
+
+
+        if (revisarNormas.includes(subarray_norma[0])) {
+          let flag_norma_7 = 0
+          let flag_otra_guardia = 0
+
+          for (let k = 0; k < bucle; k++) {
+            if (arrayNormas[i].substring(0).split('_') == '7') {
+              flag_norma_7 = 1
+            }
+          }
+
+
+          if ((flag_norma_7 == 1) && (subarray[0] == 'V')) {
+            req.session.step = req.body.step - 1
+            req.session.aviso = "¡Atención! No se puede solicitar que se libren dos días las guardias de viernes, y que las guardias en finde sean V-D o S"
+          };
+
+          for (let l = 0; l < req.session.n_resis; l++) {
+            subtotal = 0;
+            for (let m = 0; m < (req.session.dias_mes - 2); m++) {
+              if ((req.session.guardiasMatrix[l][m] == "1") && (subarray[0] == req.session.weekArray[m])) {
+                if ((req.session.guardiasMatrix[l][m + 1] == "1") || (req.session.guardiasMatrix[l][m + 2] == "1")) {
+
+                  nombre = req.session.nombre[l];
+                  let dia_semana_norma = ""
+
+                  switch (subarray[0]) {
+                    case 'V':
+                      dia_semana_norma = "viernes"
+
+                      break;
+                    case 'S':
+                      dia_semana_norma = "sábado"
+
+                      break;
+                    case 'D':
+                      dia_semana_norma = "domingo"
+
+                      break;
+                    default:
+                      dia_semana_norma = "";
+                  }
+                  req.session.step = req.body.step - 1
+                  req.session.aviso = "¡Atención! Las guardias impuestas a " + nombre + " no permiten que se descanse 2 días tras la guardia del " + dia_semana_norma
+
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Norma 9: 
+      // 1- Revisar que no se haya impuesto a otro médico el día en cuestión
+
+      revisarNormas = ['9']
+
+      for (let i = 0; i < bucle; i++) {
+        let subarray_norma = []
+
+        subarray = arrayNormas[i].substring(2).split('_')
+        subarray_norma = arrayNormas[i].substring(0).split('_')
+        let dia_norma = subarray[0]
+        let equipo_norma = subarray[1]
+        if (revisarNormas.includes(subarray_norma[0])) {
+
+          for (let l = 0; l < req.session.n_resis; l++) {
+
+
+            if ((req.session.guardiasMatrix[l][dia_norma - 1] == "1") && (equipo_norma != req.session.arrayGroups[l])) {
+              nombre = req.session.nombre[l];
+
+              req.session.step = req.body.step - 1
+              req.session.aviso = "¡Atención! Has impuesto que " + nombre + " haga la guardia del día " + dia_norma + ", pero no pertenece al Equipo " + equipo_norma + ". Por favor, revisa tus normas solicitadas."
+            }
+          }
+
+        }
       }
 
       return false;

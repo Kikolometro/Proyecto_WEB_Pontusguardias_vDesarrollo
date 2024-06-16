@@ -276,6 +276,64 @@
               </div>
               <br>
               <!-- End of item 7 -->
+              <!-- Start of item 8 -->
+              <div class="item list-group-item">
+                <div class="item-left">
+                  <b>
+
+                    Las guardias en
+                    <select class="form-control-normas filtro" size="1" name="Norma_8_A" id="Norma_8_A">
+
+                      <option value="J">jueves</option>
+                      <option value="V">viernes</option>
+                      <option value="S">sábado</option>
+
+                    </select>
+
+                    libran dos días seguidos.
+                  </b>
+                  <color-orange>(Ej: Los médicos de guardia los viernes librarán sábado y domingo)</color-orange>
+                </div>
+                <div class="item-right">
+                  <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('8')"><i class="fa-solid fa-plus"
+                      style="color: #ffffff;"></i></button>
+                </div>
+              </div>
+              <br>
+              <!-- End of item 8 -->
+
+              <!-- Start of item 9 -->
+              <div class="item list-group-item">
+                <div class="item-left">
+                  <b>
+
+                    La guardia del día
+
+                    <select class="form-control-normas filtro" size="1" name="Norma_9_A" id="Norma_9_A">
+
+                      <% for (var j = 0; j < dias_mes ; j++) { %>
+                      <option value="<%= j +1%>"><%= j +1%></option>
+                      <% } %>
+                    </select>
+
+                    la cubrirá únicamente el
+                    <select class="form-control-normas filtro" size="1" name="Norma_9_B" id="Norma_9_B">
+
+                      <% for (var j = 0; j < n_resis ; j++) { %>
+                      <option value="<%= j +1%>">Equipo <%= j+1 %></option>
+                      <% } %>
+                    </select>
+                  </b>
+                  <color-orange>(Ej: La guardia del día 15 la cubrirán únicamente los R4)</color-orange>
+                </div>
+                <div class="item-right">
+                  <button class="btn btn-ptg-naranja-no-margin" onclick="valorEnArray('9')"><i class="fa-solid fa-plus"
+                      style="color: #ffffff;"></i></button>
+                </div>
+              </div>
+              <br>
+              <!-- End of item 9 -->
+
             </div>
           </div>
         </div>
@@ -449,6 +507,20 @@
             codigo = norma + '_' + document.getElementById(codigo_a).value
 
             break;
+          case '8':
+            codigo_a = 'Norma_' + norma + '_A'
+
+            codigo = norma + '_' + document.getElementById(codigo_a).value
+
+            break;
+          case '9':
+            codigo_a = 'Norma_' + norma + '_A'
+            codigo_b = 'Norma_' + norma + '_B'
+
+            codigo = norma + '_' + document.getElementById(codigo_a).value + '_' + document.getElementById(codigo_b)
+              .value
+
+            break;
           default:
             //console.log(`Sorry, we are out of ${norma}.`);
         }
@@ -585,6 +657,25 @@
                 newItemLeft.innerHTML = 'Las guardias en fin de semana del equipo ' + arrayNormas_split[1] +
                   ' serán dobletes (viernes y domingo), sólo sábados, o sin guardias'
               }
+
+              break;
+            case '8':
+              if (arrayNormas_split[1] == "J") {
+                newItemLeft.innerHTML =
+                  'Los médicos que hagan las guardias en jueves, descansarán viernes y sábados'
+              }
+              if (arrayNormas_split[1] == "V") {
+                newItemLeft.innerHTML =
+                  'Los médicos que hagan las guardias en viernes, descansarán sábados y domingos'
+              } else {
+                newItemLeft.innerHTML = 'Los médicos que hagan las guardias en sábado, descansarán domingo y lunes'
+              }
+
+              break;
+            case '9':
+              newItemLeft.innerHTML =
+                'Únicamente los médicos del equipo ' + arrayNormas_split[2] + ' cubrirán la guardia del día ' +
+                arrayNormas_split[1]
 
               break;
             default:

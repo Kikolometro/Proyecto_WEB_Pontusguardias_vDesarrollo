@@ -381,10 +381,13 @@
       <div class="mini-filtro">
         Lo sentimos, las condiciones que planteas no permiten resolver una planilla.
         <br><br>
-        <strong>Prueba a simplificar la solicitud haciendo click en "Reutilizar planilla"</strong> y luego elimina alguna restricción.
-        Recuerda que <strong>nuestro algoritmo obtiene hasta 3.000 planillas </strong> que cumplen tus condiciones y te muestra <strong>la que tenga las guardias más separadas entre sí.</strong> 
+        <strong>Prueba a simplificar la solicitud haciendo click en "Reutilizar planilla"</strong> y luego elimina
+        alguna restricción.
+        Recuerda que <strong>nuestro algoritmo obtiene hasta 3.000 planillas </strong> que cumplen tus condiciones y te
+        muestra <strong>la que tenga las guardias más separadas entre sí.</strong>
         <br><br>
-        Siempre puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que busquemos una solución alternativa.
+        Siempre puedes escribirnos a <a href="mailto:info@pontusguardias.com">info@PonTusGuardias.com</a> para que
+        busquemos una solución alternativa.
         <br><br>
         <color-orange>Gracias por confiar en PonTusGuardias.com</color-orange>
       </div>
@@ -852,6 +855,25 @@
               newItemLeft.innerHTML = 'Las guardias en fin de semana del equipo ' + arrayNormas_split[1] +
                 ' serán dobletes (viernes y domingo), sólo sábados, o sin guardias'
             }
+
+            break;
+          case '8':
+            if (arrayNormas_split[1] == "J") {
+              newItemLeft.innerHTML =
+                'Los médicos que hagan las guardias en jueves, descansarán viernes y sábados'
+            }
+            if (arrayNormas_split[1] == "V") {
+              newItemLeft.innerHTML =
+                'Los médicos que hagan las guardias en viernes, descansarán sábados y domingos'
+            } else {
+              newItemLeft.innerHTML = 'Los médicos que hagan las guardias en sábado, descansarán domingo y lunes'
+            }
+
+            break;
+          case '9':
+            newItemLeft.innerHTML =
+              'Únicamente los médicos del equipo ' + arrayNormas_split[2] + ' cubrirán la guardia del día ' +
+              arrayNormas_split[1]
 
             break;
           default:

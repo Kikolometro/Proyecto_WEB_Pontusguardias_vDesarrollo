@@ -23,4 +23,22 @@
     </a>
   </div>
 
+  <div>
+    <button type="button" class="btn btn-ptg-naranja" onClick="document.getElementById('form').scrollIntoView();"
+      id="BtnPruebameCTA">¡Pruébame gratis!</button>
+
+  </div>
+
+  <br>
+  <br>
 </section>
+
+<script>
+  // Add an event listener to the button
+  document.getElementById('BtnPruebameCTA').addEventListener('click', function () {
+    // Call the gtag() function to send the event data
+    gtag('event', 'Pruebame', {
+      'button_name': 'BtnPruebameCTA'
+    });
+  });
+</script>
