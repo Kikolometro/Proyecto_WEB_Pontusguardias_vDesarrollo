@@ -1449,10 +1449,10 @@ app.post("/generarplanilla", function (req, res) {
 
         if (revisarNormas.includes(subarray_norma[0])) {
           let flag_norma_7 = 0
-          let flag_otra_guardia = 0
 
           for (let k = 0; k < bucle; k++) {
-            if (arrayNormas[i].substring(0).split('_') == '7') {
+            let indicador_7 = arrayNormas[k].substring(0).split('_')
+            if (indicador_7[0] == '7') {
               flag_norma_7 = 1
             }
           }
@@ -1460,7 +1460,7 @@ app.post("/generarplanilla", function (req, res) {
 
           if ((flag_norma_7 == 1) && (subarray[0] == 'V')) {
             req.session.step = req.body.step - 1
-            req.session.aviso = "¡Atención! No se puede solicitar que se libren dos días las guardias de viernes, y que las guardias en finde sean V-D o S"
+            req.session.aviso = "¡Atención! No se puede solicitar que se libre dos días tras las guardias en viernes, y que las guardias en finde sean V-D o S"
           };
 
           for (let l = 0; l < req.session.n_resis; l++) {
